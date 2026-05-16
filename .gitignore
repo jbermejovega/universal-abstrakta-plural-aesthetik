@@ -1,0 +1,14 @@
+node_modules
+dist/
+build/
+coverage/
+*.log
+*.env
+.DS_Store
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
