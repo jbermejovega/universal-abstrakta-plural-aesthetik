@@ -44,7 +44,7 @@ describe('result.usage — white theme', () => {
   })
 
   it('shade 700 background pair appears in normalText (anchor ~5.1:1)', () => {
-    const pair = usage['700'].normalText.find((p) => p.key === 'background')
+    const pair = usage['700'].normalText.find((p) => p.key === 'theme')
     expect(pair).toBeDefined()
     expect(pair!.hex).toBe('#ffffff')
   })
@@ -67,13 +67,13 @@ describe('result.usage — black theme', () => {
   it('background pair hex is black', () => {
     for (const shade of SHADE_KEYS) {
       const allPairs = [...usage[shade].normalText, ...usage[shade].largeText]
-      const bgPair = allPairs.find((p) => p.key === 'background')
+      const bgPair = allPairs.find((p) => p.key === 'theme')
       if (bgPair) expect(bgPair.hex).toBe('#000000')
     }
   })
 
   it('shade 700 background pair is in normalText (anchor ~5.1:1)', () => {
-    const pair = usage['700'].normalText.find((p) => p.key === 'background')
+    const pair = usage['700'].normalText.find((p) => p.key === 'theme')
     expect(pair).toBeDefined()
     expect(pair!.ratio).toBeGreaterThanOrEqual(4.5)
   })

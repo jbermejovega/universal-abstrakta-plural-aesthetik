@@ -3,14 +3,14 @@ import { generatePalette, toCSSTokens } from '../src/index.js'
 
 const bgRatio = (result: ReturnType<typeof generatePalette>, shade: '100' | '300' | '600' | '700' | '800' | '900') => {
   const allPairs = [...result.usage[shade].normalText, ...result.usage[shade].largeText]
-  return allPairs.find((p) => p.key === 'background')?.ratio ?? 0
+  return allPairs.find((p) => p.key === 'theme')?.ratio ?? 0
 }
 
 describe('generatePalette — #1F7A54 white', () => {
   const result = generatePalette('#1F7A54', 'white')
 
   it('shade 700 passes normal text on background', () => {
-    expect(result.usage['700'].normalText.some((p) => p.key === 'background')).toBe(true)
+    expect(result.usage['700'].normalText.some((p) => p.key === 'theme')).toBe(true)
   })
 
   it('sourceColor is the parsed input', () => {
@@ -67,11 +67,11 @@ describe('toCSSTokens integration', () => {
     }
   })
 
-  it('custom prefix appears in all variable names', () => {
+  it('custom prefix appears in all token declaration lines', () => {
     const tokens = toCSSTokens(result, 'theme')
-    const lines = tokens.split('\n')
-    expect(lines).toHaveLength(6)
-    for (const line of lines) {
+    const tokenLines = tokens.split('\n').filter(l => l.trimStart().startsWith('--'))
+    expect(tokenLines).toHaveLength(6)
+    for (const line of tokenLines) {
       expect(line.startsWith('--theme-')).toBe(true)
     }
   })

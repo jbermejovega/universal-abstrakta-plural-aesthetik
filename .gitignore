@@ -2,6 +2,8 @@ node_modules
 dist/
 build/
 coverage/
+examples/
+INFORME.md
 *.log
 *.env
 .DS_Store
