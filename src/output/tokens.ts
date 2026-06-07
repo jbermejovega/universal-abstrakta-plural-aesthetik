@@ -34,60 +34,63 @@ export function buildCompatMatrix(result: PaletteResult): Record<ShadeKey, Shade
 
 // ─── Public API ───────────────────────────────────────────────────────────────
 
-// ─── v1: inline comment per variable ─────────────────────────────────────────
-
 export function toCSSTokens(result: PaletteResult, prefix: string = 'color'): CSSTokens {
   const { sourceColor, theme } = result
   const matrix = buildCompatMatrix(result)
   const bg = theme === 'white' ? 'white' : 'black'
 
-  const bgHex = bg === 'white' ? '#ffffff' : '#000000'
-  const bgNormal = SHADE_KEYS.filter(s => matrix[s].bodyText.includes(bg))
-  const bgLarge  = SHADE_KEYS.filter(s => matrix[s].largeText.includes(bg))
-  const bgT  = bgNormal.length ? `text→${bgNormal.join('·')}` : ''
-  const bgLg = bgLarge.length  ? `lg→${bgLarge.join('·')}` : ''
-  const bgVar = `  --${prefix}-${bg}: ${bgHex}; /* ${[bgT, bgLg].filter(Boolean).join('  ')} */`
+  // Collect manifest sections
+  const bodyLines: string[] = []
+  const largeLines: string[] = []
+  const bgOnlyItems: string[] = []
 
+  for (const shade of SHADE_KEYS) {
+    const { hex, bodyText, largeText, bgOnly } = matrix[shade]
+    if (bgOnly) {
+      bgOnlyItems.push(`shade-${shade} (${hex})`)
+    } else {
+      if (bodyText.length) bodyLines.push(`shade-${shade} (${hex}) → ${bodyText.join(', ')}`)
+      if (largeText.length) largeLines.push(`shade-${shade} (${hex}) → ${largeText.join(', ')}`)
+    }
+  }
+
+  // Build manifest block comment
+  const manifest: string[] = [
+    `/*`,
+    ` * WCAG AA PAIRING MANIFEST — source: ${sourceColor} · theme: ${bg}`,
+    ` *`,
+  ]
+
+  if (bodyLines.length) {
+    manifest.push(` * BODY TEXT (any font size, ≥4.5:1):`)
+    for (const l of bodyLines) manifest.push(` *   ${l}`)
+    manifest.push(` *`)
+  }
+
+  if (largeLines.length) {
+    manifest.push(` * LARGE TEXT ONLY (≥24px or ≥18.67px bold, 3:1–4.5:1):`)
+    manifest.push(` *   These pairings are PROHIBITED for body text at any size.`)
+    for (const l of largeLines) manifest.push(` *   ${l}`)
+    manifest.push(` *`)
+  }
+
+  if (bgOnlyItems.length) {
+    manifest.push(` * BACKGROUND ONLY (no accessible text use):`)
+    manifest.push(` *   ${bgOnlyItems.join(', ')}`)
+    manifest.push(` *`)
+  }
+
+  manifest.push(` */`)
+
+  // CSS variables — no indentation so inline comments are machine-readable at line start
   const cssVars = SHADE_KEYS.map((key) => {
     const { hex, bodyText, largeText, bgOnly } = matrix[key]
-    if (bgOnly) return `  --${prefix}-${key}: ${hex}; /* bg-only */`
-    const t = bodyText.length ? `text→${bodyText.join('·')}` : ''
-    const lg = largeText.length ? `lg→${largeText.join('·')}` : ''
-    return `  --${prefix}-${key}: ${hex}; /* ${[t, lg].filter(Boolean).join('  ')} */`
+    if (bgOnly) return `--${prefix}-${key}: ${hex}; /* bg-only */`
+    const parts: string[] = []
+    if (bodyText.length) parts.push(`✅ text→${bodyText.join('·')}`)
+    if (largeText.length) parts.push(`⚠️ lg→${largeText.join('·')}`)
+    return `--${prefix}-${key}: ${hex}; /* ${parts.join('  ')} */`
   })
 
-  return [
-    ':root {',
-    `  /* palette · source: ${sourceColor} · theme: ${bg} */`,
-    bgVar,
-    ...cssVars,
-    '}',
-  ].join('\n')
+  return [...manifest, `:root {`, ...cssVars, `}`].join('\n')
 }
-
-// ─── v3: inverted matrix inline — bg-centric (kept for reference) ────────────
-// export function toCSSTokens(result: PaletteResult, prefix: string = 'color'): CSSTokens {
-//   const { sourceColor, theme } = result
-//   const matrix = buildCompatMatrix(result)
-//   const bg = theme === 'white' ? 'white' : 'black'
-//
-//   const cssVars = SHADE_KEYS.map((key) => {
-//     const { hex } = matrix[key]
-//     const normalText: string[] = []
-//     const largeText: string[] = []
-//     if (matrix[key].bodyText.includes(bg)) normalText.push(bg)
-//     if (matrix[key].largeText.includes(bg)) largeText.push(bg)
-//     for (const shade of SHADE_KEYS) {
-//       if (shade === key) continue
-//       if (matrix[shade].bodyText.includes(key)) normalText.push(shade)
-//       if (matrix[shade].largeText.includes(key)) largeText.push(shade)
-//     }
-//     if (normalText.length === 0 && largeText.length === 0) {
-//       return `  --${prefix}-${key}: ${hex}; /* as bg → none */`
-//     }
-//     const t = normalText.length ? `text: ${normalText.join(' ')}` : ''
-//     const lg = largeText.length ? `large: ${largeText.join(' ')}` : ''
-//     return `  --${prefix}-${key}: ${hex}; /* as bg → ${[t, lg].filter(Boolean).join('  ')} */`
-//   })
-//   return [':root {', `  /* palette: ${sourceColor} · ${bg} theme */`, ...cssVars, '}'].join('\n')
-// }
