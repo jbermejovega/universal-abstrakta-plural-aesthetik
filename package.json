@@ -1,6 +1,6 @@
 {
   "name": "accessible-color-palette",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Generate WCAG 2.2 AA monochromatic palettes from a single hex color. Ships as a TypeScript library and as an MCP server for AI assistants.",
   "type": "module",
   "main": "./dist/index.js",
