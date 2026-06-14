@@ -1,5 +1,7 @@
 # accessible-color-palette
 
+[![npm](https://img.shields.io/npm/v/accessible-color-palette)](https://www.npmjs.com/package/accessible-color-palette)
+
 A TypeScript library that generates **WCAG 2.2 AA compliant monochromatic palettes** from any hex color. The palette algorithm has no external dependencies — the WCAG math is implemented directly.
 
 Given a hex color and a background theme (`'white'` | `'black'`), it produces 6 shades — **100, 300, 600, 700, 800, 900** — where every shade meets contrast requirements against the theme. It also returns a usage map describing which shade pairs pass AA for normal text (4.5:1) and which pass for large text / UI components (3:1).
