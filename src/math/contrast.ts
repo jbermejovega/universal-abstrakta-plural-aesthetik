@@ -13,7 +13,8 @@ export function relativeLuminance(rgb: RGB): number {
   )
 }
 
-// Returns the real WCAG contrast ratio at full float precision.
+// Returns the WCAG 2.2 contrast ratio at full float precision.
+// Uses relative luminance (IEC 61966-2-1) — not APCA/WCAG 3.
 // Never round here — rounding belongs to the display layer (use .toFixed(2)).
 // Threshold comparisons must use the raw value so the algorithm doesn't claim
 // 4.50 when the real ratio is 4.495 (which axe and Firefox DevTools would fail).
