@@ -6,7 +6,7 @@ A TypeScript library that generates **WCAG 2.2 AA compliant monochromatic palett
 
 Given a hex color and a background theme (`'white'` | `'black'`), it produces 6 shades — **100, 300, 600, 700, 800, 900** — where every shade meets contrast requirements against the theme. It also returns a usage map describing which shade pairs pass AA for normal text (4.5:1) and which pass for large text / UI components (3:1).
 
-Ships as an ESM library and as an **MCP server** for use with AI assistants.
+Ships as an ESM library, a **CLI**, and an **MCP server** for use with AI assistants.
 
 ---
 
@@ -20,6 +20,51 @@ npm install accessible-color-palette
 
 ## Usage
 
+### As a CLI
+
+```bash
+npx accessible-color-palette <hex> <theme> [options]
+```
+
+| Argument / Option | Description |
+|-------------------|-------------|
+| `hex` | Hex color — with or without `#`, 3 or 6 chars |
+| `theme` | Background theme: `white` \| `black` |
+| `--prefix <name>` | CSS variable prefix (default: `color`) |
+| `--json` | Output full palette + usage map as JSON |
+| `-h, --help` | Show help |
+
+```bash
+# CSS tokens with WCAG manifest (default)
+npx accessible-color-palette 1F7A54 white
+
+# Custom prefix
+npx accessible-color-palette 1F7A54 white --prefix brand
+
+# Raw JSON
+npx accessible-color-palette 1F7A54 white --json
+```
+
+Output (default):
+
+```css
+/*
+ * WCAG AA PAIRING MANIFEST — source: #1f7a54 · theme: white
+ *
+ * BODY TEXT (any font size, ≥4.5:1):
+ *   shade-700 (#207c55) → white, 100
+ *   shade-800 (#124630) → white, 100, 300
+ *   ...
+ */
+:root {
+  --color-100: #e3f8ef; /* ✅ text→900·800·700  ⚠️ lg→600 */
+  --color-700: #207c55; /* ✅ text→white·100  ⚠️ lg→300·900 */
+  ...
+}
+```
+
+---
+
 ### As a library
 
 ```ts
@@ -29,35 +74,35 @@ const result = generatePalette('#1F7A54', 'white')
 
 // Each shade includes hex, RGB and HSL values
 console.log(result.palette['700'])
-// {
-//   hex: '#1f7a54',
-//   rgb: { r: 31, g: 122, b: 84 },
-//   hsl: { h: 152, s: 59, l: 30 }
-// }
+{
+  hex: '#1f7a54',
+  rgb: { r: 31, g: 122, b: 84 },
+  hsl: { h: 152, s: 59, l: 30 }
+}
 
 // Usage map: for each shade, which backgrounds pass for normal text and large text
 console.log(result.usage['700'].normalText)
-// [
-//   { key: '100', hex: '#d6f5e8', ratio: 4.18 },
-//   { key: 'background', hex: '#ffffff', ratio: 5.10 },
-//   ...
-// ]
+[
+  { key: '100', hex: '#d6f5e8', ratio: 4.18 },
+  { key: 'background', hex: '#ffffff', ratio: 5.10 },
+  ...
+]
 
 console.log(result.usage['700'].largeText)
-// [{ key: '300', hex: '#71dbae', ratio: 3.21 }, ...]
+[{ key: '300', hex: '#71dbae', ratio: 3.21 }, ...]
 
 // CSS tokens
 console.log(toCSSTokens(result))
-// --color-100: #d6f5e8;
-// --color-300: #71dbae;
-// --color-600: #259868;
-// --color-700: #1f7a54;
-// --color-800: #10422d;
-// --color-900: #082116;
+--color-100: #d6f5e8;
+--color-300: #71dbae;
+--color-600: #259868;
+--color-700: #1f7a54;
+--color-800: #10422d;
+--color-900: #082116;
 
 // Custom prefix
 console.log(toCSSTokens(result, 'brand'))
-// --brand-100: #d6f5e8;
+--brand-100: #d6f5e8;
 // ...
 ```
 
@@ -125,7 +170,7 @@ When you delegate a design task to an AI agent, use the `plan-palette-usage` pro
 3. Call `validate_pairings` — the model is **blocked** until all pairs pass
 4. Only then call `generate_css_tokens`
 
-This prevents models from combining colors based on intuition or prior examples, which is the most common cause of inaccessible AI-generated CSS.
+This prevents models from combining colors based on 'intuition' or prior examples, which is the most common cause of inaccessible AI-generated CSS.
 
 **Example instruction to your agent:**
 
@@ -342,4 +387,4 @@ v1 remains available on npm as `accessible-color-palette@1.x` but is no longer m
 
 ## Credits
 
-Algorithm by **Marta Hollingsworth**.
+Algorithm by **Marta Hollingsworth**. Library and MCP by **Cecilia Olivera**.
