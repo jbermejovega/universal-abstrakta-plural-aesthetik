@@ -6,6 +6,18 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## [2.2.0] — 2026-06-21
+
+### Added
+
+- **MCP server enforcement** — `generate_css_tokens` now rejects requests for a given hex+theme until `validate_pairings` has returned `proceed: true` for that same hex+theme earlier in the session. This makes the validate-before-generate rule a protocol-level contract instead of a prompt-only suggestion, so it holds regardless of whether the client supports MCP prompts.
+
+### Changed
+
+- `plan-palette-usage` prompt — Step 3 now notes that the validate-before-generate ordering is enforced server-side, not just advisory.
+
+---
+
 ## [2.1.0] — 2026-06-15
 
 ### Added
