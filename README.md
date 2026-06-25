@@ -206,7 +206,10 @@ This prevents models from combining colors based on 'intuition' or prior example
 
 > "Use the `plan-palette-usage` prompt with hex=`1f7a54` and theme=`white`, then design a user profile card."
 
-Without the prompt the model may or may not skip validation. With it, every pairing is verified before a single line of CSS is written.
+> [!NOTE]
+> **MCP prompts are user-controlled by spec, not model-controlled like tools.** That's true for every MCP client, not a Claude Code limitation: a model can never invoke `plan-palette-usage` on its own just because you asked it to in natural language ("use the prompt X") — only a human typing the actual slash command triggers it. In Claude Code that's `/mcp__accessible-palette__plan-palette-usage <hex> <theme>`; it shows up in the autocomplete and runs like any other prompt. Cline exposes the same capability through its own UI. So Option B is reachable everywhere MCP prompts are supported — it just always requires a human to type it, in every client, by design.
+>
+> Because of that, anything that needs to happen without a human typing a slash command — i.e. the model acting on its own — cannot rely on a prompt. That's why, since **v2.2.0**, the validate-before-generate order is also enforced **server-side**: `generate_css_tokens` will reject the call (throw) for a given hex+theme until `validate_pairings` has returned `proceed: true` for that exact hex+theme earlier in the same session. The model cannot get CSS tokens out of this server without validation having passed first, whether or not anyone ever types the prompt. The prompt remains useful on top of that because it also enforces the matrix re-read and the explicit `<thinking>` cross-check — steps no server-side gate can compel — but the accessibility guarantee itself does not depend on it.
 
 ---
 
