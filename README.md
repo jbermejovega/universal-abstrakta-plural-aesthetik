@@ -172,7 +172,14 @@ Call the tools yourself, or let the model use them freely. Good for querying pal
 |------|-------------|
 | `generate_palette` | Returns the full palette + usage map as JSON |
 | `validate_pairings` | Validates a list of foreground/background shade pairs — returns `proceed: false` if any pair fails |
-| `generate_css_tokens` | Returns a CSS `:root {}` block with inline WCAG comments per shade |
+| `generate_css_tokens` | Returns a CSS `:root {}` block with inline WCAG comments per shade. **Requires `validate_pairings` to have passed for the same hex+theme earlier in the session** — it throws otherwise (server-side gate, not just a convention) |
+| `check_contrast` | Standalone contrast check between any two hex colors, independent of any generated palette. Use it for accent colors (a status/brand hex that is NOT one of the foundation shades) — `validate_pairings` only knows shade keys and white/black, so it can't check an arbitrary hex |
+
+> [!NOTE]
+> The 100–900 scale this server generates is the **foundation layer** of a palette, not necessarily the whole thing. Most real interfaces also need 1–2 semantic accent colors (error/success/warning/sale) that the monochrome scale can't express — that's what `check_contrast` is for. Don't read "monochromatic" in this project's name as "never use any other color in the UI."
+
+> [!WARNING]
+> `generate_css_tokens` returns the `:root {}` block with the WCAG comments soldered to each variable, plus an explicit instruction to copy it **verbatim**. That instruction is in the response text precisely because some models otherwise reformat the output and drop the comments while keeping the hex values — which silently throws away the only record of which pairings are safe. If you're calling this tool directly rather than letting an agent drive, keep the comments when you paste the block into your CSS.
 
 There's also a resource template you can read directly:
 
