@@ -428,4 +428,4 @@ v1 remains available on npm as `accessible-color-palette@1.x` but is no longer m
 
 ## Credits
 
-Algorithm by **Marta Hollingsworth**. Library and MCP by **Cecilia Olivera**.
+Algorithm by **Marta Herrera Hollingsworth**. Library and MCP by **Cecilia Olivera**.
