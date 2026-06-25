@@ -296,6 +296,8 @@ Use this to validate an accent color (a hex that is NOT part of the foundation p
 
 This does NOT generate or modify a palette and does NOT require validate_pairings to have run first. It is a free-standing contrast lookup.
 
+DO NOT use this as a substitute for validate_pairings + generate_css_tokens when checking foundation shades (the 100–900 hex values from generate_palette). It is correct math for the single pair you give it, but it does not gate generate_css_tokens and its result does not get embedded as a manifest comment anywhere — if you verify foundation shades here instead of through validate_pairings, the work is invisible to anyone (model or human) who edits this CSS later, and nothing forces you to have checked every pairing you actually used, only the ones you remembered to call this on. Use check_contrast for true external accents (a hex not in the palette); use validate_pairings → generate_css_tokens for foundation shades, even if validate_pairings just failed on you — fix the input format and retry it, don't route around it.
+
 Returns ratio (raw float), level ("aa-normal" ≥4.5:1 any size, "aa-large" 3:1–4.5:1 large text only ≥24px or ≥18.67px bold, "fail" below 3:1), and a human-readable message.
 
 Examples:
