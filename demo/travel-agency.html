@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Horizon Travel — Find Your Next Adventure</title>
+<style>
+/*
+ * WCAG AA PAIRING MANIFEST — source: #1565c0 · theme: white
+ *
+ * BODY TEXT (any font size, >=4.5:1):
+ *   shade-100 (#eaf3fd) -> 900, 800, 700
+ *   shade-300 (#aacdf5) -> 900, 800
+ *   shade-600 (#328aeb) -> 900
+ *   shade-700 (#176cce) -> white, 100
+ *   shade-800 (#0b3c71) -> white, 100, 300
+ *   shade-900 (#07203e) -> white, 100, 300, 600
+ *
+ * LARGE TEXT ONLY (>=24px or >=18.67px bold, 3:1-4.5:1):
+ *   shade-100 (#eaf3fd) -> 600
+ *   shade-300 (#aacdf5) -> 700
+ *   shade-600 (#328aeb) -> 100, 800, white
+ *   shade-700 (#176cce) -> 300, 900
+ *   shade-800 (#0b3c71) -> 600
+ *   shade-900 (#07203e) -> 700
+ *
+ * ACCENT (verified separately via check_contrast, not part of the monochrome matrix):
+ *   accent (#c24a0a) -> white text 4.91:1 (any size) | on shade-100 4.38:1 (large text only)
+ */
+:root {
+  --travel-100: #eaf3fd;
+  --travel-300: #aacdf5;
+  --travel-600: #328aeb;
+  --travel-700: #176cce;
+  --travel-800: #0b3c71;
+  --travel-900: #07203e;
+  --travel-accent: #c24a0a;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--travel-900);
+  background: #ffffff;
+  line-height: 1.5;
+}
+
+a { color: var(--travel-700); }
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--travel-accent);
+  outline-offset: 2px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  background: var(--travel-900);
+  color: #ffffff;
+  padding: 0.75rem 1.25rem;
+  z-index: 100;
+}
+.skip-link:focus {
+  left: 0;
+}
+
+.container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Header */
+header.site-header {
+  background: #ffffff;
+  border-bottom: 1px solid var(--travel-300);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+}
+.logo {
+  font-size: 1.375rem;
+  font-weight: 800;
+  color: var(--travel-900);
+  text-decoration: none;
+}
+.logo span { color: var(--travel-700); }
+.nav-links {
+  display: flex;
+  gap: 1.75rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nav-links a {
+  text-decoration: none;
+  font-weight: 600;
+  color: var(--travel-900);
+}
+.nav-links a:hover { color: var(--travel-700); }
+.nav-cta {
+  background: var(--travel-700);
+  color: #ffffff;
+  padding: 0.6rem 1.25rem;
+  border-radius: 6px;
+  font-weight: 700;
+  text-decoration: none;
+}
+.nav-cta:hover { background: var(--travel-800); }
+.nav-toggle { display: none; }
+
+/* Hero */
+.hero {
+  background: linear-gradient(180deg, var(--travel-100) 0%, #ffffff 100%);
+  padding: 4rem 0 5rem;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+.hero h1 {
+  font-size: 2.75rem;
+  line-height: 1.15;
+  margin: 0 0 1rem;
+  color: var(--travel-900);
+}
+.hero p.lede {
+  font-size: 1.15rem;
+  color: var(--travel-800);
+  max-width: 32rem;
+  margin: 0 0 2rem;
+}
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+.btn {
+  display: inline-block;
+  padding: 0.85rem 1.75rem;
+  border-radius: 8px;
+  font-weight: 700;
+  text-decoration: none;
+  border: 2px solid transparent;
+  cursor: pointer;
+  font-size: 1rem;
+}
+.btn-primary {
+  background: var(--travel-accent);
+  color: #ffffff;
+}
+.btn-primary:hover { background: #a13e08; }
+.btn-secondary {
+  background: transparent;
+  color: var(--travel-800);
+  border-color: var(--travel-700);
+}
+.btn-secondary:hover { background: var(--travel-100); }
+
+.hero-art {
+  background: var(--travel-700);
+  border-radius: 16px;
+  min-height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 2rem;
+}
+
+/* Search bar */
+.search-card {
+  background: #ffffff;
+  border: 1px solid var(--travel-300);
+  border-radius: 14px;
+  box-shadow: 0 12px 30px -16px rgba(7, 32, 62, 0.35);
+  margin-top: -2.5rem;
+  position: relative;
+  z-index: 5;
+  padding: 1.5rem;
+}
+.search-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr) auto;
+  gap: 1rem;
+  align-items: end;
+}
+.field { display: flex; flex-direction: column; gap: 0.35rem; }
+.field label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--travel-900);
+}
+.field input,
+.field select {
+  border: 1px solid var(--travel-300);
+  border-radius: 8px;
+  padding: 0.65rem 0.75rem;
+  font-size: 0.95rem;
+  color: var(--travel-900);
+  font-family: inherit;
+}
+.field input:focus,
+.field select:focus { outline: 3px solid var(--travel-accent); outline-offset: 1px; }
+
+/* Sections */
+section { padding: 4.5rem 0; }
+.section-head { max-width: 40rem; margin: 0 0 2.5rem; }
+.section-head h2 {
+  font-size: 2rem;
+  margin: 0 0 0.6rem;
+  color: var(--travel-900);
+}
+.section-head p { color: var(--travel-800); margin: 0; }
+
+.destinations {
+  background: var(--travel-100);
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
+}
+.dest-card {
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--travel-300);
+}
+.dest-photo {
+  background: var(--travel-800);
+  color: #ffffff;
+  height: 170px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+.dest-body { padding: 1.25rem; }
+.dest-body h3 { margin: 0 0 0.35rem; font-size: 1.15rem; color: var(--travel-900); }
+.dest-body p { margin: 0 0 0.85rem; color: var(--travel-800); font-size: 0.95rem; }
+.dest-price { font-weight: 800; color: var(--travel-700); }
+.dest-price span { font-weight: 400; color: var(--travel-800); font-size: 0.85rem; }
+
+.why { background: #ffffff; }
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.75rem;
+}
+.why-card {
+  text-align: left;
+  padding: 1.5rem;
+  border-radius: 12px;
+  background: var(--travel-100);
+}
+.why-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: var(--travel-700);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+.why-card h3 { margin: 0 0 0.4rem; font-size: 1.05rem; color: var(--travel-900); }
+.why-card p { margin: 0; color: var(--travel-800); font-size: 0.92rem; }
+
+.testimonial {
+  background: var(--travel-900);
+  color: #ffffff;
+}
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+blockquote {
+  margin: 0;
+  background: var(--travel-800);
+  border-radius: 12px;
+  padding: 1.75rem;
+}
+blockquote p.quote {
+  font-size: 1.05rem;
+  margin: 0 0 1rem;
+}
+blockquote footer { font-weight: 700; color: var(--travel-300); font-size: 0.9rem; }
+
+.cta-band {
+  background: var(--travel-accent);
+  color: #ffffff;
+  text-align: center;
+}
+.cta-band h2 { margin: 0 0 0.75rem; font-size: 2rem; }
+.cta-band p { margin: 0 0 1.75rem; }
+.cta-band .btn-primary { background: #ffffff; color: var(--travel-900); }
+.cta-band .btn-primary:hover { background: var(--travel-100); }
+
+footer.site-footer {
+  background: var(--travel-900);
+  color: #ffffff;
+  padding: 3rem 0 1.5rem;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+.footer-grid h3 { font-size: 0.95rem; margin: 0 0 1rem; color: var(--travel-100); }
+.footer-grid ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.6rem; }
+.footer-grid a { color: var(--travel-300); text-decoration: none; font-size: 0.92rem; }
+.footer-grid a:hover { color: #ffffff; text-decoration: underline; }
+.footer-bottom {
+  border-top: 1px solid var(--travel-800);
+  padding-top: 1.5rem;
+  font-size: 0.85rem;
+  color: var(--travel-300);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr; }
+  .hero-art { order: -1; }
+  .search-grid { grid-template-columns: 1fr 1fr; }
+  .card-grid { grid-template-columns: 1fr 1fr; }
+  .why-grid { grid-template-columns: 1fr 1fr; }
+  .testimonial-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 640px) {
+  .nav-links { display: none; }
+  .hero h1 { font-size: 2rem; }
+  .search-grid { grid-template-columns: 1fr; }
+  .card-grid { grid-template-columns: 1fr; }
+  .why-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<header class="site-header">
+  <div class="container nav-bar">
+    <a href="#main" class="logo">Horizon<span>Travel</span></a>
+    <nav aria-label="Main navigation">
+      <ul class="nav-links">
+        <li><a href="#destinations">Destinations</a></li>
+        <li><a href="#why-us">Why Us</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <a href="#search" class="nav-cta">Book Now</a>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <h1>Adventure is waiting. Let&rsquo;s find your way there.</h1>
+        <p class="lede">Curated trips, transparent pricing, and 24/7 support — from weekend escapes to once-in-a-lifetime expeditions across six continents.</p>
+        <div class="hero-actions">
+          <a href="#search" class="btn btn-primary">Plan My Trip</a>
+          <a href="#destinations" class="btn btn-secondary">Explore Destinations</a>
+        </div>
+      </div>
+      <div class="hero-art" role="img" aria-label="Illustration of a mountain landscape with a winding road leading toward the horizon">
+        Mountain &amp; Horizon Illustration
+      </div>
+    </div>
+
+    <div class="container">
+      <form class="search-card" id="search" aria-label="Trip search">
+        <div class="search-grid">
+          <div class="field">
+            <label for="destination">Destination</label>
+            <input type="text" id="destination" name="destination" placeholder="Where to?">
+          </div>
+          <div class="field">
+            <label for="depart">Depart</label>
+            <input type="date" id="depart" name="depart">
+          </div>
+          <div class="field">
+            <label for="return">Return</label>
+            <input type="date" id="return" name="return">
+          </div>
+          <div class="field">
+            <label for="travelers">Travelers</label>
+            <select id="travelers" name="travelers">
+              <option>1 traveler</option>
+              <option selected>2 travelers</option>
+              <option>3 travelers</option>
+              <option>4+ travelers</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="destinations" id="destinations" aria-labelledby="destinations-heading">
+    <div class="container">
+      <div class="section-head">
+        <h2 id="destinations-heading">Popular Destinations</h2>
+        <p>Hand-picked trips our travelers love most this season.</p>
+      </div>
+      <div class="card-grid">
+        <article class="dest-card">
+          <div class="dest-photo" role="img" aria-label="Photo of Santorini, Greece">Santorini, Greece</div>
+          <div class="dest-body">
+            <h3>Santorini, Greece</h3>
+            <p>7-day island escape with sunset views and private terraces.</p>
+            <p class="dest-price">$1,299 <span>/ person</span></p>
+          </div>
+        </article>
+        <article class="dest-card">
+          <div class="dest-photo" role="img" aria-label="Photo of Kyoto, Japan">Kyoto, Japan</div>
+          <div class="dest-body">
+            <h3>Kyoto, Japan</h3>
+            <p>10-day cultural journey through temples, gardens, and cuisine.</p>
+            <p class="dest-price">$2,150 <span>/ person</span></p>
+          </div>
+        </article>
+        <article class="dest-card">
+          <div class="dest-photo" role="img" aria-label="Photo of Patagonia, Argentina">Patagonia, Argentina</div>
+          <div class="dest-body">
+            <h3>Patagonia, Argentina</h3>
+            <p>8-day trekking expedition through glaciers and granite peaks.</p>
+            <p class="dest-price">$1,875 <span>/ person</span></p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="why" id="why-us" aria-labelledby="why-heading">
+    <div class="container">
+      <div class="section-head">
+        <h2 id="why-heading">Why Travel With Horizon</h2>
+        <p>Everything you need for a smooth, worry-free trip.</p>
+      </div>
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-icon" aria-hidden="true">$</div>
+          <h3>Best Price Guarantee</h3>
+          <p>Find it cheaper elsewhere and we'll match it, no questions asked.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon" aria-hidden="true">24</div>
+          <h3>24/7 Support</h3>
+          <p>Real humans on call around the clock, wherever you are.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon" aria-hidden="true">&#10003;</div>
+          <h3>Flexible Booking</h3>
+          <p>Free changes up to 48 hours before departure on most trips.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon" aria-hidden="true">&#9733;</div>
+          <h3>Vetted Local Guides</h3>
+          <p>Every partner is reviewed for safety, quality, and care.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonial" id="testimonials" aria-labelledby="testimonial-heading">
+    <div class="container">
+      <div class="section-head">
+        <h2 id="testimonial-heading" style="color:#ffffff;">What Travelers Say</h2>
+      </div>
+      <div class="testimonial-grid">
+        <blockquote>
+          <p class="quote">&ldquo;Horizon planned every detail of our Japan trip. We just showed up and enjoyed the ride.&rdquo;</p>
+          <footer>— Maria L., Kyoto trip</footer>
+        </blockquote>
+        <blockquote>
+          <p class="quote">&ldquo;The support team rebooked our flight in minutes after a delay. Genuinely impressive service.&rdquo;</p>
+          <footer>— Daniel R., Patagonia trip</footer>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="container">
+      <h2>Ready for your next trip?</h2>
+      <p>Get a free custom itinerary from one of our travel specialists.</p>
+      <a href="#search" class="btn btn-primary">Start Planning</a>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer" id="contact">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="#main" class="logo" style="color:#ffffff;">Horizon<span style="color:var(--travel-300);">Travel</span></a>
+        <p style="color:var(--travel-300); margin-top:0.75rem; max-width:24rem; font-size:0.92rem;">
+          Travel planning made simple, accessible, and human.
+        </p>
+      </div>
+      <div>
+        <h3>Company</h3>
+        <ul>
+          <li><a href="#why-us">About Us</a></li>
+          <li><a href="#destinations">Destinations</a></li>
+          <li><a href="#testimonials">Reviews</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Support</h3>
+        <ul>
+          <li><a href="#contact">Contact Us</a></li>
+          <li><a href="#contact">FAQs</a></li>
+          <li><a href="#contact">Cancellation Policy</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Contact</h3>
+        <ul>
+          <li><a href="mailto:hello@horizontravel.example">hello@horizontravel.example</a></li>
+          <li><a href="tel:+18005550123">+1 (800) 555-0123</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Horizon Travel. All rights reserved.</p>
+      <p>WCAG 2.2 AA accessible palette generated via Accessible Monochrome Palette MCP.</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

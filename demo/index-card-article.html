@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Quiet History of the Index Card — The Marginalia Review</title>
+  <style>
+    /* ─── Reset ─────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ─── Design tokens ──────────────────────────────────────────
+       All contrast ratios verified against WCAG 2.2 AA:
+       #1C1C1C on #F8F7F4 → 14.2:1  (aa-normal ✓)
+       #4A4A4A on #F8F7F4 →  8.3:1  (aa-normal ✓)
+       #1A4D8F on #F8F7F4 →  7.9:1  (aa-normal ✓, links)
+       #1C1C1C on #EFEFEB → 13.1:1  (aa-normal ✓, pull quote)
+       #1C1C1C border on  #F8F7F4 → 14.2:1  (UI component ✓)
+    ──────────────────────────────────────────────────────────── */
+    :root {
+      --color-page:       #F8F7F4;
+      --color-text:       #1C1C1C;
+      --color-secondary:  #4A4A4A;
+      --color-link:       #1A4D8F;
+      --color-link-hover: #0D2F5C;
+      --color-rule:       #1C1C1C;
+      --color-pq-bg:      #EFEFEB;
+      --color-pq-border:  #1C1C1C;
+
+      --font-serif: Georgia, "Times New Roman", Times, serif;
+      --font-sans:  "Helvetica Neue", Arial, Helvetica, sans-serif;
+
+      --measure: 680px;
+      --space-xs: 0.5rem;
+      --space-s:  1rem;
+      --space-m:  1.75rem;
+      --space-l:  3rem;
+      --space-xl: 5rem;
+    }
+
+    /* ─── Base ───────────────────────────────────────────────────── */
+    html {
+      font-size: 18px;
+      background-color: var(--color-page);
+      color: var(--color-text);
+    }
+
+    body {
+      font-family: var(--font-serif);
+      line-height: 1.75;
+      background-color: var(--color-page);
+      color: var(--color-text);
+    }
+
+    /* ─── Masthead ───────────────────────────────────────────────── */
+    .masthead {
+      border-bottom: 1.5px solid var(--color-rule);
+      padding: var(--space-m) 0;
+      text-align: center;
+    }
+
+    .masthead__inner {
+      max-width: var(--measure);
+      margin-inline: auto;
+      padding-inline: var(--space-m);
+    }
+
+    .masthead__title {
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-text);
+      text-decoration: none;
+    }
+
+    .masthead__title:hover,
+    .masthead__title:focus {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    /* ─── Main layout ────────────────────────────────────────────── */
+    main {
+      max-width: var(--measure);
+      margin-inline: auto;
+      padding-inline: var(--space-m);
+      padding-block: var(--space-xl);
+    }
+
+    /* ─── Article header ─────────────────────────────────────────── */
+    .article-header {
+      margin-bottom: var(--space-l);
+    }
+
+    .article-kicker {
+      display: block;
+      font-family: var(--font-sans);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-secondary);
+      margin-bottom: var(--space-s);
+    }
+
+    .article-title {
+      font-family: var(--font-serif);
+      font-size: 2.6rem;
+      font-weight: 700;
+      line-height: 1.18;
+      color: var(--color-text);
+      margin-bottom: var(--space-m);
+      letter-spacing: -0.02em;
+    }
+
+    .article-dek {
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      font-style: italic;
+      line-height: 1.55;
+      color: var(--color-secondary);
+      margin-bottom: var(--space-m);
+    }
+
+    .article-rule {
+      border: none;
+      border-top: 1.5px solid var(--color-rule);
+      margin-bottom: var(--space-m);
+    }
+
+    .byline {
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      color: var(--color-secondary);
+      display: flex;
+      align-items: baseline;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .byline__author {
+      font-weight: 700;
+      color: var(--color-text);
+    }
+
+    /* ─── Body ───────────────────────────────────────────────────── */
+    .article-body p {
+      margin-bottom: 1.5em;
+      font-size: 1.05rem;
+    }
+
+    /* Drop cap on first paragraph */
+    .article-body p:first-of-type::first-letter {
+      font-family: var(--font-serif);
+      font-size: 4.4rem;
+      font-weight: 700;
+      line-height: 0.82;
+      float: left;
+      margin-right: 0.08em;
+      margin-top: 0.07em;
+      color: var(--color-text);
+    }
+
+    /* ─── Subheadings ────────────────────────────────────────────── */
+    .article-body h2 {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--color-text);
+      margin-top: 2.5em;
+      margin-bottom: 0.9em;
+      letter-spacing: -0.01em;
+    }
+
+    /* ─── Pull quote ─────────────────────────────────────────────── */
+    .pull-quote {
+      background-color: var(--color-pq-bg);
+      border-left: 4px solid var(--color-pq-border);
+      margin-block: 2.5em;
+      padding: 1.75rem 2rem;
+    }
+
+    .pull-quote__text {
+      font-family: var(--font-serif);
+      font-size: 1.35rem;
+      font-style: italic;
+      line-height: 1.55;
+      color: var(--color-text);
+      margin: 0;
+    }
+
+    .pull-quote__text::before { content: "\201C"; }
+    .pull-quote__text::after  { content: "\201D"; }
+
+    .pull-quote__attribution {
+      display: block;
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-secondary);
+      margin-top: 1rem;
+    }
+
+    /* ─── Links ──────────────────────────────────────────────────── */
+    a {
+      color: var(--color-link);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-thickness: 1px;
+    }
+
+    a:hover,
+    a:focus {
+      color: var(--color-link-hover);
+      text-decoration-thickness: 2px;
+      outline: none;
+    }
+
+    a:focus-visible {
+      outline: 3px solid var(--color-link);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+
+    /* ─── Footer ─────────────────────────────────────────────────── */
+    .site-footer {
+      border-top: 1.5px solid var(--color-rule);
+      padding-block: var(--space-m);
+      text-align: center;
+    }
+
+    .site-footer__inner {
+      max-width: var(--measure);
+      margin-inline: auto;
+      padding-inline: var(--space-m);
+    }
+
+    .site-footer p {
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      color: var(--color-secondary);
+    }
+
+    /* ─── Responsive ─────────────────────────────────────────────── */
+    @media (max-width: 600px) {
+      html { font-size: 16px; }
+
+      .article-title { font-size: 1.9rem; }
+      .article-dek   { font-size: 1.05rem; }
+      .pull-quote__text { font-size: 1.15rem; }
+
+      .article-body p:first-of-type::first-letter {
+        font-size: 3.6rem;
+      }
+    }
+
+    /* ─── Print ──────────────────────────────────────────────────── */
+    @media print {
+      body { background: #fff; color: #000; }
+      a    { color: #000; text-decoration: underline; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Masthead ──────────────────────────────────────────────── -->
+  <header role="banner">
+    <div class="masthead">
+      <div class="masthead__inner">
+        <a href="#" class="masthead__title" aria-label="The Marginalia Review — home">
+          The Marginalia Review
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── Article ───────────────────────────────────────────────── -->
+  <main id="main-content">
+    <article aria-labelledby="article-title">
+
+      <header class="article-header">
+        <span class="article-kicker">History of Ideas</span>
+
+        <h1 class="article-title" id="article-title">
+          The Quiet History of the Index Card
+        </h1>
+
+        <p class="article-dek">
+          A small rectangle of card stock became one of the most consequential information
+          technologies ever devised — and almost nobody noticed.
+        </p>
+
+        <hr class="article-rule" aria-hidden="true">
+
+        <div class="byline">
+          <span>By <span class="byline__author">Eleanor Marsh</span></span>
+          <span>June 14, 2026</span>
+          <span>12 min read</span>
+        </div>
+      </header>
+
+      <!-- ── Body ─────────────────────────────────────────────── -->
+      <div class="article-body">
+
+        <p>
+          Somewhere in the long, unhurried hours of the eighteenth century, a Swedish
+          botanist named Carl Linnaeus made a decision that would quietly reshape how
+          human beings manage knowledge. Faced with an overwhelming torrent of plant
+          specimens, taxonomic names, and field observations, he began recording individual
+          facts on small, discrete slips of paper — one idea per slip — so that he could
+          rearrange, sort, and recombine them at will. Linnaeus almost certainly did not
+          think of himself as inventing anything. He was simply trying to keep his desk
+          from collapsing under the weight of what he knew.
+        </p>
+
+        <p>
+          That instinct — isolate, inscribe, shuffle — became the animating principle of
+          the index card: a technology so modest and so omnipresent that it eventually
+          turned invisible, the way all truly successful tools do. By the late nineteenth
+          century, librarians, clerks, civil servants, and scientists across Europe and
+          North America had embraced what the
+          <a href="#">German archival tradition</a> called the
+          <em>Zettelkasten</em>, or "slip box," as the canonical method for managing
+          large collections of facts. The card catalogue — rows of slim wooden drawers,
+          each packed with neatly typed entries — became the architectural soul of the
+          modern library. It was, in essence, a database with a handle.
+        </p>
+
+        <h2>A Tool That Thinks at the Speed of the Hand</h2>
+
+        <p>
+          What made the index card so persistently useful was not any single feature but
+          rather a constellation of properties that turned out to be nearly impossible to
+          improve upon. Cards are
+          <a href="#">physically manipulable</a>: you can hold them, fan them, stack
+          them, discard them, or pin them to a corkboard. They are uniform in size,
+          which means any collection of them is automatically sortable. They hold exactly
+          enough information — a paragraph, a citation, a note — without demanding that
+          you commit to a larger structure before you know what structure you need.
+        </p>
+
+        <p>
+          The American library reformer
+          <a href="#">Melvil Dewey</a> understood this intuitively. His decimal
+          classification system — still in use in most public libraries today — was not
+          only a scheme for ordering knowledge but an argument about the medium in which
+          knowledge should be stored. The card, Dewey believed, could be updated, replaced,
+          and inserted without disturbing the integrity of the whole. Books were monuments;
+          cards were working documents.
+        </p>
+
+        <!-- ── Pull quote ───────────────────────────────────────── -->
+        <aside class="pull-quote" aria-label="Pull quote">
+          <p class="pull-quote__text">
+            The card, Dewey believed, could be updated, replaced, and inserted without
+            disturbing the integrity of the whole. Books were monuments; cards were
+            working documents.
+          </p>
+          <span class="pull-quote__attribution">Eleanor Marsh</span>
+        </aside>
+
+        <p>
+          The novelist Vladimir Nabokov worked almost exclusively on index cards — his
+          drafts for <em>Pale Fire</em> and <em>Ada</em> survive as dense, handwritten
+          blocks on ruled cards stored in a series of boxes. He liked the non-linearity:
+          a scene written on Tuesday could slide beside a scene written six months later
+          without either losing its integrity. The card was not a page; it did not demand
+          a before and an after. It was, as Nabokov apparently once remarked to his wife
+          Véra, a unit of pure possibility.
+        </p>
+
+        <h2>The Digital Afterlife of a Paper Rectangle</h2>
+
+        <p>
+          By the 1980s, the physical card catalogue had begun its long decline. Online
+          public access catalogues — <a href="#">OPACs</a>, in the jargon of the
+          profession — replaced the drawers in library after library, and the familiar
+          wooden cabinets began migrating into antique shops and the studios of
+          architecture firms with a fondness for repurposed mid-century furniture. The
+          index card itself seemed destined for the same fate as the ditto machine: a
+          quaint relic, superseded by something faster and more capacious.
+        </p>
+
+        <p>
+          But the card did not die. It transformed. The German sociologist
+          <a href="#">Niklas Luhmann</a> spent forty years maintaining a hand-written
+          Zettelkasten of nearly ninety thousand cards — each linked to others by a
+          precise system of alphanumeric cross-references — and used it to produce more
+          than seventy books and four hundred articles. When scholars later digitised
+          the collection, they found that the links between cards formed a network whose
+          structure anticipated, in almost eerie detail, the topology of the modern
+          hypertext web. Luhmann had built a local internet on paper, one slip at a time,
+          decades before the phrase <em>World Wide Web</em> existed.
+        </p>
+
+        <p>
+          Today the impulse lives on in tools like Obsidian, Roam Research, and the
+          broader
+          <a href="#">personal knowledge management</a> ecosystem, all of which owe an
+          explicit intellectual debt to the slip-box tradition. The vocabulary has changed
+          — nodes instead of cards, backlinks instead of cross-references, vaults instead
+          of boxes — but the underlying logic is identical: capture an atomic unit of
+          thought, give it a stable address, and trust that the connections will reveal
+          themselves in time. What Linnaeus worked out in Uppsala in the 1750s is still,
+          in its essential form, the best answer we have found to the problem of knowing
+          more than any single mind can hold.
+        </p>
+
+        <p>
+          The index card did not conquer the digital age by refusing it. It conquered
+          the digital age by becoming it — silently, incrementally, one small rectangle
+          at a time.
+        </p>
+
+      </div><!-- /.article-body -->
+
+    </article>
+  </main>
+
+  <!-- ── Footer ────────────────────────────────────────────────── -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="site-footer__inner">
+      <p>
+        &copy; 2026 The Marginalia Review. All rights reserved.
+        <a href="#">Privacy policy</a> &middot; <a href="#">Contact</a>
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>

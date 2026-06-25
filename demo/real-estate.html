@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Veld & Coast — Premium Real Estate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+<style>
+/*
+ * WCAG AA PAIRING MANIFEST — source: #1b3a4b · theme: white
+ *
+ * BODY TEXT (any font size, ≥4.5:1):
+ *   shade-100 (#ecf4f8) → 900, 800, 700
+ *   shade-300 (#adcfe1) → 900, 800
+ *   shade-600 (#4491b8) → 900
+ *   shade-700 (#367496) → white, 100
+ *   shade-800 (#1e4052) → white, 100, 300
+ *   shade-900 (#10232d) → white, 100, 300, 600
+ *
+ * LARGE TEXT ONLY (≥24px or ≥18.67px bold, 3:1–4.5:1):
+ *   shade-600 (#4491b8) → 100, 800, white
+ *   shade-700 (#367496) → 300, 900
+ *   shade-800 (#1e4052) → 600
+ *   shade-900 (#10232d) → 700
+ */
+:root {
+  --n-100: #ecf4f8; /* ✅ text→900·800·700  ⚠️ lg→600 */
+  --n-300: #adcfe1; /* ✅ text→900·800  ⚠️ lg→700 */
+  --n-600: #4491b8; /* ✅ text→900  ⚠️ lg→100·800·white */
+  --n-700: #367496; /* ✅ text→white·100  ⚠️ lg→300·900 */
+  --n-800: #1e4052; /* ✅ text→white·100·300  ⚠️ lg→600 */
+  --n-900: #10232d; /* ✅ text→white·100·300·600  ⚠️ lg→700 */
+
+  --gold: #8b6627;
+  --gold-light: #f7f0e3;
+  --gold-muted: #e1c493;
+
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Lato', 'Segoe UI', sans-serif;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-sans);
+  color: var(--n-800);
+  background: #fff;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.skip-link:not(:focus):not(:active) {
+  clip: rect(0 0 0 0); clip-path: inset(50%);
+  height: 1px; overflow: hidden; position: absolute; width: 1px;
+}
+.skip-link:focus {
+  position: fixed; top: 1rem; left: 1rem; z-index: 9999;
+  background: var(--n-900); color: #fff; padding: 0.75rem 1.5rem;
+  border-radius: 4px; text-decoration: none;
+}
+
+img { max-width: 100%; display: block; }
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* ============================== HEADER ============================== */
+
+header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--n-100);
+}
+header .container {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 0.75rem; padding-bottom: 0.75rem;
+}
+.logo {
+  font-family: var(--font-serif);
+  font-size: 1.5rem; font-weight: 700;
+  color: var(--n-900); text-decoration: none;
+  letter-spacing: -0.02em;
+}
+.logo span { color: var(--gold); }
+
+nav[aria-label="Principal"] ul {
+  display: flex; gap: 2rem; list-style: none; align-items: center;
+}
+nav a {
+  text-decoration: none; color: var(--n-800);
+  font-size: 0.875rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; transition: color 0.2s;
+}
+nav a:hover, nav a:focus-visible { color: var(--gold); }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+.btn {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.1em; text-decoration: none;
+  padding: 0.75rem 1.75rem; border: none; cursor: pointer;
+  transition: all 0.25s ease;
+}
+.btn-primary {
+  background: var(--gold); color: #fff;
+}
+.btn-primary:hover, .btn-primary:focus-visible {
+  background: var(--n-800);
+}
+.btn-outline {
+  background: transparent; color: #fff;
+  border: 2px solid rgba(255,255,255,0.6);
+}
+.btn-outline:hover, .btn-outline:focus-visible {
+  border-color: #fff; background: rgba(255,255,255,0.1);
+}
+
+/* ============================== HERO ============================== */
+
+.hero {
+  position: relative; min-height: 100vh;
+  display: flex; align-items: center;
+  background: var(--n-900);
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(135deg, rgba(16,35,45,0.85) 0%, rgba(30,64,82,0.6) 100%),
+    url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%2310232d"/><path d="M0 50 L100 50 M50 0 L50 100" stroke="%23367496" stroke-width="0.5" opacity="0.15"/><circle cx="30" cy="40" r="2" fill="%23adcfe1" opacity="0.3"/><circle cx="75" cy="30" r="1.5" fill="%23adcfe1" opacity="0.2"/></svg>');
+  background-size: cover, 60px 60px;
+  background-blend-mode: normal;
+}
+.hero-bg::after {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 20% 50%, rgba(139,102,39,0.08) 0%, transparent 70%);
+}
+.hero .container { position: relative; z-index: 1; width: 100%; }
+
+.hero-content { max-width: 720px; }
+
+.hero-tag {
+  display: inline-block;
+  font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.15em; color: #fff;
+  border: 1px solid var(--gold); padding: 0.4rem 1rem;
+  margin-bottom: 2rem;
+}
+
+.hero h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 700; line-height: 1.08;
+  color: #fff; margin-bottom: 1.5rem;
+}
+.hero h1 em { font-style: italic; }
+
+.hero p {
+  font-size: 1.125rem; font-weight: 300;
+  color: var(--n-300); line-height: 1.7;
+  margin-bottom: 2.5rem; max-width: 540px;
+}
+
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+.hero-stats {
+  display: flex; gap: 3rem; margin-top: 4rem;
+  padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1);
+}
+.hero-stats dt { font-size: 2rem; font-weight: 700; color: #fff; font-family: var(--font-serif); }
+.hero-stats dd { font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--n-300); margin-top: 0.25rem; }
+
+/* ============================== FEATURED ============================== */
+
+.featured {
+  padding: 6rem 0;
+}
+
+.section-label {
+  font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.15em; color: var(--gold);
+  margin-bottom: 0.75rem;
+}
+
+.featured-header {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  margin-bottom: 3rem; gap: 2rem;
+}
+.featured-header h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700; color: var(--n-900);
+  line-height: 1.15;
+}
+.featured-header p {
+  color: var(--n-700); max-width: 380px; font-size: 0.9375rem;
+}
+.featured-header a {
+  color: var(--n-800); font-weight: 700; font-size: 0.875rem;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  text-decoration: none; white-space: nowrap;
+  border-bottom: 2px solid var(--gold); padding-bottom: 2px;
+  transition: color 0.2s;
+}
+.featured-header a:hover { color: var(--gold); }
+
+.property-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.property-card {
+  position: relative; overflow: hidden;
+  background: #fff; cursor: pointer;
+  transition: transform 0.3s ease;
+}
+.property-card:hover { transform: translateY(-4px); }
+
+.property-card figure {
+  position: relative; overflow: hidden;
+  aspect-ratio: 4 / 3; background: var(--n-100);
+}
+.property-card figure img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.property-card:hover figure img { transform: scale(1.05); }
+
+.property-badge {
+  position: absolute; top: 1rem; left: 1rem;
+  background: var(--gold); color: #fff;
+  font-size: 0.6875rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; padding: 0.3rem 0.75rem;
+}
+
+.property-body { padding: 1.25rem 0; }
+
+.property-body h3 {
+  font-family: var(--font-serif);
+  font-size: 1.25rem; font-weight: 600;
+  color: var(--n-900); margin-bottom: 0.25rem;
+}
+.property-body .location {
+  font-size: 0.875rem; color: var(--n-700); margin-bottom: 0.75rem;
+}
+.property-meta {
+  display: flex; gap: 1.5rem; font-size: 0.8125rem; color: var(--n-700);
+}
+.property-meta span { display: flex; align-items: center; gap: 0.35rem; }
+.property-price {
+  font-family: var(--font-serif);
+  font-size: 1.375rem; font-weight: 700; color: var(--gold);
+  margin-top: 0.75rem;
+}
+
+/* ============================== VALUES ============================== */
+
+.values {
+  padding: 5rem 0;
+  background: var(--gold-light);
+}
+
+.values-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem; align-items: center;
+}
+
+.values-text h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  font-weight: 700; color: var(--n-900);
+  line-height: 1.2; margin-bottom: 1.25rem;
+}
+.values-text > p {
+  color: var(--n-800); font-size: 0.9375rem;
+  margin-bottom: 2rem; max-width: 480px;
+}
+
+.value-item {
+  display: flex; gap: 1.25rem; margin-bottom: 1.5rem;
+}
+.value-icon {
+  flex-shrink: 0; width: 3rem; height: 3rem;
+  border: 1px solid var(--gold); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gold); font-size: 1.25rem;
+}
+.value-item h3 {
+  font-family: var(--font-serif);
+  font-size: 1.125rem; font-weight: 600;
+  color: var(--n-900); margin-bottom: 0.2rem;
+}
+.value-item p { font-size: 0.875rem; color: var(--n-800); }
+
+.values-visual {
+  position: relative; aspect-ratio: 4 / 5;
+  background: var(--n-800); overflow: hidden;
+}
+.values-visual::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, var(--n-900) 0%, #000 100%);
+  opacity: 0.4;
+}
+.values-visual blockquote {
+  position: absolute; bottom: 2rem; left: 2rem; right: 2rem;
+  font-family: var(--font-serif);
+  font-size: 1.25rem; font-style: italic;
+  color: #fff; line-height: 1.5;
+}
+.values-visual cite {
+  display: block; margin-top: 1rem;
+  font-family: var(--font-sans);
+  font-size: 0.75rem; font-style: normal; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--n-100);
+}
+
+/* ============================== CTA ============================== */
+
+.cta {
+  padding: 6rem 0;
+  background: var(--n-900);
+  text-align: center;
+}
+.cta h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700; color: #fff;
+  margin-bottom: 1rem;
+}
+.cta p {
+  color: var(--n-300); font-size: 1rem;
+  max-width: 520px; margin: 0 auto 2.5rem;
+}
+.cta .btn-primary {
+  background: var(--gold); color: #fff;
+}
+.cta .btn-primary:hover { background: #fff; color: var(--n-900); }
+
+/* ============================== FOOTER ============================== */
+
+footer {
+  background: var(--n-900);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 3rem 0 2rem;
+}
+footer .container {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 2rem;
+}
+footer h4 {
+  font-family: var(--font-serif);
+  font-size: 1rem; font-weight: 600;
+  color: #fff; margin-bottom: 1rem;
+}
+footer p, footer a {
+  font-size: 0.875rem; color: var(--n-300);
+  text-decoration: none; display: block;
+}
+footer a:hover { color: var(--n-100); }
+footer .brand p { margin-top: 0.75rem; max-width: 300px; line-height: 1.6; }
+footer ul { list-style: none; }
+footer ul li { margin-bottom: 0.5rem; }
+
+.footer-bottom {
+  grid-column: 1 / -1;
+  margin-top: 2rem; padding-top: 1.5rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 1rem;
+}
+.footer-bottom p { font-size: 0.75rem; color: var(--n-600); }
+
+.footer-social { display: flex; gap: 1rem; }
+.footer-social a {
+  width: 2.25rem; height: 2.25rem;
+  border: 1px solid rgba(255,255,255,0.15);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem; color: var(--n-300);
+  text-decoration: none; transition: all 0.2s;
+}
+.footer-social a:hover {
+  border-color: var(--n-100); color: var(--n-100);
+}
+
+/* ============================== RESPONSIVE ============================== */
+
+@media (max-width: 1024px) {
+  .property-grid { grid-template-columns: repeat(2, 1fr); }
+  footer .container { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 768px) {
+  nav[aria-label="Principal"] ul { gap: 1rem; }
+  nav a { font-size: 0.75rem; }
+  .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
+  .values-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .featured-header { flex-direction: column; align-items: flex-start; }
+  .property-grid { grid-template-columns: 1fr; }
+  footer .container { grid-template-columns: 1fr; }
+  .values-visual { aspect-ratio: 3 / 2; }
+}
+
+@media (max-width: 480px) {
+  header .container { flex-wrap: wrap; gap: 0.75rem; }
+  nav[aria-label="Principal"] {
+    order: 3; width: 100%;
+  }
+  nav[aria-label="Principal"] ul {
+    justify-content: space-between;
+  }
+  .hero-actions { flex-direction: column; }
+  .hero-stats { flex-direction: column; gap: 1rem; }
+}
+
+/* ============================== MOTION ============================== */
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-content > * {
+    opacity: 0; transform: translateY(1.5rem);
+    animation: fadeUp 0.8s ease forwards;
+  }
+  .hero-content > *:nth-child(1) { animation-delay: 0.1s; }
+  .hero-content > *:nth-child(2) { animation-delay: 0.2s; }
+  .hero-content > *:nth-child(3) { animation-delay: 0.3s; }
+  .hero-content > *:nth-child(4) { animation-delay: 0.4s; }
+  .hero-stats { animation-delay: 0.5s; }
+
+  .property-card {
+    opacity: 0; transform: translateY(2rem);
+    animation: fadeUp 0.6s ease forwards;
+  }
+  .property-card:nth-child(1) { animation-delay: 0.1s; }
+  .property-card:nth-child(2) { animation-delay: 0.2s; }
+  .property-card:nth-child(3) { animation-delay: 0.3s; }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<header role="banner">
+  <div class="container">
+    <a href="/" class="logo" aria-label="Veld &amp; Coast Home">Veld<span>&amp;</span>Coast</a>
+    <nav aria-label="Principal">
+      <ul>
+        <li><a href="#">Properties</a></li>
+        <li><a href="#">Estates</a></li>
+        <li><a href="#">Agents</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#" class="btn btn-primary">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+
+  <section class="hero" aria-label="Hero banner">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="container">
+      <div class="hero-content">
+        <span class="hero-tag">Est. 1998</span>
+        <h1>Where vision<br />finds <em>place</em>.</h1>
+        <p>Curating the world's most exceptional properties for those who seek more than a home — a legacy.</p>
+        <div class="hero-actions">
+          <a href="#" class="btn btn-primary">Explore properties</a>
+          <a href="#" class="btn btn-outline">Schedule a visit</a>
+        </div>
+        <dl class="hero-stats">
+          <div><dt>2,400+</dt><dd>Properties sold</dd></div>
+          <div><dt>28</dt><dd>Countries</dd></div>
+          <div><dt>99.7%</dt><dd>Client satisfaction</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="featured container" aria-labelledby="featured-heading">
+    <span class="section-label" aria-hidden="true">Curated Collection</span>
+    <div class="featured-header">
+      <h2 id="featured-heading">Featured properties</h2>
+      <div>
+        <p>Each residence tells a story. These are our finest current listings.</p>
+        <a href="#" aria-label="View all featured properties">View all &rarr;</a>
+      </div>
+    </div>
+    <div class="property-grid">
+      <article class="property-card">
+        <figure>
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='450'%3E%3Crect width='600' height='450' fill='%23adcfe1'/%3E%3Ctext x='300' y='230' text-anchor='middle' font-family='Georgia' font-size='28' fill='%231e4052'%3EVilla%3C/text%3E%3Ctext x='300' y='260' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23367496'%3EMarbella%3C/text%3E%3C/svg%3E" alt="Villa Marbella — white modernist villa with ocean views" loading="lazy" />
+          <span class="property-badge">Featured</span>
+        </figure>
+        <div class="property-body">
+          <h3>Villa Marbella</h3>
+          <p class="location">Marbella, Spain</p>
+          <div class="property-meta">
+            <span aria-label="6 bedrooms">6 Beds</span>
+            <span aria-label="7 bathrooms">7 Baths</span>
+            <span aria-label="850 square meters">850 m&sup2;</span>
+          </div>
+          <p class="property-price">&euro;4,850,000</p>
+        </div>
+      </article>
+
+      <article class="property-card">
+        <figure>
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='450'%3E%3Crect width='600' height='450' fill='%23e1c493'/%3E%3Ctext x='300' y='230' text-anchor='middle' font-family='Georgia' font-size='28' fill='%231e4052'%3EPenthouse%3C/text%3E%3Ctext x='300' y='260' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23367496'%3ENYC%3C/text%3E%3C/svg%3E" alt="Soho Penthouse — modern penthouse in New York City" loading="lazy" />
+          <span class="property-badge">New</span>
+        </figure>
+        <div class="property-body">
+          <h3>Soho Penthouse</h3>
+          <p class="location">New York, USA</p>
+          <div class="property-meta">
+            <span aria-label="4 bedrooms">4 Beds</span>
+            <span aria-label="5 bathrooms">5 Baths</span>
+            <span aria-label="320 square meters">320 m&sup2;</span>
+          </div>
+          <p class="property-price">$7,200,000</p>
+        </div>
+      </article>
+
+      <article class="property-card">
+        <figure>
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='450'%3E%3Crect width='600' height='450' fill='%23ecf4f8'/%3E%3Ctext x='300' y='230' text-anchor='middle' font-family='Georgia' font-size='28' fill='%231e4052'%3EChâteau%3C/text%3E%3Ctext x='300' y='260' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23367496'%3EProvence%3C/text%3E%3C/svg%3E" alt="Château Provence — historic estate in Provence" loading="lazy" />
+          <span class="property-badge">Exclusive</span>
+        </figure>
+        <div class="property-body">
+          <h3>Château Provence</h3>
+          <p class="location">Provence, France</p>
+          <div class="property-meta">
+            <span aria-label="8 bedrooms">8 Beds</span>
+            <span aria-label="10 bathrooms">10 Baths</span>
+            <span aria-label="1200 square meters">1,200 m&sup2;</span>
+          </div>
+          <p class="property-price">&euro;9,600,000</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="values" aria-labelledby="values-heading">
+    <div class="container">
+      <div class="values-grid">
+        <div class="values-text">
+          <span class="section-label" aria-hidden="true">Why choose us</span>
+          <h2 id="values-heading">More than brokers.<br />Partners in place.</h2>
+          <p>Two decades of connecting extraordinary people with extraordinary properties — across every continent, at every price point.</p>
+          <div>
+            <div class="value-item">
+              <div class="value-icon" aria-hidden="true">&#9925;</div>
+              <div>
+                <h3>Global reach, local soul</h3>
+                <p>Offices in 28 countries staffed by experts who know their markets intimately.</p>
+              </div>
+            </div>
+            <div class="value-item">
+              <div class="value-icon" aria-hidden="true">&#9733;</div>
+              <div>
+                <h3>White-glove service</h3>
+                <p>From confidential acquisitions to full concierge — we handle every detail.</p>
+              </div>
+            </div>
+            <div class="value-item">
+              <div class="value-icon" aria-hidden="true">&#9733;</div>
+              <div>
+                <h3>Unmatched curation</h3>
+                <p>Fewer listings, higher standards. Each property earns its place in our collection.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="values-visual" role="img" aria-label="Testimonial from a client on a dark background">
+          <blockquote>
+            "They didn't just find us a house — they found us a home we'll pass down for generations."
+            <cite>&mdash; The Harrington Family, Lake Como</cite>
+          </blockquote>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta" aria-labelledby="cta-heading">
+    <div class="container">
+      <h2 id="cta-heading">Your next chapter begins here.</h2>
+      <p>Whether you're buying, selling, or simply exploring — let's start a conversation.</p>
+      <a href="#" class="btn btn-primary">Schedule a consultation</a>
+    </div>
+  </section>
+
+</main>
+
+<footer role="contentinfo">
+  <div class="container">
+    <div class="brand">
+      <a href="/" class="logo" aria-label="Veld &amp; Coast Home">Veld<span>&amp;</span>Coast</a>
+      <p>Premium real estate services across the globe. Est. 1998.</p>
+    </div>
+    <div>
+      <h4>Buy</h4>
+      <ul>
+        <li><a href="#">Residential</a></li>
+        <li><a href="#">Commercial</a></li>
+        <li><a href="#">Estates</a></li>
+        <li><a href="#">International</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Sell</h4>
+      <ul>
+        <li><a href="#">List your property</a></li>
+        <li><a href="#">Valuation</a></li>
+        <li><a href="#">Concierge</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About us</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="#">Privacy</a></li>
+      </ul>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Veld &amp; Coast. All rights reserved.</p>
+      <div class="footer-social">
+        <a href="#" aria-label="Instagram"><span aria-hidden="true">IG</span></a>
+        <a href="#" aria-label="LinkedIn"><span aria-hidden="true">LI</span></a>
+        <a href="#" aria-label="Twitter"><span aria-hidden="true">TW</span></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ember & Ash | Artisan Candles & Home Fragrance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      /* Warm Ember Palette */
+      --charcoal: #1A1A1A;
+      --espresso: #2D2421;
+      --terracotta: #C4644A;
+      --amber: #D4A574;
+      --cream: #F5EDE4;
+      --sage: #8B9A7E;
+      --blush: #E8D5C4;
+      --gold: #B8956B;
+      
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'DM Sans', system-ui, sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--cream);
+      color: var(--charcoal);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 1.25rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(to bottom, var(--cream), transparent);
+      transition: background 0.3s ease;
+    }
+
+    nav.scrolled {
+      background: rgba(245, 237, 228, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+    }
+
+    .logo {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      font-weight: 500;
+      color: var(--charcoal);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+
+    .logo span {
+      color: var(--terracotta);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.9rem;
+      color: var(--espresso);
+      text-decoration: none;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--terracotta);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--terracotta);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-icons {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .nav-icon {
+      width: 24px;
+      height: 24px;
+      color: var(--charcoal);
+      cursor: pointer;
+      transition: color 0.3s ease, transform 0.2s ease;
+    }
+
+    .nav-icon:hover {
+      color: var(--terracotta);
+      transform: scale(1.1);
+    }
+
+    /* Hero Section */
+    .hero {
+      height: 100vh;
+      min-height: 700px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      max-width: 600px;
+      padding: 0 8%;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-tagline {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--terracotta);
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(3.5rem, 8vw, 5.5rem);
+      font-weight: 400;
+      line-height: 1.1;
+      color: var(--charcoal);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--terracotta);
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--espresso);
+      margin-bottom: 2.5rem;
+      max-width: 450px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 1rem 2.5rem;
+      background: var(--charcoal);
+      color: var(--cream);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      background: var(--terracotta);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(196, 100, 74, 0.3);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--charcoal);
+      color: var(--charcoal);
+    }
+
+    .btn-outline:hover {
+      background: var(--charcoal);
+      color: var(--cream);
+    }
+
+    .hero-visual {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 55%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--blush) 0%, var(--amber) 50%, var(--terracotta) 100%);
+      clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
+    }
+
+    .hero-visual::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231A1A1A' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .hero-image {
+      position: absolute;
+      right: 10%;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 400px;
+      height: 500px;
+      background: var(--charcoal);
+      border-radius: 200px 200px 100px 100px;
+      box-shadow: 0 50px 100px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+
+    .hero-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.9;
+    }
+
+    /* Featured Collection */
+    .section {
+      padding: 8rem 8%;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--terracotta);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: 400;
+      color: var(--charcoal);
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2.5rem;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+
+    .product-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+    }
+
+    .product-image {
+      aspect-ratio: 1;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .product-card:hover .product-image img {
+      transform: scale(1.1);
+    }
+
+    .product-badge {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background: var(--sage);
+      color: white;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border-radius: 2px;
+    }
+
+    .product-actions {
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      display: flex;
+      gap: 0.5rem;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+    }
+
+    .product-card:hover .product-actions {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .product-action-btn {
+      width: 40px;
+      height: 40px;
+      background: white;
+      border: none;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .product-action-btn:hover {
+      background: var(--charcoal);
+      color: white;
+    }
+
+    .product-action-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .product-info {
+      padding: 1.5rem;
+    }
+
+    .product-category {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--sage);
+      margin-bottom: 0.5rem;
+    }
+
+    .product-name {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .product-price {
+      font-size: 1rem;
+      color: var(--terracotta);
+      font-weight: 500;
+    }
+
+    .product-price .original {
+      text-decoration: line-through;
+      color: #999;
+      margin-left: 0.5rem;
+      font-weight: 400;
+    }
+
+    /* Story Section */
+    .story {
+      background: var(--espresso);
+      color: var(--cream);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .story-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .story-text {
+      max-width: 500px;
+    }
+
+    .story-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--amber);
+      margin-bottom: 1.5rem;
+    }
+
+    .story h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 4vw, 3.5rem);
+      font-weight: 400;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+    }
+
+    .story h2 em {
+      font-style: italic;
+      color: var(--amber);
+    }
+
+    .story p {
+      opacity: 0.85;
+      margin-bottom: 1.5rem;
+      line-height: 1.8;
+    }
+
+    .story .btn {
+      background: var(--amber);
+      color: var(--espresso);
+    }
+
+    .story .btn:hover {
+      background: var(--terracotta);
+      color: white;
+    }
+
+    .story-visual {
+      position: relative;
+      height: 500px;
+    }
+
+    .story-image {
+      position: absolute;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.3);
+    }
+
+    .story-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .story-image-1 {
+      width: 300px;
+      height: 400px;
+      top: 0;
+      left: 0;
+    }
+
+    .story-image-2 {
+      width: 250px;
+      height: 300px;
+      bottom: 0;
+      right: 0;
+      border: 6px solid var(--espresso);
+    }
+
+    /* Features */
+    .features {
+      background: white;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 3rem;
+      text-align: center;
+    }
+
+    .feature-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--blush);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+    }
+
+    .feature-icon svg {
+      width: 28px;
+      height: 28px;
+      color: var(--terracotta);
+    }
+
+    .feature h3 {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 500;
+      margin-bottom: 0.75rem;
+    }
+
+    .feature p {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    /* Newsletter */
+    .newsletter {
+      background: linear-gradient(135deg, var(--blush) 0%, var(--amber) 100%);
+      text-align: center;
+      padding: 6rem 8%;
+    }
+
+    .newsletter h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 400;
+      margin-bottom: 1rem;
+    }
+
+    .newsletter p {
+      margin-bottom: 2rem;
+      opacity: 0.9;
+    }
+
+    .newsletter-form {
+      display: flex;
+      max-width: 500px;
+      margin: 0 auto;
+      gap: 1rem;
+    }
+
+    .newsletter-form input {
+      flex: 1;
+      padding: 1rem 1.5rem;
+      border: none;
+      border-radius: 4px;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+    }
+
+    .newsletter-form input:focus {
+      outline: 2px solid var(--terracotta);
+    }
+
+    .newsletter-form button {
+      padding: 1rem 2rem;
+      background: var(--charcoal);
+      color: white;
+      border: none;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .newsletter-form button:hover {
+      background: var(--terracotta);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--charcoal);
+      color: var(--cream);
+      padding: 5rem 8% 2rem;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 4rem;
+      margin-bottom: 4rem;
+    }
+
+    .footer-brand h3 {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .footer-brand h3 span {
+      color: var(--terracotta);
+    }
+
+    .footer-brand p {
+      opacity: 0.7;
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    .footer-links h4 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+      color: var(--amber);
+    }
+
+    .footer-links ul {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-links a {
+      color: rgba(245, 237, 228, 0.7);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--terracotta);
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .social-link {
+      width: 40px;
+      height: 40px;
+      background: rgba(245, 237, 228, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--cream);
+      transition: all 0.3s ease;
+    }
+
+    .social-link:hover {
+      background: var(--terracotta);
+      transform: translateY(-3px);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(245, 237, 228, 0.1);
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      opacity: 0.6;
+    }
+
+    /* Mobile Menu */
+    .mobile-menu-btn {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 5px;
+    }
+
+    .mobile-menu-btn span {
+      width: 24px;
+      height: 2px;
+      background: var(--charcoal);
+      transition: all 0.3s ease;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .hero-visual {
+        width: 50%;
+      }
+      
+      .hero-image {
+        width: 300px;
+        height: 380px;
+        right: 5%;
+      }
+      
+      .story-content {
+        gap: 4rem;
+      }
+      
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .footer-content {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        padding: 1rem 1.5rem;
+      }
+      
+      .nav-links {
+        display: none;
+      }
+      
+      .mobile-menu-btn {
+        display: flex;
+      }
+      
+      .hero {
+        min-height: 600px;
+      }
+      
+      .hero-visual {
+        width: 100%;
+        height: 50%;
+        top: 0;
+        clip-path: none;
+      }
+      
+      .hero-content {
+        padding: 0 1.5rem;
+        margin-top: 40vh;
+      }
+      
+      .hero h1 {
+        font-size: 2.8rem;
+      }
+      
+      .hero-image {
+        width: 200px;
+        height: 260px;
+        right: 10%;
+        top: 20%;
+        transform: translateY(0);
+      }
+      
+      .section {
+        padding: 4rem 1.5rem;
+      }
+      
+      .story-content {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+      
+      .story-visual {
+        height: 400px;
+        order: -1;
+      }
+      
+      .story-image-1 {
+        width: 220px;
+        height: 300px;
+      }
+      
+      .story-image-2 {
+        width: 180px;
+        height: 220px;
+      }
+      
+      .features-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      
+      .newsletter-form {
+        flex-direction: column;
+      }
+      
+      .footer-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      
+      .footer-bottom {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav id="navbar">
+    <a href="#" class="logo">Ember <span>&</span> Ash</a>
+    <ul class="nav-links">
+      <li><a href="#collection">Collection</a></li>
+      <li><a href="#story">Our Story</a></li>
+      <li><a href="# scents">Scents</a></li>
+      <li><a href="#gifts">Gifts</a></li>
+      <li><a href="#journal">Journal</a></li>
+    </ul>
+    <div class="nav-icons">
+      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+      </svg>
+      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+      </svg>
+      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+      </svg>
+    </div>
+    <button class="mobile-menu-btn">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <p class="hero-tagline">Handcrafted with intention</p>
+      <h1>Light the <em>moment</em></h1>
+      <p>Artisan candles and home fragrance, made from sustainable ingredients. Each scent tells a story, each flame sparks a memory.</p>
+      <a href="#collection" class="btn">Shop Collection</a>
+    </div>
+    <div class="hero-visual"></div>
+    <div class="hero-image">
+      <img src="https://images.unsplash.com/photo-1602607536817-67be0db13dc6?w=800&q=80" alt="Artisan candle">
+    </div>
+  </section>
+
+  <!-- Featured Collection -->
+  <section class="section" id="collection">
+    <div class="section-header">
+      <p class="section-label">Curated Selection</p>
+      <h2 class="section-title">Bestsellers</h2>
+    </div>
+    <div class="products-grid">
+      <article class="product-card">
+        <div class="product-image">
+          <img src="https://images.unsplash.com/photo-1603006905003-be475563bc59?w=600&q=80" alt="Midnight Cedar">
+          <span class="product-badge">New</span>
+          <div class="product-actions">
+            <button class="product-action-btn" aria-label="Quick view">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+              </svg>
+            </button>
+            <button class="product-action-btn" aria-label="Add to cart">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="product-info">
+          <p class="product-category">Signature Scent</p>
+          <h3 class="product-name">Midnight Cedar</h3>
+          <p class="product-price">$48</p>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="product-image">
+          <img src="https://images.unsplash.com/photo-1599305090598-fe179d501227?w=600&q=80" alt="Golden Hour">
+          <div class="product-actions">
+            <button class="product-action-btn" aria-label="Quick view">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+              </svg>
+            </button>
+            <button class="product-action-btn" aria-label="Add to cart">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="product-info">
+          <p class="product-category">Limited Edition</p>
+          <h3 class="product-name">Golden Hour</h3>
+          <p class="product-price">$52</p>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="product-image">
+          <img src="https://images.unsplash.com/photo-1572726729207-a78d6feb18d7?w=600&q=80" alt="Forest Floor">
+          <span class="product-badge">Bestseller</span>
+          <div class="product-actions">
+            <button class="product-action-btn" aria-label="Quick view">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+              </svg>
+            </button>
+            <button class="product-action-btn" aria-label="Add to cart">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="product-info">
+          <p class="product-category">Nature Series</p>
+          <h3 class="product-name">Forest Floor</h3>
+          <p class="product-price">$45</p>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="product-image">
+          <img src="https://images.unsplash.com/photo-1608181831718-2501deb73d59?w=600&q=80" alt="Velvet Rose">
+          <div class="product-actions">
+            <button class="product-action-btn" aria-label="Quick view">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+              </svg>
+            </button>
+            <button class="product-action-btn" aria-label="Add to cart">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="product-info">
+          <p class="product-category">Floral</p>
+          <h3 class="product-name">Velvet Rose</h3>
+          <p class="product-price">$48 <span class="original">$58</span></p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Our Story -->
+  <section class="section story" id="story">
+    <div class="story-content">
+      <div class="story-text">
+        <p class="story-label">Our Philosophy</p>
+        <h2>Crafted with <em>purpose</em> & passion</h2>
+        <p>Every Ember & Ash candle begins with a single question: what feeling do we want to create? We source sustainable soy wax, essential oils, and cotton wicks to ensure a clean, long-lasting burn.</p>
+        <p>Our small-batch process means each candle is poured, cured, and labeled by hand—because quality can't be rushed.</p>
+        <a href="#" class="btn">Discover Our Process</a>
+      </div>
+      <div class="story-visual">
+        <div class="story-image story-image-1">
+          <img src="https://images.unsplash.com/photo-1602607536817-67be0db13dc6?w=600&q=80" alt="Candle making">
+        </div>
+        <div class="story-image story-image-2">
+          <img src="https://images.unsplash.com/photo-1603006905003-be475563bc59?w=500&q=80" alt="Natural ingredients">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="section features">
+    <div class="section-header">
+      <p class="section-label">Why Choose Us</p>
+      <h2 class="section-title">The Ember & Ash Difference</h2>
+    </div>
+    <div class="features-grid">
+      <div class="feature">
+        <div class="feature-icon">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+          </svg>
+        </div>
+        <h3>Small Batch</h3>
+        <p>Hand-poured in limited quantities to ensure exceptional quality and attention to detail.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <h3>Sustainable</h3>
+        <p>100% soy wax, recyclable glass jars, and carbon-neutral shipping. Good for you, good for the planet.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+          </svg>
+        </div>
+        <h3>Made with Love</h3>
+        <p>Every candle supports local artisans and small businesses in our community.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+          </svg>
+        </div>
+        <h3>Clean Burn</h3>
+        <p>NoParaffin, no harmful chemicals. Just pure, natural fragrance that fills your space safely.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <section class="newsletter">
+    <h2>Join the Inner Circle</h2>
+    <p>Be the first to know about new scents, exclusive offers, and candle care tips.</p>
+    <form class="newsletter-form">
+      <input type="email" placeholder="Enter your email address" aria-label="Email address">
+      <button type="submit">Subscribe</button>
+    </form>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-brand">
+        <h3>Ember <span>&</span> Ash</h3>
+        <p>Handcrafted candles and home fragrance, made from sustainable ingredients. Each scent tells a story, each flame sparks a memory.</p>
+        <div class="social-links">
+          <a href="#" class="social-link" aria-label="Instagram">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+          </a>
+          <a href="#" class="social-link" aria-label="Pinterest">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 0c-6.627 0-12 5.372-12 12 0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146 1.124.347 2.317.535 3.554.535 6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/>
+            </svg>
+          </a>
+          <a href="#" class="social-link" aria-label="Twitter">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="#">All Candles</a></li>
+          <li><a href="#">Bundles</a></li>
+          <li><a href="#">Gift Sets</a></li>
+          <li><a href="#">Accessories</a></li>
+          <li><a href="#">Sale</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">Our Story</a></li>
+          <li><a href="#">Sustainability</a></li>
+          <li><a href="#">Journal</a></li>
+          <li><a href="#">Press</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">FAQs</a></li>
+          <li><a href="#">Shipping</a></li>
+          <li><a href="#">Returns</a></li>
+          <li><a href="#">Candle Care</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>2026 Ember & Ash. All rights reserved.</p>
+      <p>Designed with warmth in California</p>
+    </div>
+  </footer>
+
+  <script>
+    // Navigation scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // Product card interactions
+    const productCards = document.querySelectorAll('.product-card');
+    productCards.forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        card.style.transform = 'translateY(-10px)';
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'translateY(0)';
+      });
+    });
+
+    // Newsletter form
+    const newsletterForm = document.querySelector('.newsletter-form');
+    newsletterForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = newsletterForm.querySelector('input').value;
+      if (email) {
+        alert('Thanks for subscribing! Welcome to the Inner Circle.');
+        newsletterForm.reset();
+      }
+    });
+  </script>
+</body>
+</html>

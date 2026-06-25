@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Abismo — Exploración del Fondo del Océano</title>
+
+  <style>
+    /*
+     * WCAG AA PAIRING MANIFEST — source: #0d4f6b · theme: black
+     *
+     * BODY TEXT (any font size, ≥4.5:1):
+     *   shade-100 (#031219) → 900, 800, 700
+     *   shade-300 (#093649) → 900, 800
+     *   shade-600 (#116992) → 900
+     *   shade-700 (#1686b6) → black, 100
+     *   shade-800 (#6ac4ee) → black, 100, 300
+     *   shade-900 (#bfe7f7) → black, 100, 300, 600
+     *
+     * LARGE TEXT ONLY (≥24px or ≥18.67px bold, 3:1–4.5:1):
+     *   shade-100 (#031219) → 600
+     *   shade-300 (#093649) → 700
+     *   shade-600 (#116992) → 100, 800, black
+     *   shade-700 (#1686b6) → 300, 900
+     *   shade-800 (#6ac4ee) → 600
+     *   shade-900 (#bfe7f7) → 700
+     */
+    :root {
+      --ocean-100: #031219; /* ✅ text→900·800·700  ⚠️ lg→600 */
+      --ocean-300: #093649; /* ✅ text→900·800  ⚠️ lg→700 */
+      --ocean-600: #116992; /* ✅ text→900  ⚠️ lg→100·800·black */
+      --ocean-700: #1686b6; /* ✅ text→black·100  ⚠️ lg→300·900 */
+      --ocean-800: #6ac4ee; /* ✅ text→black·100·300  ⚠️ lg→600 */
+      --ocean-900: #bfe7f7; /* ✅ text→black·100·300·600  ⚠️ lg→700 */
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Georgia', serif;
+      background-color: #000;
+      color: var(--ocean-900); /* ✅ 900 on black — 15.99:1 */
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── BUBBLES ── */
+    .bubbles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .bubble {
+      position: absolute;
+      bottom: -60px;
+      border-radius: 50%;
+      border: 1px solid var(--ocean-700);
+      opacity: 0;
+      animation: rise linear infinite;
+    }
+    .bubble:nth-child(1)  { left: 5%;  width: 14px; height: 14px; animation-duration: 9s;  animation-delay: 0s;   }
+    .bubble:nth-child(2)  { left: 15%; width: 8px;  height: 8px;  animation-duration: 12s; animation-delay: 2s;   }
+    .bubble:nth-child(3)  { left: 28%; width: 20px; height: 20px; animation-duration: 10s; animation-delay: 4s;   }
+    .bubble:nth-child(4)  { left: 42%; width: 6px;  height: 6px;  animation-duration: 15s; animation-delay: 1s;   }
+    .bubble:nth-child(5)  { left: 56%; width: 12px; height: 12px; animation-duration: 8s;  animation-delay: 3s;   }
+    .bubble:nth-child(6)  { left: 68%; width: 18px; height: 18px; animation-duration: 11s; animation-delay: 6s;   }
+    .bubble:nth-child(7)  { left: 79%; width: 9px;  height: 9px;  animation-duration: 13s; animation-delay: 0.5s; }
+    .bubble:nth-child(8)  { left: 90%; width: 16px; height: 16px; animation-duration: 9s;  animation-delay: 5s;   }
+    .bubble:nth-child(9)  { left: 33%; width: 5px;  height: 5px;  animation-duration: 14s; animation-delay: 7s;   }
+    .bubble:nth-child(10) { left: 72%; width: 11px; height: 11px; animation-duration: 10s; animation-delay: 2.5s; }
+
+    @keyframes rise {
+      0%   { transform: translateY(0) translateX(0);    opacity: 0; }
+      10%  { opacity: 0.6; }
+      50%  { transform: translateY(-50vh) translateX(15px); }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-110vh) translateX(-10px); opacity: 0; }
+    }
+
+    /* ── LAYOUT ── */
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(3, 18, 25, 0.9); /* ocean-100 con opacidad */
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--ocean-300);
+    }
+    nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+    .nav-logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: var(--ocean-800); /* ✅ 800 on 100-bg — 9.73:1 */
+      text-transform: uppercase;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--ocean-800); /* ✅ 800 on 100-bg */
+      text-decoration: none;
+      font-size: 0.875rem;
+      letter-spacing: 0.08em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--ocean-900); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 92vh;
+      display: flex;
+      align-items: center;
+      padding: 6rem 0 4rem;
+    }
+    .hero-eyebrow {
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--ocean-700); /* ✅ 700 on black — 5.12:1 */
+      margin-bottom: 1.25rem;
+    }
+    .hero h1 {
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-weight: 700;
+      line-height: 1.05;
+      color: var(--ocean-900); /* ✅ 900 on black — 15.99:1 */
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--ocean-800); /* ✅ 800 on black — 10.74:1 */
+    }
+    .hero-desc {
+      max-width: 560px;
+      font-size: 1.125rem;
+      color: var(--ocean-800); /* ✅ 800 on black — 10.74:1 */
+      margin-bottom: 2.5rem;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-block;
+      padding: 0.875rem 2rem;
+      background: var(--ocean-600);
+      color: var(--ocean-900); /* ✅ 900 on 600 — 4.62:1 */
+      text-decoration: none;
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      font-family: inherit;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-primary:hover { background: var(--ocean-700); color: #000; }
+    .btn-outline {
+      display: inline-block;
+      padding: 0.875rem 2rem;
+      background: transparent;
+      color: var(--ocean-800); /* ✅ 800 on black — 10.74:1 */
+      text-decoration: none;
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      border: 1px solid var(--ocean-600);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--ocean-800); color: var(--ocean-900); }
+
+    .depth-line {
+      margin-top: 4rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: var(--ocean-700); /* ✅ 700 on black */
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+    }
+    .depth-line::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, var(--ocean-600), transparent);
+    }
+
+    /* ── STATS ── */
+    .stats {
+      padding: 5rem 0;
+      background: var(--ocean-100); /* shade-100 bg */
+      border-top: 1px solid var(--ocean-300);
+      border-bottom: 1px solid var(--ocean-300);
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 3rem;
+      text-align: center;
+    }
+    .stat-value {
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: var(--ocean-900); /* ✅ 900 on 100 — 14.48:1 */
+      line-height: 1;
+    }
+    .stat-unit {
+      font-size: 1.5rem;
+      color: var(--ocean-800); /* ✅ 800 on 100 — 9.73:1 */
+    }
+    .stat-label {
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ocean-800); /* ✅ 800 on 100 — 9.73:1 */
+    }
+
+    /* ── ZONES ── */
+    .zones { padding: 6rem 0; }
+    .section-header {
+      margin-bottom: 3.5rem;
+    }
+    .section-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--ocean-700); /* ✅ 700 on black */
+      border: 1px solid var(--ocean-600);
+      padding: 0.25rem 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .section-header h2 {
+      font-size: clamp(1.75rem, 4vw, 2.75rem);
+      color: var(--ocean-900); /* ✅ 900 on black */
+    }
+
+    .zones-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .zone-item {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      border-top: 1px solid var(--ocean-300);
+      padding: 2rem 0;
+      gap: 2rem;
+      align-items: start;
+    }
+    .zone-item:last-child { border-bottom: 1px solid var(--ocean-300); }
+    .zone-depth {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--ocean-700); /* ✅ 700 on black */
+      font-variant-numeric: tabular-nums;
+    }
+    .zone-depth span {
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: var(--ocean-800); /* ✅ 800 on black */
+    }
+    .zone-name {
+      font-size: 1.25rem;
+      color: var(--ocean-900); /* ✅ 900 on black */
+      margin-bottom: 0.5rem;
+    }
+    .zone-desc {
+      font-size: 0.95rem;
+      color: var(--ocean-800); /* ✅ 800 on black */
+    }
+
+    /* ── CREATURES ── */
+    .creatures {
+      padding: 6rem 0;
+      background: var(--ocean-100); /* shade-100 bg */
+    }
+    .creatures-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .creature-card {
+      background: var(--ocean-300); /* shade-300 bg */
+      padding: 2rem;
+      border: 1px solid var(--ocean-600);
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .creature-card:hover { border-color: var(--ocean-700); }
+    .creature-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--ocean-600);
+      transition: background 0.2s;
+    }
+    .creature-card:hover::before { background: var(--ocean-700); }
+    .creature-emoji {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .creature-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--ocean-900); /* ✅ 900 on 300 — 9.78:1 */
+      margin-bottom: 0.25rem;
+    }
+    .creature-latin {
+      font-size: 0.8rem;
+      font-style: italic;
+      color: var(--ocean-800); /* ✅ 800 on 300 — 6.57:1 */
+      margin-bottom: 1rem;
+    }
+    .creature-desc {
+      font-size: 0.9rem;
+      color: var(--ocean-800); /* ✅ 800 on 300 */
+    }
+    .creature-badge {
+      display: inline-block;
+      margin-top: 1rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      background: var(--ocean-600);
+      color: var(--ocean-900); /* ✅ 900 on 600 — 4.62:1 */
+    }
+
+    /* ── EXPEDITIONS ── */
+    .expeditions { padding: 6rem 0; }
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--ocean-600), transparent);
+    }
+    .timeline-item {
+      position: relative;
+      padding-bottom: 3rem;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -2.375rem;
+      top: 0.35rem;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--ocean-700);
+      box-shadow: 0 0 12px var(--ocean-700);
+    }
+    .timeline-year {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      color: var(--ocean-700); /* ✅ 700 on black */
+      margin-bottom: 0.5rem;
+    }
+    .timeline-title {
+      font-size: 1.25rem;
+      color: var(--ocean-900); /* ✅ 900 on black */
+      margin-bottom: 0.5rem;
+    }
+    .timeline-desc {
+      font-size: 0.9rem;
+      color: var(--ocean-800); /* ✅ 800 on black */
+      max-width: 600px;
+    }
+
+    /* ── CTA ── */
+    .cta {
+      padding: 6rem 0;
+      background: var(--ocean-300);
+      border-top: 1px solid var(--ocean-600);
+      text-align: center;
+    }
+    .cta h2 {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      color: var(--ocean-900); /* ✅ 900 on 300 */
+      margin-bottom: 1rem;
+    }
+    .cta p {
+      color: var(--ocean-800); /* ✅ 800 on 300 */
+      max-width: 480px;
+      margin: 0 auto 2rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ocean-100);
+      border-top: 1px solid var(--ocean-300);
+      padding: 2.5rem 0;
+    }
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-text {
+      font-size: 0.8rem;
+      color: var(--ocean-800); /* ✅ 800 on 100 */
+    }
+    .footer-badge {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      color: var(--ocean-700); /* ✅ 700 on 100 — 4.64:1 */
+      border: 1px solid var(--ocean-600);
+      padding: 0.25rem 0.75rem;
+    }
+
+    @media (max-width: 640px) {
+      .zone-item { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bubbles" aria-hidden="true">
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+  </div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="container">
+      <span class="nav-logo">Abismo</span>
+      <ul class="nav-links">
+        <li><a href="#zones">Zonas</a></li>
+        <li><a href="#creatures">Criaturas</a></li>
+        <li><a href="#expeditions">Expediciones</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <p class="hero-eyebrow">Exploración del Fondo Oceánico</p>
+      <h1>Más allá de<br/><em>la luz del sol</em></h1>
+      <p class="hero-desc">
+        A 11.000 metros de profundidad existe un mundo que desafía toda biología conocida. Presiones de 1.100 atmósferas, oscuridad total, temperaturas cercanas al cero. Y vida. Muchísima vida.
+      </p>
+      <div class="hero-actions">
+        <a href="#zones" class="btn-primary">Explorar zonas</a>
+        <a href="#creatures" class="btn-outline">Ver criaturas</a>
+      </div>
+      <div class="depth-line">Profundidad máxima explorada: 10.928 m — Challenger Deep, 2012</div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats" aria-label="Datos del océano profundo">
+    <div class="container">
+      <div class="stats-grid">
+        <div>
+          <div class="stat-value">95<span class="stat-unit">%</span></div>
+          <div class="stat-label">del océano sin explorar</div>
+        </div>
+        <div>
+          <div class="stat-value">11<span class="stat-unit">km</span></div>
+          <div class="stat-label">profundidad máxima conocida</div>
+        </div>
+        <div>
+          <div class="stat-value">8.5<span class="stat-unit">M</span></div>
+          <div class="stat-label">especies estimadas en el fondo</div>
+        </div>
+        <div>
+          <div class="stat-value">1.1<span class="stat-unit">k</span></div>
+          <div class="stat-label">atmósferas de presión en el abismo</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ZONES -->
+  <section class="zones" id="zones">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Zonificación</span>
+        <h2>Las capas del abismo</h2>
+      </div>
+      <div class="zones-list">
+        <article class="zone-item">
+          <div>
+            <div class="zone-depth">200 <span>m</span></div>
+          </div>
+          <div>
+            <h3 class="zone-name">Zona Epipelágica — La zona del sol</h3>
+            <p class="zone-desc">Hasta 200 metros. La luz solar penetra con suficiente intensidad para la fotosíntesis. Aquí vive el 90% de la vida marina conocida. Delfines, atunes, tiburones de arrecife, corales.</p>
+          </div>
+        </article>
+        <article class="zone-item">
+          <div>
+            <div class="zone-depth">1.000 <span>m</span></div>
+          </div>
+          <div>
+            <h3 class="zone-name">Zona Mesopelágica — El crepúsculo</h3>
+            <p class="zone-desc">De 200 a 1.000 metros. La luz se vuelve tenue y azulada. Las criaturas desarrollan bioluminiscencia propia. Es la zona de la migración vertical diaria: millones de organismos suben de noche a alimentarse y bajan de día.</p>
+          </div>
+        </article>
+        <article class="zone-item">
+          <div>
+            <div class="zone-depth">4.000 <span>m</span></div>
+          </div>
+          <div>
+            <h3 class="zone-name">Zona Batipelágica — La medianoche</h3>
+            <p class="zone-desc">De 1.000 a 4.000 metros. Oscuridad total. Las temperaturas caen entre 0°C y 6°C. Aquí vive el pez linterna, el calamar vampiro y la anguila pelican. Todo lo que cae desde arriba es alimento.</p>
+          </div>
+        </article>
+        <article class="zone-item">
+          <div>
+            <div class="zone-depth">6.000 <span>m</span></div>
+          </div>
+          <div>
+            <h3 class="zone-name">Zona Abisopelágica — El abismo</h3>
+            <p class="zone-desc">De 4.000 a 6.000 metros. Las llanuras abisales cubren el 60% del planeta. Sedimentos de miles de metros de espesor. Las fuentes hidrotermales aquí sustentan ecosistemas completos sin luz solar, usando quimiosíntesis.</p>
+          </div>
+        </article>
+        <article class="zone-item">
+          <div>
+            <div class="zone-depth">11.000 <span>m</span></div>
+          </div>
+          <div>
+            <h3 class="zone-name">Zona Hadopelágica — Las fosas</h3>
+            <p class="zone-desc">Más de 6.000 metros. Las fosas oceánicas: Mariana, Tonga, Puerto Rico. Presiones superiores a 1.000 atmósferas. Y aún así — bacterias, anfípodos, pepinos de mar, y peces hadales adaptados a lo inexplicable.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CREATURES -->
+  <section class="creatures" id="creatures">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Fauna</span>
+        <h2>Criaturas del abismo</h2>
+      </div>
+      <div class="creatures-grid">
+        <article class="creature-card">
+          <span class="creature-emoji" aria-hidden="true">🦑</span>
+          <h3 class="creature-name">Calamar colosal</h3>
+          <p class="creature-latin">Mesonychoteuthis hamiltoni</p>
+          <p class="creature-desc">El invertebrado más grande conocido. Puede alcanzar 14 metros. Sus ojos son los más grandes del reino animal — del tamaño de una pelota de fútbol. Habita a más de 2.000 metros.</p>
+          <span class="creature-badge">2000 m+</span>
+        </article>
+        <article class="creature-card">
+          <span class="creature-emoji" aria-hidden="true">🐟</span>
+          <h3 class="creature-name">Pez linterna</h3>
+          <p class="creature-latin">Myctophidae</p>
+          <p class="creature-desc">Realiza la mayor migración diaria del planeta: sube 600 metros cada noche a buscar alimento y vuelve al abismo con el amanecer. Representa el 65% de la biomasa de peces de aguas profundas.</p>
+          <span class="creature-badge">200–1000 m</span>
+        </article>
+        <article class="creature-card">
+          <span class="creature-emoji" aria-hidden="true">🐙</span>
+          <h3 class="creature-name">Pulpo de Dumbo</h3>
+          <p class="creature-latin">Grimpoteuthis</p>
+          <p class="creature-desc">Nada usando aletas en forma de oreja que recuerdan al personaje de Disney. Es el pulpo que habita más profundo — hasta 7.000 metros. Se traga sus presas enteras sin masticar.</p>
+          <span class="creature-badge">3000–7000 m</span>
+        </article>
+        <article class="creature-card">
+          <span class="creature-emoji" aria-hidden="true">🦐</span>
+          <h3 class="creature-name">Anfípodo gigante</h3>
+          <p class="creature-latin">Alicella gigantea</p>
+          <p class="creature-desc">Un crustáceo carroñero de 34 cm. En la fosa de Mariana son los principales descomponedores. Pueden detectar un cetáceo muerto a kilómetros de distancia y devorar un cuerpo en horas.</p>
+          <span class="creature-badge">6000–11000 m</span>
+        </article>
+        <article class="creature-card">
+          <span class="creature-emoji" aria-hidden="true">🐠</span>
+          <h3 class="creature-name">Pez caracol hadal</h3>
+          <p class="creature-latin">Pseudoliparis swirei</p>
+          <p class="creature-desc">El pez más profundo del mundo, encontrado a 8.336 metros. Su cuerpo no tiene escamas — gelatinoso y traslúcido. Su TMAO celular actúa como anticongelante y protector de presión extrema.</p>
+          <span class="creature-badge">6000–8500 m</span>
+        </article>
+        <article class="creature-card">
+          <span class="creature-emoji" aria-hidden="true">🌊</span>
+          <h3 class="creature-name">Xenophyophore</h3>
+          <p class="creature-latin">Syringammina fragilissima</p>
+          <p class="creature-desc">El organismo unicelular más grande conocido. Una sola célula puede medir 20 cm. Vive en las llanuras abisales y forma estructuras complejas que albergan docenas de otras especies.</p>
+          <span class="creature-badge">4000–8000 m</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPEDITIONS -->
+  <section class="expeditions" id="expeditions">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Historia</span>
+        <h2>Hitos de la exploración</h2>
+      </div>
+      <div class="timeline">
+        <article class="timeline-item">
+          <p class="timeline-year">1872 — 1876</p>
+          <h3 class="timeline-title">Expedición HMS Challenger</h3>
+          <p class="timeline-desc">Primera expedición oceanográfica científica de la historia. Recorrió 127.000 km, tomó 492 sondeos de profundidad y descubrió 4.700 nuevas especies. Midió 8.184 metros en la fosa que lleva su nombre.</p>
+        </article>
+        <article class="timeline-item">
+          <p class="timeline-year">1960</p>
+          <h3 class="timeline-title">Batiscafo Trieste — Challenger Deep</h3>
+          <p class="timeline-desc">Jacques Piccard y Don Walsh descendieron a 10.916 metros en la fosa de Mariana. El descenso tomó casi 5 horas. En el fondo, encontraron un camarón y un pez — demostrando que la vida existe incluso en el punto más profundo del planeta.</p>
+        </article>
+        <article class="timeline-item">
+          <p class="timeline-year">1977</p>
+          <h3 class="timeline-title">Descubrimiento de las fuentes hidrotermales</h3>
+          <p class="timeline-desc">El sumergible Alvin encontró comunidades de organismos completas en las dorsales oceánicas del Pacífico. Gusanos tubulares de 2 metros, almejas gigantes, cangrejos — todos sobreviviendo gracias a la quimiosíntesis. Revolucionó la astrobiología.</p>
+        </article>
+        <article class="timeline-item">
+          <p class="timeline-year">2012</p>
+          <h3 class="timeline-title">James Cameron — Challenger Deep en solitario</h3>
+          <p class="timeline-desc">James Cameron completó el primer descenso en solitario al punto más profundo del océano a bordo del Deepsea Challenger. Recopiló muestras científicas durante 3 horas a 10.908 metros. Un récord que sigue en pie.</p>
+        </article>
+        <article class="timeline-item">
+          <p class="timeline-year">2023</p>
+          <h3 class="timeline-title">Exploración autónoma con IA submarina</h3>
+          <p class="timeline-desc">Los ROVs con inteligencia artificial comenzaron a mapear zonas antes inaccesibles de las fosas de Tonga y Kermadec. Algoritmos de visión profunda identificaron 47 posibles nuevas especies en una sola expedición de 30 días.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="container">
+      <h2>El 95% aún espera ser explorado</h2>
+      <p>Sabemos más de la superficie de Marte que del fondo de nuestros océanos. La frontera más inexplorada del planeta está bajo nuestros pies.</p>
+      <a href="#zones" class="btn-primary">Volvé al principio</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <p class="footer-text">© 2026 Abismo — Contenido educativo sobre oceanografía de las profundidades</p>
+        <span class="footer-badge">WCAG 2.2 AA — 100% accesible</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

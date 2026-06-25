@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ironclad FC — Official Team Site</title>
+<style>
+/*
+ * WCAG AA PAIRING MANIFEST — source: #1b3a6b · theme: white
+ *
+ * BODY TEXT (any font size, ≥4.5:1):
+ *   shade-100 (#f0f4fb) → 900, 800, 700
+ *   shade-300 (#b7cced) → 900, 800
+ *   shade-600 (#5f8ad4) → 900
+ *   shade-700 (#326cc7) → white, 100
+ *   shade-800 (#1e3c6f) → white, 100, 300
+ *   shade-900 (#0f213c) → white, 100, 300, 600
+ *
+ * LARGE TEXT ONLY (≥24px or ≥18.67px bold, 3:1–4.5:1):
+ *   These pairings are PROHIBITED for body text at any size.
+ *   shade-100 (#f0f4fb) → 600
+ *   shade-300 (#b7cced) → 700
+ *   shade-600 (#5f8ad4) → 100, 800, white
+ *   shade-700 (#326cc7) → 300, 900
+ *   shade-800 (#1e3c6f) → 600
+ *   shade-900 (#0f213c) → 700
+ *
+ * ACCENT (outside foundation, checked via check_contrast):
+ *   --team-accent     #e8540c on white / #0f213c → AA LARGE TEXT ONLY (≥24px or ≥18.67px bold)
+ *   --team-accent-dark #b8390a on white            → AA NORMAL, safe for body text/links at any size
+ */
+:root {
+  --team-100: #f0f4fb; /* ✅ text→900·800·700  ⚠️ lg→600 */
+  --team-300: #b7cced; /* ✅ text→900·800  ⚠️ lg→700 */
+  --team-600: #5f8ad4; /* ✅ text→900  ⚠️ lg→100·800·white */
+  --team-700: #326cc7; /* ✅ text→white·100  ⚠️ lg→300·900 */
+  --team-800: #1e3c6f; /* ✅ text→white·100·300  ⚠️ lg→600 */
+  --team-900: #0f213c; /* ✅ text→white·100·300·600  ⚠️ lg→700 */
+  --team-accent: #e8540c;      /* large text / bold CTAs only */
+  --team-accent-dark: #b8390a; /* body-safe accent for links/small text */
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: var(--team-900);
+  background: #ffffff;
+  line-height: 1.5;
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  background: var(--team-900);
+  color: #ffffff;
+  padding: 0.75rem 1rem;
+  z-index: 100;
+}
+.skip-link:focus {
+  left: 0;
+}
+
+a {
+  color: var(--team-accent-dark);
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--team-700);
+  outline-offset: 2px;
+}
+
+header.site-header {
+  background: var(--team-900);
+  color: #ffffff;
+}
+
+.nav-wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.brand-mark {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--team-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  color: #ffffff;
+  font-size: 1rem;
+}
+
+nav.main-nav ul {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav.main-nav a {
+  color: var(--team-100);
+  text-decoration: none;
+  font-weight: 600;
+}
+nav.main-nav a:hover {
+  text-decoration: underline;
+}
+
+.hero {
+  background: linear-gradient(135deg, var(--team-900) 0%, var(--team-800) 100%);
+  color: #ffffff;
+  padding: 5rem 1.5rem;
+}
+
+.hero-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.hero-badge {
+  display: inline-block;
+  background: var(--team-accent);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 1.05rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  margin-bottom: 1.25rem;
+  letter-spacing: 0.04em;
+}
+
+.hero h1 {
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  line-height: 1.1;
+  margin: 0 0 1rem;
+}
+
+.hero p.lede {
+  font-size: 1.15rem;
+  color: var(--team-300);
+  max-width: 32ch;
+  margin: 0 0 2rem;
+}
+
+.cta-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-block;
+  font-weight: 800;
+  font-size: 1.05rem;
+  text-decoration: none;
+  padding: 0.85rem 1.6rem;
+  border-radius: 8px;
+  border: 2px solid transparent;
+}
+
+.btn-accent {
+  background: var(--team-accent);
+  color: #ffffff;
+}
+.btn-accent:hover {
+  background: var(--team-accent-dark);
+}
+
+.btn-outline {
+  background: transparent;
+  color: #ffffff;
+  border-color: var(--team-300);
+}
+.btn-outline:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.hero-card {
+  background: var(--team-800);
+  border-radius: 16px;
+  padding: 1.75rem;
+  border: 1px solid var(--team-700);
+}
+
+.hero-card h2 {
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--team-300);
+  margin: 0 0 1rem;
+}
+
+.next-match {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 700;
+}
+
+.next-match .vs {
+  color: var(--team-accent);
+  font-weight: 800;
+}
+
+.section {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+}
+
+.section h2.section-title {
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--team-accent-dark);
+  font-weight: 800;
+  margin: 0 0 0.5rem;
+}
+
+.section h3.section-heading {
+  font-size: 2rem;
+  margin: 0 0 2.5rem;
+  color: var(--team-900);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.stat-card {
+  background: var(--team-100);
+  border-radius: 12px;
+  padding: 1.75rem 1.25rem;
+  text-align: center;
+}
+
+.stat-card .stat-number {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: var(--team-900);
+  display: block;
+}
+
+.stat-card .stat-label {
+  font-size: 0.9rem;
+  color: var(--team-800);
+  font-weight: 600;
+}
+
+.roster {
+  background: var(--team-100);
+}
+
+.roster-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.player-card {
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--team-300);
+}
+
+.player-photo {
+  height: 180px;
+  background: var(--team-700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 2.5rem;
+}
+
+.player-photo.accent {
+  background: var(--team-accent);
+}
+
+.player-info {
+  padding: 1rem;
+}
+
+.player-info .player-number {
+  color: var(--team-accent-dark);
+  font-weight: 800;
+}
+
+.player-info h4 {
+  margin: 0.25rem 0;
+  color: var(--team-900);
+}
+
+.player-info p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--team-800);
+}
+
+.fixtures table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.fixtures caption {
+  text-align: left;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--team-900);
+}
+
+.fixtures th,
+.fixtures td {
+  text-align: left;
+  padding: 1rem 0.75rem;
+  border-bottom: 1px solid var(--team-300);
+}
+
+.fixtures th {
+  color: var(--team-800);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.fixtures .result-win {
+  color: #1a6b2e;
+  font-weight: 700;
+}
+
+.fixtures .result-loss {
+  color: var(--team-accent-dark);
+  font-weight: 700;
+}
+
+.cta-band {
+  background: var(--team-accent);
+  color: #ffffff;
+  text-align: center;
+  padding: 4rem 1.5rem;
+}
+
+.cta-band h2 {
+  font-size: 2rem;
+  margin: 0 0 0.5rem;
+}
+
+.cta-band p {
+  margin: 0 0 2rem;
+  font-size: 1.1rem;
+}
+
+.cta-band .btn {
+  background: #ffffff;
+  color: var(--team-accent-dark);
+}
+.cta-band .btn:hover {
+  background: var(--team-900);
+  color: #ffffff;
+}
+
+footer.site-footer {
+  background: var(--team-900);
+  color: var(--team-100);
+  padding: 3rem 1.5rem 2rem;
+}
+
+.footer-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.footer-inner a {
+  color: var(--team-300);
+}
+
+.footer-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.footer-bottom {
+  max-width: 1180px;
+  margin: 2rem auto 0;
+  border-top: 1px solid var(--team-800);
+  padding-top: 1.5rem;
+  font-size: 0.85rem;
+  color: var(--team-300);
+}
+
+@media (max-width: 900px) {
+  .hero-inner {
+    grid-template-columns: 1fr;
+  }
+  .stats-grid,
+  .roster-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  nav.main-nav ul {
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="#main-content">
+      <span class="brand-mark" aria-hidden="true">IC</span>
+      Ironclad FC
+    </a>
+    <nav class="main-nav" aria-label="Primary">
+      <ul>
+        <li><a href="#fixtures">Fixtures</a></li>
+        <li><a href="#roster">Roster</a></li>
+        <li><a href="#stats">Stats</a></li>
+        <li><a href="#tickets">Tickets</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main-content">
+
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="hero-inner">
+      <div>
+        <span class="hero-badge">2026 LEAGUE LEADERS</span>
+        <h1 id="hero-heading">Built tough. Plays tougher.</h1>
+        <p class="lede">Follow Ironclad FC through the 2026 season — match results, player stats, and your seat for every home game at Anchor Stadium.</p>
+        <div class="cta-row">
+          <a class="btn btn-accent" href="#tickets">Get tickets</a>
+          <a class="btn btn-outline" href="#fixtures">View fixtures</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <h2>Next match</h2>
+        <div class="next-match">
+          <span>Ironclad FC</span>
+          <span class="vs">VS</span>
+          <span>Harbor United</span>
+        </div>
+        <p>Saturday, June 28 &middot; 7:00 PM &middot; Anchor Stadium</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="stats" aria-labelledby="stats-heading">
+    <p class="section-title">Season 2026</p>
+    <h2 class="section-heading" id="stats-heading">Where we stand</h2>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-number">18</span>
+        <span class="stat-label">Wins</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">4</span>
+        <span class="stat-label">Draws</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">3</span>
+        <span class="stat-label">Losses</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">1st</span>
+        <span class="stat-label">League position</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section roster" id="roster" aria-labelledby="roster-heading">
+    <p class="section-title">The squad</p>
+    <h2 class="section-heading" id="roster-heading">Meet the starting eleven</h2>
+    <div class="roster-grid">
+      <div class="player-card">
+        <div class="player-photo">MR</div>
+        <div class="player-info">
+          <span class="player-number">#9</span>
+          <h4>Mara Reyes</h4>
+          <p>Forward</p>
+        </div>
+      </div>
+      <div class="player-card">
+        <div class="player-photo accent">DK</div>
+        <div class="player-info">
+          <span class="player-number">#4</span>
+          <h4>Devon Klein</h4>
+          <p>Defender</p>
+        </div>
+      </div>
+      <div class="player-card">
+        <div class="player-photo">SA</div>
+        <div class="player-info">
+          <span class="player-number">#11</span>
+          <h4>Sofia Almeida</h4>
+          <p>Midfielder</p>
+        </div>
+      </div>
+      <div class="player-card">
+        <div class="player-photo accent">TO</div>
+        <div class="player-info">
+          <span class="player-number">#1</span>
+          <h4>Theo Okafor</h4>
+          <p>Goalkeeper</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section fixtures" id="fixtures" aria-labelledby="fixtures-heading">
+    <table>
+      <caption id="fixtures-heading">Recent results</caption>
+      <thead>
+        <tr>
+          <th scope="col">Date</th>
+          <th scope="col">Opponent</th>
+          <th scope="col">Score</th>
+          <th scope="col">Result</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Jun 14, 2026</td>
+          <td>Bayview Rovers</td>
+          <td>3 – 1</td>
+          <td class="result-win">Win</td>
+        </tr>
+        <tr>
+          <td>Jun 7, 2026</td>
+          <td>Granite City SC</td>
+          <td>2 – 2</td>
+          <td>Draw</td>
+        </tr>
+        <tr>
+          <td>May 30, 2026</td>
+          <td>Northgate Athletic</td>
+          <td>0 – 1</td>
+          <td class="result-loss">Loss</td>
+        </tr>
+        <tr>
+          <td>May 23, 2026</td>
+          <td>Riverside FC</td>
+          <td>4 – 0</td>
+          <td class="result-win">Win</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="cta-band" id="tickets" aria-labelledby="cta-heading">
+    <h2 id="cta-heading">Be in the stands this Saturday</h2>
+    <p>Single match tickets and season passes are on sale now.</p>
+    <a class="btn" href="#main-content">Buy tickets</a>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>
+      <strong>Ironclad FC</strong>
+      <p>Anchor Stadium &middot; Harbor District</p>
+    </div>
+    <nav class="footer-nav" aria-label="Footer">
+      <ul>
+        <li><a href="#fixtures">Fixtures</a></li>
+        <li><a href="#roster">Roster</a></li>
+        <li><a href="#tickets">Tickets</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="footer-bottom">
+    &copy; 2026 Ironclad FC. All rights reserved.
+  </div>
+</footer>
+
+</body>
+</html>

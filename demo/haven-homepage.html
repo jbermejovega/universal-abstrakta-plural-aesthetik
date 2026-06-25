@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Haven — Curated Home Goods</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ─── Palette Tokens ─── */
+    :root {
+      --color-100: #faf2ee;
+      --color-300: #e6c1b1;
+      --color-600: #c97348;
+      --color-700: #a65836;
+      --color-800: #5d311b;
+      --color-900: #331b10;
+      --white: #ffffff;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body: 'DM Sans', system-ui, sans-serif;
+      --space-xs: 0.5rem;
+      --space-sm: 1rem;
+      --space-md: 1.5rem;
+      --space-lg: 2.5rem;
+      --space-xl: 4rem;
+      --space-2xl: 6rem;
+      --radius: 4px;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ─── Reset ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      color: var(--color-900);
+      background: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; border: none; background: none; }
+    ul { list-style: none; }
+
+    /* ─── Skip Link ─── */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: var(--space-sm);
+      padding: var(--space-xs) var(--space-sm);
+      background: var(--color-900);
+      color: var(--white);
+      font-weight: 600;
+      z-index: 1000;
+      border-radius: var(--radius);
+    }
+    .skip-link:focus {
+      top: var(--space-xs);
+    }
+
+    /* ─── Focus Visible ─── */
+    :focus-visible {
+      outline: 2px solid var(--color-600);
+      outline-offset: 3px;
+    }
+
+    /* ─── Navigation ─── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--color-300);
+      padding: var(--space-sm) var(--space-lg);
+    }
+    .nav__inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav__logo {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--color-800);
+      letter-spacing: -0.02em;
+    }
+    .nav__links {
+      display: flex;
+      gap: var(--space-md);
+      align-items: center;
+    }
+    .nav__link {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--color-800);
+      transition: color var(--transition);
+      position: relative;
+    }
+    .nav__link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 1.5px;
+      background: var(--color-600);
+      transition: width var(--transition);
+    }
+    .nav__link:hover::after,
+    .nav__link:focus-visible::after {
+      width: 100%;
+    }
+    .nav__link:hover { color: var(--color-600); }
+    .nav__actions {
+      display: flex;
+      gap: var(--space-sm);
+      align-items: center;
+    }
+    .nav__icon {
+      width: 22px;
+      height: 22px;
+      stroke: var(--color-800);
+      transition: stroke var(--transition);
+    }
+    .nav__icon:hover { stroke: var(--color-600); }
+    .nav__cart-count {
+      background: var(--color-700);
+      color: var(--white);
+      font-size: 0.7rem;
+      font-weight: 600;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      top: -8px;
+      left: -6px;
+    }
+
+    /* ─── Hero ─── */
+    .hero {
+      position: relative;
+      min-height: 85vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      background: var(--color-100);
+    }
+    .hero__bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(135deg, rgba(93, 49, 27, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(201, 115, 72, 0.12) 0%, transparent 60%),
+        var(--color-100);
+    }
+    .hero__pattern {
+      position: absolute;
+      inset: 0;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23331b10' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .hero__content {
+      position: relative;
+      z-index: 2;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: var(--space-2xl) var(--space-lg);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-xl);
+      align-items: center;
+      width: 100%;
+    }
+    .hero__text {
+      animation: fadeInUp 0.8s ease-out both;
+    }
+    .hero__badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--color-700);
+      background: var(--white);
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: 2px;
+      margin-bottom: var(--space-md);
+      border: 1px solid var(--color-300);
+    }
+    .hero__title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--color-900);
+      margin-bottom: var(--space-md);
+      letter-spacing: -0.02em;
+    }
+    .hero__title em {
+      font-style: italic;
+      color: var(--color-700);
+    }
+    .hero__subtitle {
+      font-size: 1.1rem;
+      color: var(--color-800);
+      max-width: 460px;
+      margin-bottom: var(--space-lg);
+      line-height: 1.7;
+    }
+    .hero__actions {
+      display: flex;
+      gap: var(--space-sm);
+      flex-wrap: wrap;
+    }
+    .hero__visual {
+      position: relative;
+      animation: fadeInUp 0.8s ease-out 0.2s both;
+    }
+    .hero__image-frame {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      aspect-ratio: 4 / 5;
+      background: var(--color-300);
+      box-shadow: 0 32px 64px -16px rgba(51, 27, 16, 0.15);
+    }
+    .hero__image-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .hero__image-accent {
+      position: absolute;
+      bottom: -20px;
+      right: -20px;
+      width: 140px;
+      height: 140px;
+      border: 2px solid var(--color-600);
+      border-radius: 8px;
+      opacity: 0.3;
+      z-index: -1;
+    }
+
+    /* ─── Buttons ─── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      padding: 0.875rem 2rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: var(--radius);
+      transition: all var(--transition);
+      letter-spacing: 0.02em;
+    }
+    .btn--primary {
+      background: var(--color-700);
+      color: var(--white);
+    }
+    .btn--primary:hover {
+      background: var(--color-800);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px -8px rgba(166, 88, 54, 0.4);
+    }
+    .btn--outline {
+      border: 1.5px solid var(--color-800);
+      color: var(--color-800);
+      background: transparent;
+    }
+    .btn--outline:hover {
+      background: var(--color-800);
+      color: var(--white);
+    }
+    .btn--small {
+      padding: 0.625rem 1.25rem;
+      font-size: 0.8rem;
+    }
+
+    /* ─── Section Commons ─── */
+    .section {
+      padding: var(--space-2xl) var(--space-lg);
+    }
+    .section--alt {
+      background: var(--color-100);
+    }
+    .section__header {
+      text-align: center;
+      margin-bottom: var(--space-xl);
+    }
+    .section__label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--color-600);
+      margin-bottom: var(--space-xs);
+    }
+    .section__title {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 700;
+      color: var(--color-900);
+      letter-spacing: -0.01em;
+    }
+    .section__desc {
+      font-size: 1.05rem;
+      color: var(--color-800);
+      max-width: 560px;
+      margin: var(--space-sm) auto 0;
+      line-height: 1.7;
+    }
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    /* ─── Marquee ─── */
+    .marquee {
+      overflow: hidden;
+      background: var(--color-900);
+      padding: var(--space-sm) 0;
+    }
+    .marquee__track {
+      display: flex;
+      gap: var(--space-xl);
+      animation: marquee 25s linear infinite;
+      width: max-content;
+    }
+    .marquee__item {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: var(--color-300);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      letter-spacing: 0.05em;
+    }
+    .marquee__dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--color-600);
+      flex-shrink: 0;
+    }
+
+    /* ─── Categories ─── */
+    .categories__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-md);
+    }
+    .category-card {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      aspect-ratio: 3 / 4;
+      background: var(--color-300);
+      cursor: pointer;
+      group: true;
+    }
+    .category-card__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .category-card:hover .category-card__img {
+      transform: scale(1.05);
+    }
+    .category-card__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(51, 27, 16, 0.7) 0%, transparent 50%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: var(--space-md);
+      transition: background var(--transition);
+    }
+    .category-card:hover .category-card__overlay {
+      background: linear-gradient(to top, rgba(51, 27, 16, 0.85) 0%, rgba(51, 27, 16, 0.1) 60%);
+    }
+    .category-card__name {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+    .category-card__count {
+      font-size: 0.8rem;
+      color: var(--color-300);
+    }
+
+    /* ─── Featured Products ─── */
+    .products__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-md);
+    }
+    .product-card {
+      position: relative;
+    }
+    .product-card__image-wrap {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      aspect-ratio: 3 / 4;
+      background: var(--color-100);
+      margin-bottom: var(--space-sm);
+    }
+    .product-card__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .product-card:hover .product-card__img {
+      transform: scale(1.04);
+    }
+    .product-card__badge {
+      position: absolute;
+      top: var(--space-sm);
+      left: var(--space-sm);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 2px;
+    }
+    .product-card__badge--new {
+      background: var(--color-700);
+      color: var(--white);
+    }
+    .product-card__badge--sale {
+      background: #8b3a3a;
+      color: var(--white);
+    }
+    .product-card__quick-add {
+      position: absolute;
+      bottom: var(--space-sm);
+      left: var(--space-sm);
+      right: var(--space-sm);
+      background: var(--white);
+      color: var(--color-900);
+      padding: 0.7rem;
+      border-radius: var(--radius);
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all var(--transition);
+    }
+    .product-card:hover .product-card__quick-add {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .product-card__info {
+      padding: 0 2px;
+    }
+    .product-card__brand {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-600);
+      margin-bottom: 2px;
+    }
+    .product-card__name {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--color-900);
+      margin-bottom: 4px;
+    }
+    .product-card__price {
+      display: flex;
+      gap: var(--space-xs);
+      align-items: center;
+    }
+    .product-card__price-current {
+      font-weight: 600;
+      color: var(--color-900);
+    }
+    .product-card__price-original {
+      font-size: 0.85rem;
+      color: var(--color-600);
+      text-decoration: line-through;
+    }
+
+    /* ─── Editorial Banner ─── */
+    .editorial {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      min-height: 520px;
+    }
+    .editorial__image {
+      background: var(--color-300);
+      position: relative;
+      overflow: hidden;
+    }
+    .editorial__image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .editorial__content {
+      background: var(--color-800);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: var(--space-xl);
+    }
+    .editorial__label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--color-300);
+      margin-bottom: var(--space-sm);
+    }
+    .editorial__title {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: var(--space-md);
+    }
+    .editorial__text {
+      font-size: 1rem;
+      color: var(--color-300);
+      line-height: 1.7;
+      margin-bottom: var(--space-lg);
+      max-width: 440px;
+    }
+    .btn--light {
+      background: var(--white);
+      color: var(--color-800);
+      align-self: flex-start;
+    }
+    .btn--light:hover {
+      background: var(--color-100);
+      transform: translateY(-1px);
+    }
+
+    /* ─── Testimonials ─── */
+    .testimonials__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md);
+    }
+    .testimonial-card {
+      background: var(--white);
+      border: 1px solid var(--color-300);
+      border-radius: 8px;
+      padding: var(--space-lg);
+      transition: box-shadow var(--transition);
+    }
+    .testimonial-card:hover {
+      box-shadow: 0 12px 40px -12px rgba(51, 27, 16, 0.1);
+    }
+    .testimonial-card__stars {
+      color: var(--color-600);
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      margin-bottom: var(--space-sm);
+    }
+    .testimonial-card__text {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-style: italic;
+      color: var(--color-800);
+      line-height: 1.6;
+      margin-bottom: var(--space-md);
+    }
+    .testimonial-card__author {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .testimonial-card__avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--color-300);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: var(--color-800);
+      font-size: 0.9rem;
+    }
+    .testimonial-card__name {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--color-900);
+    }
+    .testimonial-card__location {
+      font-size: 0.8rem;
+      color: var(--color-600);
+    }
+
+    /* ─── Newsletter ─── */
+    .newsletter {
+      background: var(--color-900);
+      text-align: center;
+    }
+    .newsletter__title {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 3vw, 2.25rem);
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: var(--space-xs);
+    }
+    .newsletter__text {
+      font-size: 1rem;
+      color: var(--color-300);
+      margin-bottom: var(--space-lg);
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .newsletter__form {
+      display: flex;
+      gap: var(--space-xs);
+      max-width: 460px;
+      margin: 0 auto;
+    }
+    .newsletter__input {
+      flex: 1;
+      padding: 0.875rem 1.25rem;
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--white);
+      font-size: 0.9rem;
+      font-family: var(--font-body);
+      transition: border-color var(--transition);
+    }
+    .newsletter__input::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+    .newsletter__input:focus {
+      outline: none;
+      border-color: var(--color-600);
+    }
+    .newsletter__input:focus-visible {
+      outline: 2px solid var(--color-600);
+      outline-offset: 2px;
+    }
+
+    /* ─── Features Bar ─── */
+    .features {
+      border-top: 1px solid var(--color-300);
+      border-bottom: 1px solid var(--color-300);
+      background: var(--white);
+    }
+    .features__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-md);
+      text-align: center;
+    }
+    .feature {
+      padding: var(--space-lg) var(--space-sm);
+    }
+    .feature__icon {
+      width: 32px;
+      height: 32px;
+      margin: 0 auto var(--space-sm);
+      stroke: var(--color-700);
+    }
+    .feature__title {
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--color-900);
+      margin-bottom: 4px;
+    }
+    .feature__text {
+      font-size: 0.8rem;
+      color: var(--color-800);
+      line-height: 1.5;
+    }
+
+    /* ─── Footer ─── */
+    .footer {
+      background: var(--color-100);
+      padding: var(--space-xl) var(--space-lg) var(--space-md);
+    }
+    .footer__grid {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: var(--space-xl);
+      margin-bottom: var(--space-xl);
+    }
+    .footer__brand-desc {
+      font-size: 0.9rem;
+      color: var(--color-800);
+      line-height: 1.7;
+      margin-top: var(--space-sm);
+      max-width: 300px;
+    }
+    .footer__heading {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--color-900);
+      margin-bottom: var(--space-sm);
+    }
+    .footer__link {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--color-800);
+      padding: 4px 0;
+      transition: color var(--transition);
+    }
+    .footer__link:hover { color: var(--color-600); }
+    .footer__bottom {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding-top: var(--space-md);
+      border-top: 1px solid var(--color-300);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--color-800);
+    }
+    .footer__socials {
+      display: flex;
+      gap: var(--space-sm);
+    }
+    .footer__social-link {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--color-300);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition);
+    }
+    .footer__social-link:hover {
+      background: var(--color-700);
+      border-color: var(--color-700);
+    }
+    .footer__social-link:hover svg { stroke: var(--white); }
+    .footer__social-link svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--color-800);
+    }
+
+    /* ─── Animations ─── */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      .marquee__track { animation: none; }
+    }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 1024px) {
+      .hero__content { grid-template-columns: 1fr; text-align: center; }
+      .hero__subtitle { margin-left: auto; margin-right: auto; }
+      .hero__actions { justify-content: center; }
+      .hero__visual { max-width: 480px; margin: 0 auto; }
+      .categories__grid { grid-template-columns: repeat(2, 1fr); }
+      .products__grid { grid-template-columns: repeat(2, 1fr); }
+      .editorial { grid-template-columns: 1fr; }
+      .editorial__image { min-height: 320px; }
+      .testimonials__grid { grid-template-columns: 1fr; }
+      .footer__grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .nav__links { display: none; }
+      .categories__grid { grid-template-columns: 1fr; }
+      .products__grid { grid-template-columns: 1fr; }
+      .features__grid { grid-template-columns: 1fr 1fr; }
+      .newsletter__form { flex-direction: column; }
+      .footer__grid { grid-template-columns: 1fr; }
+      .footer__bottom { flex-direction: column; gap: var(--space-sm); text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Navigation -->
+  <nav class="nav" aria-label="Main">
+    <div class="nav__inner">
+      <a href="/" class="nav__logo" aria-label="Haven homepage">Haven</a>
+      <ul class="nav__links" role="list">
+        <li><a href="#collections" class="nav__link">Collections</a></li>
+        <li><a href="#new-arrivals" class="nav__link">New Arrivals</a></li>
+        <li><a href="#editorial" class="nav__link">Journal</a></li>
+        <li><a href="#about" class="nav__link">About</a></li>
+      </ul>
+      <div class="nav__actions">
+        <button aria-label="Search products">
+          <svg class="nav__icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+        <button aria-label="Your account">
+          <svg class="nav__icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </button>
+        <button aria-label="Shopping cart, 2 items">
+          <svg class="nav__icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="nav__cart-count" aria-hidden="true">2</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main-content">
+    <!-- Hero -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero__bg" aria-hidden="true"></div>
+      <div class="hero__pattern" aria-hidden="true"></div>
+      <div class="hero__content">
+        <div class="hero__text">
+          <span class="hero__badge">Summer 2026</span>
+          <h1 id="hero-title" class="hero__title">Where every room feels like <em>home</em></h1>
+          <p class="hero__subtitle">Handpicked furniture, textiles, and objects crafted with intention. Build spaces that tell your story.</p>
+          <div class="hero__actions">
+            <a href="#collections" class="btn btn--primary">Explore Collections</a>
+            <a href="#editorial" class="btn btn--outline">Read Our Journal</a>
+          </div>
+        </div>
+        <div class="hero__visual">
+          <div class="hero__image-frame">
+            <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&h=1000&fit=crop&crop=center" alt="A warmly lit living room with terracotta accents, a linen sofa, and ceramic vases on a wooden shelf" width="800" height="1000" loading="eager">
+          </div>
+          <div class="hero__image-accent" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Marquee -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span class="marquee__item"><span class="marquee__dot"></span>Free shipping over $150</span>
+        <span class="marquee__item"><span class="marquee__dot"></span>Handcrafted with care</span>
+        <span class="marquee__item"><span class="marquee__dot"></span>Sustainable materials</span>
+        <span class="marquee__item"><span class="marquee__dot"></span>30-day returns</span>
+        <span class="marquee__item"><span class="marquee__dot"></span>Artisan partnerships</span>
+        <span class="marquee__item"><span class="marquee__dot"></span>Free shipping over $150</span>
+        <span class="marquee__item"><span class="marquee__dot"></span>Handcrafted with care</span>
+        <span class="marquee__item"><span class="marquee__dot"></span>Sustainable materials</span>
+        <span class="marquee__item"><span class="marquee__dot"></span>30-day returns</span>
+        <span class="marquee__item"><span class="marquee__dot"></span>Artisan partnerships</span>
+      </div>
+    </div>
+
+    <!-- Categories -->
+    <section class="section" id="collections" aria-labelledby="cat-title">
+      <div class="container">
+        <div class="section__header">
+          <p class="section__label">Browse by Room</p>
+          <h2 id="cat-title" class="section__title">Curated Collections</h2>
+          <p class="section__desc">Every piece is selected to work together, so you can mix with confidence.</p>
+        </div>
+        <div class="categories__grid">
+          <a href="#" class="category-card" aria-label="Shop Living Room collection, 48 products">
+            <img class="category-card__img" src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=800&fit=crop" alt="" width="600" height="800" loading="lazy">
+            <div class="category-card__overlay">
+              <span class="category-card__name">Living Room</span>
+              <span class="category-card__count">48 products</span>
+            </div>
+          </a>
+          <a href="#" class="category-card" aria-label="Shop Bedroom collection, 36 products">
+            <img class="category-card__img" src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=600&h=800&fit=crop" alt="" width="600" height="800" loading="lazy">
+            <div class="category-card__overlay">
+              <span class="category-card__name">Bedroom</span>
+              <span class="category-card__count">36 products</span>
+            </div>
+          </a>
+          <a href="#" class="category-card" aria-label="Shop Kitchen collection, 24 products">
+            <img class="category-card__img" src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=800&fit=crop" alt="" width="600" height="800" loading="lazy">
+            <div class="category-card__overlay">
+              <span class="category-card__name">Kitchen</span>
+              <span class="category-card__count">24 products</span>
+            </div>
+          </a>
+          <a href="#" class="category-card" aria-label="Shop Outdoor collection, 18 products">
+            <img class="category-card__img" src="https://images.unsplash.com/photo-1600210492493-0946911123ea?w=600&h=800&fit=crop" alt="" width="600" height="800" loading="lazy">
+            <div class="category-card__overlay">
+              <span class="category-card__name">Outdoor</span>
+              <span class="category-card__count">18 products</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="section section--alt" id="new-arrivals" aria-labelledby="products-title">
+      <div class="container">
+        <div class="section__header">
+          <p class="section__label">Just Landed</p>
+          <h2 id="products-title" class="section__title">New Arrivals</h2>
+          <p class="section__desc">The latest additions to our collection, designed for everyday living.</p>
+        </div>
+        <div class="products__grid">
+          <article class="product-card">
+            <div class="product-card__image-wrap">
+              <img class="product-card__img" src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=600&h=800&fit=crop" alt="Arched ceramic table lamp with linen shade" width="600" height="800" loading="lazy">
+              <span class="product-card__badge product-card__badge--new">New</span>
+              <button class="product-card__quick-add" aria-label="Add Arched Ceramic Lamp to cart">Quick Add</button>
+            </div>
+            <div class="product-card__info">
+              <p class="product-card__brand">Haven Originals</p>
+              <h3 class="product-card__name">Arched Ceramic Lamp</h3>
+              <div class="product-card__price">
+                <span class="product-card__price-current">$189</span>
+              </div>
+            </div>
+          </article>
+          <article class="product-card">
+            <div class="product-card__image-wrap">
+              <img class="product-card__img" src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=800&fit=crop" alt="Boucle fabric sofa in warm cream" width="600" height="800" loading="lazy">
+              <span class="product-card__badge product-card__badge--new">New</span>
+              <button class="product-card__quick-add" aria-label="Add Boucle Sofa to cart">Quick Add</button>
+            </div>
+            <div class="product-card__info">
+              <p class="product-card__brand">Haven Originals</p>
+              <h3 class="product-card__name">Boucle Sofa</h3>
+              <div class="product-card__price">
+                <span class="product-card__price-current">$1,249</span>
+              </div>
+            </div>
+          </article>
+          <article class="product-card">
+            <div class="product-card__image-wrap">
+              <img class="product-card__img" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=800&fit=crop" alt="Hand-thrown terracotta vase with matte finish" width="600" height="800" loading="lazy">
+              <button class="product-card__quick-add" aria-label="Add Terracotta Vase to cart">Quick Add</button>
+            </div>
+            <div class="product-card__info">
+              <p class="product-card__brand">Artisan Series</p>
+              <h3 class="product-card__name">Terracotta Vase</h3>
+              <div class="product-card__price">
+                <span class="product-card__price-current">$68</span>
+              </div>
+            </div>
+          </article>
+          <article class="product-card">
+            <div class="product-card__image-wrap">
+              <img class="product-card__img" src="https://images.unsplash.com/photo-1540932239986-30128078f3c5?w=600&h=800&fit=crop" alt="Woven jute area rug with natural texture" width="600" height="800" loading="lazy">
+              <span class="product-card__badge product-card__badge--sale">-20%</span>
+              <button class="product-card__quick-add" aria-label="Add Jute Rug to cart">Quick Add</button>
+            </div>
+            <div class="product-card__info">
+              <p class="product-card__brand">Textiles</p>
+              <h3 class="product-card__name">Jute Area Rug</h3>
+              <div class="product-card__price">
+                <span class="product-card__price-current">$279</span>
+                <span class="product-card__price-original">$349</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Editorial -->
+    <section class="editorial" id="editorial" aria-labelledby="editorial-title">
+      <div class="editorial__image">
+        <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&h=600&fit=crop" alt="Styled shelf with ceramics, books, and dried botanicals" width="800" height="600" loading="lazy">
+      </div>
+      <div class="editorial__content">
+        <p class="editorial__label">From the Journal</p>
+        <h2 id="editorial-title" class="editorial__title">The Art of Slow Living: A Guide to Intentional Spaces</h2>
+        <p class="editorial__text">Discover how small, thoughtful changes to your environment can transform daily rituals into moments of calm. Our latest journal entry explores the philosophy behind our designs.</p>
+        <a href="#" class="btn btn--light">Read the Story</a>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="section" aria-labelledby="testimonials-title">
+      <div class="container">
+        <div class="section__header">
+          <p class="section__label">Kind Words</p>
+          <h2 id="testimonials-title" class="section__title">What Our Customers Say</h2>
+        </div>
+        <div class="testimonials__grid">
+          <article class="testimonial-card">
+            <div class="testimonial-card__stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <blockquote class="testimonial-card__text">"The quality is unreal. Every piece feels like it was made to last decades. Our living room finally feels like us."</blockquote>
+            <div class="testimonial-card__author">
+              <div class="testimonial-card__avatar" aria-hidden="true">SM</div>
+              <div>
+                <p class="testimonial-card__name">Sarah M.</p>
+                <p class="testimonial-card__location">Portland, OR</p>
+              </div>
+            </div>
+          </article>
+          <article class="testimonial-card">
+            <div class="testimonial-card__stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <blockquote class="testimonial-card__text">"Fast shipping, beautiful packaging, and the lamp is even more stunning in person. Haven understands what good design means."</blockquote>
+            <div class="testimonial-card__author">
+              <div class="testimonial-card__avatar" aria-hidden="true">JK</div>
+              <div>
+                <p class="testimonial-card__name">James K.</p>
+                <p class="testimonial-card__location">Austin, TX</p>
+              </div>
+            </div>
+          </article>
+          <article class="testimonial-card">
+            <div class="testimonial-card__stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <blockquote class="testimonial-card__text">"I've furnished three rooms entirely from Haven. The consistency in quality across categories is what keeps me coming back."</blockquote>
+            <div class="testimonial-card__author">
+              <div class="testimonial-card__avatar" aria-hidden="true">LP</div>
+              <div>
+                <p class="testimonial-card__name">Lina P.</p>
+                <p class="testimonial-card__location">Brooklyn, NY</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="section newsletter" aria-labelledby="newsletter-title">
+      <div class="container">
+        <h2 id="newsletter-title" class="newsletter__title">Join the Haven World</h2>
+        <p class="newsletter__text">New arrivals, design tips, and exclusive offers — delivered to your inbox every two weeks.</p>
+        <form class="newsletter__form" action="#" method="post" aria-label="Newsletter signup">
+          <label for="newsletter-email" class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;">Email address</label>
+          <input id="newsletter-email" class="newsletter__input" type="email" placeholder="your@email.com" autocomplete="email" required>
+          <button type="submit" class="btn btn--primary">Subscribe</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features" aria-label="Store features">
+      <div class="container">
+        <div class="features__grid">
+          <div class="feature">
+            <svg class="feature__icon" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            <p class="feature__title">Free Shipping</p>
+            <p class="feature__text">On orders over $150</p>
+          </div>
+          <div class="feature">
+            <svg class="feature__icon" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <p class="feature__title">Showrooms</p>
+            <p class="feature__text">Visit us in NYC &amp; LA</p>
+          </div>
+          <div class="feature">
+            <svg class="feature__icon" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+            <p class="feature__title">Easy Returns</p>
+            <p class="feature__text">30-day return policy</p>
+          </div>
+          <div class="feature">
+            <svg class="feature__icon" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <p class="feature__title">Secure Checkout</p>
+            <p class="feature__text">256-bit SSL encryption</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer__grid">
+      <div>
+        <a href="/" class="nav__logo" aria-label="Haven homepage">Haven</a>
+        <p class="footer__brand-desc">Curated home goods for people who believe their space should feel as good as it looks. Founded in 2019.</p>
+      </div>
+      <div>
+        <h3 class="footer__heading">Shop</h3>
+        <ul role="list">
+          <li><a href="#" class="footer__link">Living Room</a></li>
+          <li><a href="#" class="footer__link">Bedroom</a></li>
+          <li><a href="#" class="footer__link">Kitchen</a></li>
+          <li><a href="#" class="footer__link">Outdoor</a></li>
+          <li><a href="#" class="footer__link">Sale</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="footer__heading">Company</h3>
+        <ul role="list">
+          <li><a href="#" class="footer__link">Our Story</a></li>
+          <li><a href="#" class="footer__link">Journal</a></li>
+          <li><a href="#" class="footer__link">Showrooms</a></li>
+          <li><a href="#" class="footer__link">Careers</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="footer__heading">Support</h3>
+        <ul role="list">
+          <li><a href="#" class="footer__link">Contact Us</a></li>
+          <li><a href="#" class="footer__link">Shipping &amp; Returns</a></li>
+          <li><a href="#" class="footer__link">FAQ</a></li>
+          <li><a href="#" class="footer__link">Size Guide</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>&copy; 2026 Haven. All rights reserved.</p>
+      <div class="footer__socials">
+        <a href="#" class="footer__social-link" aria-label="Follow us on Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+        <a href="#" class="footer__social-link" aria-label="Follow us on Pinterest">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.236 2.636 7.855 6.356 9.312-.088-.791-.167-2.005.035-2.868.181-.78 1.172-4.97 1.172-4.97s-.299-.598-.299-1.482c0-1.388.806-2.425 1.808-2.425.853 0 1.265.64 1.265 1.408 0 .858-.546 2.14-.828 3.33-.236.995.5 1.807 1.48 1.807 1.778 0 3.144-1.874 3.144-4.58 0-2.393-1.72-4.068-4.177-4.068-2.845 0-4.515 2.135-4.515 4.34 0 .859.331 1.781.745 2.282a.3.3 0 0 1 .069.288l-.278 1.133c-.044.183-.145.222-.335.134-1.249-.581-2.03-2.407-2.03-3.874 0-3.154 2.292-6.052 6.608-6.052 3.469 0 6.165 2.473 6.165 5.776 0 3.447-2.173 6.22-5.19 6.22-1.013 0-1.965-.527-2.291-1.148l-.623 2.378c-.226.869-.835 1.958-1.244 2.621.937.29 1.931.446 2.962.446 5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg>
+        </a>
+        <a href="#" class="footer__social-link" aria-label="Follow us on TikTok">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

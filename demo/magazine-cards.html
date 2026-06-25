@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nova Scientia — Science Magazine</title>
+  <style>
+    /*
+     * Palette: #1A5FA8 · theme: white · WCAG 2.2 AA validated
+     *
+     * Verified pairings used in this document:
+     *   c-100 text on c-900 bg  → 14.56:1  ✓ aa-normal
+     *   c-300 text on c-900 bg  →  9.79:1  ✓ aa-normal
+     *   c-100 text on c-800 bg  →  9.77:1  ✓ aa-normal
+     *   c-300 text on c-800 bg  →  6.56:1  ✓ aa-normal
+     *   c-900 text on white     → 16.30:1  ✓ aa-normal
+     *   c-800 text on white     → 10.93:1  ✓ aa-normal
+     *   c-700 text on white     →  5.17:1  ✓ aa-normal
+     *   c-100 text on c-700 bg  →  4.62:1  ✓ aa-normal  (category tags)
+     *   c-700 outline on white  →  5.17:1  ✓ UI component ≥3:1
+     */
+    :root {
+      --c-100: #ebf3fc;
+      --c-300: #a9ccf2;
+      --c-600: #3e8be2;
+      --c-700: #1e6ec2;
+      --c-800: #113d6f;
+      --c-900: #092139;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      background-color: #ffffff;
+      color: var(--c-900);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── SKIP LINK ──────────────────────────────────────────────────── */
+    .skip-link {
+      position: absolute;
+      top: -999px;
+      left: 1rem;
+      padding: 0.5rem 1rem;
+      background: var(--c-900);
+      color: var(--c-100);
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 0.875rem;
+      font-weight: 700;
+      text-decoration: none;
+      z-index: 100;
+      border-radius: 0 0 4px 4px;
+    }
+    .skip-link:focus {
+      top: 0;
+      outline: 3px solid var(--c-300);
+      outline-offset: 2px;
+    }
+
+    /* ── HEADER ─────────────────────────────────────────────────────── */
+    /* c-100 on c-900 → 14.56:1 ✓   c-300 on c-900 → 9.79:1 ✓ */
+    .site-header {
+      background-color: var(--c-900);
+      padding: 2.75rem 1.5rem 2.25rem;
+      text-align: center;
+      border-bottom: 4px solid var(--c-700);
+    }
+
+    .site-header__eyebrow {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 0.6875rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--c-300);
+      margin-bottom: 0.75rem;
+    }
+
+    .site-header__name {
+      font-size: clamp(2.5rem, 7vw, 4.25rem);
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      color: var(--c-100);
+      line-height: 1.05;
+    }
+
+    .site-header__name em {
+      color: var(--c-300);
+      font-style: italic;
+    }
+
+    .site-header__tagline {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 0.875rem;
+      color: var(--c-300);
+      margin-top: 1rem;
+      letter-spacing: 0.03em;
+    }
+
+    .site-header__divider {
+      width: 3rem;
+      height: 1px;
+      background: var(--c-700);
+      margin: 1rem auto 0;
+      border: none;
+    }
+
+    /* ── MAIN ────────────────────────────────────────────────────────── */
+    .main-content {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 5rem;
+    }
+
+    /* ── SECTION HEADER ──────────────────────────────────────────────── */
+    /* c-900 on white → 16.30:1 ✓   c-800 on white → 10.93:1 ✓ */
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.25rem;
+      margin-bottom: 2.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--c-100);
+    }
+
+    .section-header__label {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--c-900);
+    }
+
+    .section-header__meta {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 0.8125rem;
+      color: var(--c-800);
+      letter-spacing: 0.03em;
+    }
+
+    /* ── GRID ────────────────────────────────────────────────────────── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.75rem;
+      list-style: none;
+    }
+
+    @media (max-width: 860px) {
+      .card-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 520px) {
+      .card-grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+      }
+    }
+
+    /* ── CARD ────────────────────────────────────────────────────────── */
+    /* c-900 on white → 16.30:1 ✓   c-800 on white → 10.93:1 ✓   c-700 on white → 5.17:1 ✓ */
+    .card {
+      background: #ffffff;
+      border: 1px solid var(--c-300);
+      border-top: 4px solid var(--c-700);
+      border-radius: 2px;
+      padding: 1.5rem 1.375rem 1.375rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.875rem;
+      transition: box-shadow 0.18s ease, border-top-color 0.18s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 6px 28px rgba(9, 33, 57, 0.11);
+      border-top-color: var(--c-800);
+    }
+
+    /* Category tag: c-100 on c-700 → 4.62:1 ✓ */
+    .card__tag {
+      display: inline-block;
+      background-color: var(--c-700);
+      color: var(--c-100);
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 0.625rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.6rem;
+      border-radius: 2px;
+      align-self: flex-start;
+      line-height: 1.6;
+    }
+
+    /* c-900 on white → 16.30:1 ✓ */
+    .card__title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      line-height: 1.38;
+      color: var(--c-900);
+    }
+
+    /* c-800 on white → 10.93:1 ✓ */
+    .card__excerpt {
+      font-size: 0.9375rem;
+      line-height: 1.7;
+      color: var(--c-800);
+      flex-grow: 1;
+    }
+
+    .card__footer {
+      padding-top: 0.875rem;
+      border-top: 1px solid var(--c-100);
+      margin-top: auto;
+    }
+
+    /* c-700 on white → 5.17:1 ✓   focus outline c-700 vs white → 5.17:1 ✓ (UI ≥3:1) */
+    .card__link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--c-700);
+      text-decoration: none;
+      padding-bottom: 2px;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s ease, border-bottom-color 0.15s ease;
+    }
+
+    .card__link:hover {
+      color: var(--c-800);
+      border-bottom-color: var(--c-800);
+    }
+
+    .card__link:focus-visible {
+      outline: 3px solid var(--c-700);
+      outline-offset: 4px;
+      border-radius: 2px;
+    }
+
+    .card__link-arrow {
+      font-size: 0.875rem;
+      transition: transform 0.15s ease;
+      will-change: transform;
+    }
+
+    .card__link:hover .card__link-arrow {
+      transform: translateX(4px);
+    }
+
+    /* ── FOOTER ──────────────────────────────────────────────────────── */
+    /* c-100 on c-800 → 9.77:1 ✓   c-300 on c-800 → 6.56:1 ✓ */
+    .site-footer {
+      background-color: var(--c-800);
+      padding: 1.75rem 1.5rem;
+      text-align: center;
+    }
+
+    .site-footer__text {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 0.8125rem;
+      color: var(--c-300);
+      letter-spacing: 0.03em;
+      line-height: 1.7;
+    }
+
+    .site-footer__text strong {
+      color: var(--c-100);
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header" role="banner">
+    <p class="site-header__eyebrow" aria-hidden="true">Peer-reviewed &middot; Open access</p>
+    <h1 class="site-header__name">Nova <em>Scientia</em></h1>
+    <p class="site-header__tagline">Illuminating the frontiers of human knowledge since 1987</p>
+    <hr class="site-header__divider" aria-hidden="true">
+  </header>
+
+  <main class="main-content" id="main-content">
+
+    <div class="section-header">
+      <h2 class="section-header__label">Latest Research</h2>
+      <span class="section-header__meta" aria-label="Volume 38, Issue 6, June 2026">
+        Vol.&nbsp;38 &middot; Issue&nbsp;6 &middot; June 2026
+      </span>
+    </div>
+
+    <section aria-label="Article previews">
+      <ul class="card-grid" role="list">
+
+        <li>
+          <article class="card">
+            <span class="card__tag">Astrophysics</span>
+            <h3 class="card__title">The Echo of Dead Stars: Gravitational Waves from Stellar Remnants</h3>
+            <p class="card__excerpt">New interferometric data from LIGO-India reveals persistent low-frequency signals from neutron star mergers up to 400&nbsp;million light-years away — redefining models of post-coalescence ringdown and opening a new observational window on the universe.</p>
+            <div class="card__footer">
+              <a class="card__link" href="#" aria-label="Read more: The Echo of Dead Stars">
+                Read more <span class="card__link-arrow" aria-hidden="true">&#8594;</span>
+              </a>
+            </div>
+          </article>
+        </li>
+
+        <li>
+          <article class="card">
+            <span class="card__tag">Neuroscience</span>
+            <h3 class="card__title">Mapping the Sleeping Brain: How Memory Consolidates at Night</h3>
+            <p class="card__excerpt">High-density EEG recordings during slow-wave sleep expose a coordinated choreography between the hippocampus and neocortex — a nightly replay mechanism that may explain why even a single night of sleep deprivation impairs long-term retention.</p>
+            <div class="card__footer">
+              <a class="card__link" href="#" aria-label="Read more: Mapping the Sleeping Brain">
+                Read more <span class="card__link-arrow" aria-hidden="true">&#8594;</span>
+              </a>
+            </div>
+          </article>
+        </li>
+
+        <li>
+          <article class="card">
+            <span class="card__tag">Climate Science</span>
+            <h3 class="card__title">Ice Core Secrets: 800,000 Years of Atmospheric History</h3>
+            <p class="card__excerpt">A newly extracted core from East Antarctica's Dome&nbsp;C station captures greenhouse gas concentrations across eight glacial cycles, offering the clearest evidence yet that current CO₂ levels are geologically unprecedented in the Quaternary record.</p>
+            <div class="card__footer">
+              <a class="card__link" href="#" aria-label="Read more: Ice Core Secrets">
+                Read more <span class="card__link-arrow" aria-hidden="true">&#8594;</span>
+              </a>
+            </div>
+          </article>
+        </li>
+
+        <li>
+          <article class="card">
+            <span class="card__tag">Quantum Physics</span>
+            <h3 class="card__title">Entanglement at Room Temperature: A Decoherence Breakthrough</h3>
+            <p class="card__excerpt">Researchers at ETH Zürich have maintained quantum entanglement between macroscopic objects at 293&nbsp;K for 1.3&nbsp;milliseconds — three orders of magnitude longer than previous records — using phononic crystal isolation chambers.</p>
+            <div class="card__footer">
+              <a class="card__link" href="#" aria-label="Read more: Entanglement at Room Temperature">
+                Read more <span class="card__link-arrow" aria-hidden="true">&#8594;</span>
+              </a>
+            </div>
+          </article>
+        </li>
+
+        <li>
+          <article class="card">
+            <span class="card__tag">Mycology</span>
+            <h3 class="card__title">The Hidden Language of Fungi: Chemical Signalling in Forest Networks</h3>
+            <p class="card__excerpt">Isotopic tracer studies in old-growth Douglas fir forests demonstrate that mycorrhizal networks transfer not only carbon and phosphorus but also volatile stress signals between trees — raising fundamental questions about plant agency and forest resilience.</p>
+            <div class="card__footer">
+              <a class="card__link" href="#" aria-label="Read more: The Hidden Language of Fungi">
+                Read more <span class="card__link-arrow" aria-hidden="true">&#8594;</span>
+              </a>
+            </div>
+          </article>
+        </li>
+
+        <li>
+          <article class="card">
+            <span class="card__tag">Genetics</span>
+            <h3 class="card__title">Rewinding the Clock: Epigenetic Reprogramming and Cellular Age</h3>
+            <p class="card__excerpt">Partial reprogramming via cyclic OSK factor expression reverses epigenetic age markers in murine retinal ganglion cells without inducing pluripotency, restoring visual acuity lost to glaucoma-like degeneration — a landmark result for regenerative medicine.</p>
+            <div class="card__footer">
+              <a class="card__link" href="#" aria-label="Read more: Rewinding the Clock">
+                Read more <span class="card__link-arrow" aria-hidden="true">&#8594;</span>
+              </a>
+            </div>
+          </article>
+        </li>
+
+      </ul>
+    </section>
+
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <p class="site-footer__text">
+      <strong>Nova Scientia</strong> &nbsp;&middot;&nbsp; ISSN&nbsp;0028-0836 &nbsp;&middot;&nbsp;
+      Published monthly by the International Institute for Scientific Discourse
+    </p>
+  </footer>
+
+</body>
+</html>

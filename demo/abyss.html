@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Abyssal Zone — Explore the Sea Deeps</title>
+<style>
+  /*
+   * WCAG AA palette generated from #0B3D5C on a black theme
+   * via the accessible-palette MCP. All pairings below were
+   * validated with validate_pairings before use.
+   */
+  :root {
+    --sea-100: #03131c; /* deepest background */
+    --sea-300: #0a3651; /* panel background */
+    --sea-600: #11699b; /* mid accent, large-text/borders only */
+    --sea-700: #1884c7; /* links, normal text on black/100 */
+    --sea-800: #76c4f0; /* headings, normal text on black/100/300 */
+    --sea-900: #cbe7f9; /* body text on black/100/300/600 */
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background-color: black;
+    color: var(--sea-900);
+    font-family: "Segoe UI", system-ui, sans-serif;
+    line-height: 1.6;
+  }
+
+  a { color: var(--sea-700); text-decoration: underline; }
+  a:hover, a:focus-visible { color: var(--sea-800); }
+  a:focus-visible { outline: 2px solid var(--sea-800); outline-offset: 2px; }
+
+  header {
+    background-color: var(--sea-100);
+    border-bottom: 1px solid var(--sea-300);
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    color: var(--sea-800);
+    font-weight: 700;
+    font-size: 1.25rem;
+    text-decoration: none;
+  }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+  }
+
+  nav a { text-decoration: none; }
+  nav a:hover, nav a:focus-visible { text-decoration: underline; }
+
+  .skip-link {
+    position: absolute;
+    left: -999px;
+    top: 0;
+    background: var(--sea-800);
+    color: var(--sea-100);
+    padding: 0.5rem 1rem;
+  }
+  .skip-link:focus { left: 0.5rem; top: 0.5rem; z-index: 10; }
+
+  main { max-width: 72rem; margin: 0 auto; padding: 0 1.5rem; }
+
+  .hero {
+    text-align: center;
+    padding: 5rem 1rem 4rem;
+  }
+
+  .hero h1 {
+    color: var(--sea-800);
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    margin: 0 0 1rem;
+  }
+
+  .hero p {
+    max-width: 40rem;
+    margin: 0 auto 2rem;
+    font-size: 1.1rem;
+  }
+
+  .cta {
+    display: inline-block;
+    background-color: var(--sea-800);
+    color: var(--sea-100);
+    padding: 0.75rem 1.75rem;
+    border-radius: 0.375rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .cta:hover, .cta:focus-visible { background-color: var(--sea-900); }
+  .cta:focus-visible { outline: 2px solid var(--sea-700); outline-offset: 2px; }
+
+  section { padding: 3rem 0; border-top: 1px solid var(--sea-300); }
+  section h2 {
+    color: var(--sea-800);
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .zones {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 1.5rem;
+  }
+
+  .zone-card {
+    background-color: var(--sea-100);
+    border: 1px solid var(--sea-300);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+  }
+
+  .zone-card h3 {
+    color: var(--sea-800);
+    margin-top: 0;
+  }
+
+  .zone-card .depth {
+    display: inline-block;
+    color: var(--sea-100);
+    background-color: var(--sea-900);
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.15rem 0.6rem;
+    border-radius: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .facts {
+    background-color: var(--sea-300);
+    border-radius: 0.5rem;
+    padding: 2rem;
+  }
+
+  .facts ul { margin: 0; padding-left: 1.25rem; }
+  .facts li { margin-bottom: 0.75rem; }
+
+  footer {
+    border-top: 1px solid var(--sea-300);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    color: var(--sea-800);
+    font-size: 0.9rem;
+  }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header>
+  <a class="logo" href="#main">The Abyssal Zone</a>
+  <nav aria-label="Primary">
+    <ul>
+      <li><a href="#zones">Depth Zones</a></li>
+      <li><a href="#facts">Facts</a></li>
+      <li><a href="#explore">Explore</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="hero">
+    <h1>Descend Into the Sea Deeps</h1>
+    <p>
+      Beyond sunlight, beyond pressure most creatures could survive,
+      lies a world that covers more of Earth than every continent
+      combined. Welcome to the deep ocean.
+    </p>
+    <a class="cta" href="#explore">Start Exploring</a>
+  </section>
+
+  <section id="zones">
+    <h2>The Depth Zones</h2>
+    <div class="zones">
+      <article class="zone-card">
+        <span class="depth">200–1,000m</span>
+        <h3>Twilight Zone</h3>
+        <p>Faint light still filters down here, just enough for
+        bioluminescent signals to outshine the sun.</p>
+      </article>
+      <article class="zone-card">
+        <span class="depth">1,000–4,000m</span>
+        <h3>Midnight Zone</h3>
+        <p>Total darkness. Pressure builds fast, and life adapts with
+        slow metabolisms and strange, glowing bodies.</p>
+      </article>
+      <article class="zone-card">
+        <span class="depth">4,000–6,000m</span>
+        <h3>Abyssal Zone</h3>
+        <p>Near-freezing water and crushing pressure define this
+        vast, flat plain covering most of the seafloor.</p>
+      </article>
+      <article class="zone-card">
+        <span class="depth">6,000m+</span>
+        <h3>Hadal Zone</h3>
+        <p>Named after Hades. Confined to ocean trenches, this is the
+        most extreme and least explored habitat on the planet.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="facts">
+    <h2>Why the Deep Matters</h2>
+    <div class="facts">
+      <ul>
+        <li>Over 80% of the ocean remains unmapped and unexplored.</li>
+        <li>The deep sea stores more carbon than all forests on Earth combined.</li>
+        <li>Some deep-sea organisms have been alive for over 400 years.</li>
+        <li>Hydrothermal vents host ecosystems that run on chemistry, not sunlight.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="explore">
+    <h2>Join the Expedition</h2>
+    <p>
+      Marine researchers are mapping the deep ocean faster than ever,
+      but there's still more unexplored seafloor than mapped surface
+      on Mars. Follow ongoing missions and learn how new submersibles
+      are reaching depths once thought impossible.
+    </p>
+    <a class="cta" href="#main">Learn About Current Missions</a>
+  </section>
+</main>
+
+<footer>
+  <p>&copy; 2026 The Abyssal Zone. Built with an accessible, WCAG AA-compliant palette.</p>
+</footer>
+
+</body>
+</html>

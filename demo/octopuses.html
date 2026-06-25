@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pulpos: los alienígenas del océano</title>
+<style>
+/*
+ * WCAG AA PAIRING MANIFEST — source: #0e5c68 · theme: white
+ * BODY TEXT (any size, ≥4.5:1): 100→900/800/700 · 300→900/800 · 600→900 · 700→white/100 · 800→white/100/300 · 900→white/100/300/600
+ * LARGE TEXT ONLY (3:1–4.5:1, prohibited for body): 100→600 · 300→700 · 600→100/800/white · 700→300/900 · 800→600 · 900→700
+ */
+:root {
+  --octo-100: #ddf7fb; /* ✅ text→900·800·700  ⚠️ lg→600 */
+  --octo-300: #62d9ea; /* ✅ text→900·800  ⚠️ lg→700 */
+  --octo-600: #1497ab; /* ✅ text→900  ⚠️ lg→100·800·white */
+  --octo-700: #127887; /* ✅ text→white·100  ⚠️ lg→300·900 */
+  --octo-800: #09444d; /* ✅ text→white·100·300  ⚠️ lg→600 */
+  --octo-900: #052428; /* ✅ text→white·100·300·600  ⚠️ lg→700 */
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: var(--octo-800);
+  background: #ffffff;
+  line-height: 1.6;
+}
+
+a { color: inherit; }
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+}
+.skip-link:focus {
+  position: static;
+  display: inline-block;
+  background: var(--octo-900);
+  color: #fff;
+  padding: 0.5rem 1rem;
+}
+
+header.hero {
+  background: var(--octo-700);
+  color: #ffffff;
+  padding: 4rem 1.5rem;
+  text-align: center;
+}
+header.hero h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin: 0 0 0.5rem;
+}
+header.hero p {
+  font-size: 1.25rem;
+  max-width: 38ch;
+  margin: 0 auto;
+}
+
+main {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+section {
+  padding: 3rem 0;
+  border-bottom: 1px solid var(--octo-100);
+}
+section:last-of-type {
+  border-bottom: none;
+}
+
+h2 {
+  color: var(--octo-900);
+  font-size: 1.75rem;
+}
+
+.badge {
+  display: inline-block;
+  background: var(--octo-100);
+  color: var(--octo-700);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  margin-bottom: 1rem;
+}
+
+.fact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.fact-card {
+  background: var(--octo-100);
+  color: var(--octo-900);
+  padding: 1.5rem;
+  border-radius: 12px;
+}
+.fact-card h3 {
+  margin-top: 0;
+  color: var(--octo-900);
+}
+
+.callout {
+  background: var(--octo-300);
+  color: var(--octo-900);
+  padding: 1.5rem;
+  border-radius: 12px;
+  font-size: 1.1rem;
+}
+
+footer {
+  background: var(--octo-900);
+  color: #ffffff;
+  text-align: center;
+  padding: 2rem 1.5rem;
+}
+footer a {
+  color: var(--octo-100);
+  text-decoration: underline;
+}
+
+button.cta {
+  background: var(--octo-700);
+  color: #ffffff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+button.cta:hover,
+button.cta:focus-visible {
+  background: var(--octo-800);
+}
+button.cta:focus-visible {
+  outline: 3px solid var(--octo-300);
+  outline-offset: 2px;
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+<header class="hero">
+  <h1>Pulpos: los alienígenas del océano</h1>
+  <p>Ocho brazos, nueve cerebros y la capacidad de cambiar de forma y color en milisegundos.</p>
+</header>
+
+<main id="contenido">
+  <section aria-labelledby="cerebro">
+    <span class="badge">Neurociencia</span>
+    <h2 id="cerebro">Un cerebro repartido por todo el cuerpo</h2>
+    <p>
+      Los pulpos tienen aproximadamente 500 millones de neuronas, pero solo un tercio
+      vive en el cerebro central. El resto está distribuido en sus ocho brazos, que
+      pueden tomar decisiones de forma casi independiente: cada brazo puede explorar,
+      agarrar y reaccionar sin esperar la orden del cerebro principal.
+    </p>
+    <div class="fact-grid">
+      <div class="fact-card">
+        <h3>Memoria a corto y largo plazo</h3>
+        <p>Pueden recordar soluciones a problemas y reconocer a humanos individuales.</p>
+      </div>
+      <div class="fact-card">
+        <h3>Resolución de problemas</h3>
+        <p>Abren frascos con tapa a rosca y escapan de tanques cerrados con destreza.</p>
+      </div>
+      <div class="fact-card">
+        <h3>Sueño con fases</h3>
+        <p>Estudios sugieren que sueñan, alternando fases de sueño activo y pasivo.</p>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="camuflaje">
+    <span class="badge">Camuflaje</span>
+    <h2 id="camuflaje">Maestros del disfraz</h2>
+    <p>
+      Gracias a células llamadas cromatóforos, papilas y leucóforos, un pulpo puede
+      cambiar de color, textura y patrón en menos de un segundo para imitar rocas,
+      coral o incluso otras especies marinas, sin tener visión de color.
+    </p>
+    <div class="callout">
+      Dato curioso: aunque los pulpos son daltónicos, sus ojos podrían detectar la
+      polarización de la luz, lo que les permitiría "ver" patrones invisibles para
+      nosotros.
+    </div>
+  </section>
+
+  <section aria-labelledby="vida">
+    <span class="badge">Biología</span>
+    <h2 id="vida">Una vida breve e intensa</h2>
+    <p>
+      La mayoría de las especies de pulpo viven entre uno y dos años. Después de
+      reproducirse, muchas hembras dejan de comer para proteger sus huevos hasta que
+      eclosionan, y mueren poco después. Es una estrategia evolutiva conocida como
+      semelparidad.
+    </p>
+    <button class="cta" type="button">Quiero aprender más sobre cefalópodos</button>
+  </section>
+</main>
+
+<footer>
+  <p>Página de demostración generada con la paleta accesible "Profundidad Oceánica" (#0E5C68).</p>
+  <p><a href="#contenido">Volver arriba</a></p>
+</footer>
+</body>
+</html>

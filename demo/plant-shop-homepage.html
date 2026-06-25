@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leaflet & Co. — Plants Delivered to Your Door</title>
+<style>
+/*
+ * WCAG AA PAIRING MANIFEST — source: #2f6b3c · theme: white
+ *
+ * BODY TEXT (any font size, ≥4.5:1):
+ *   shade-100 (#eaf6ed) → 900, 800, 700
+ *   shade-300 (#a2d6ad) → 900, 800
+ *   shade-600 (#429a58) → 900
+ *   shade-700 (#367b45) → white, 100
+ *   shade-800 (#1d4427) → white, 100, 300
+ *   shade-900 (#102414) → white, 100, 300, 600
+ *
+ * LARGE TEXT ONLY (≥24px or ≥18.67px bold, 3:1–4.5:1):
+ *   shade-100 (#eaf6ed) → 600
+ *   shade-300 (#a2d6ad) → 700
+ *   shade-600 (#429a58) → 100, 800, white
+ *   shade-700 (#367b45) → 300, 900
+ *   shade-800 (#1d4427) → 600
+ *   shade-900 (#102414) → 700
+ */
+:root {
+  --leaf-100: #eaf6ed; /* text→900·800·700  lg→600 */
+  --leaf-300: #a2d6ad; /* text→900·800  lg→700 */
+  --leaf-600: #429a58; /* text→900  lg→100·800·white */
+  --leaf-700: #367b45; /* text→white·100  lg→300·900 */
+  --leaf-800: #1d4427; /* text→white·100·300  lg→600 */
+  --leaf-900: #102414; /* text→white·100·300·600  lg→700 */
+  /* accent (not part of the monochrome palette — checked individually via check_contrast) */
+  --accent-700: #a8472c; /* ✅ text→white (5.83:1), white/100→accent-700 (5.83:1), accent-700→100 (5.25:1) */
+
+  --font-body: "Helvetica Neue", Arial, sans-serif;
+  --font-display: Georgia, "Times New Roman", serif;
+  --radius: 10px;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--leaf-900);
+  background: #fff;
+  line-height: 1.55;
+}
+
+a { color: inherit; }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  background: var(--leaf-900);
+  color: #fff;
+  padding: 0.75rem 1.25rem;
+  z-index: 100;
+}
+.skip-link:focus {
+  left: 0;
+}
+
+:focus-visible {
+  outline: 3px solid var(--leaf-700);
+  outline-offset: 2px;
+}
+
+.container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Header */
+.site-header {
+  background: #fff;
+  border-bottom: 1px solid var(--leaf-300);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  gap: 1.5rem;
+}
+.logo {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--leaf-900);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.logo-mark {
+  font-size: 1.6rem;
+}
+.main-nav ul {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+}
+.main-nav a {
+  text-decoration: none;
+  color: var(--leaf-800);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.main-nav a:hover {
+  color: var(--leaf-700);
+  text-decoration: underline;
+}
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--leaf-800);
+  font-size: 1.2rem;
+  padding: 0.4rem;
+  border-radius: 6px;
+}
+.icon-btn:hover { background: var(--leaf-100); }
+.icon-btn-wrap { position: relative; }
+.cart-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: var(--accent-700);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+}
+
+.btn {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius);
+  text-decoration: none;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+.btn-primary {
+  background: var(--leaf-700);
+  color: var(--leaf-100);
+}
+.btn-primary:hover { background: var(--leaf-800); }
+.btn-outline {
+  background: transparent;
+  border-color: var(--leaf-700);
+  color: var(--leaf-700);
+}
+.btn-outline:hover {
+  background: var(--leaf-100);
+}
+
+/* Hero */
+.hero {
+  background: var(--leaf-100);
+}
+.hero .container {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+.hero-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--leaf-700);
+  margin: 0 0 0.75rem;
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  line-height: 1.1;
+  margin: 0 0 1rem;
+  color: var(--leaf-900);
+}
+.hero p {
+  font-size: 1.1rem;
+  color: var(--leaf-800);
+  max-width: 34ch;
+  margin: 0 0 2rem;
+}
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.hero-art {
+  background: var(--leaf-800);
+  border-radius: 24px;
+  height: 360px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5rem;
+  color: var(--leaf-100);
+}
+
+/* Trust strip */
+.trust-strip {
+  background: var(--leaf-900);
+  color: var(--leaf-100);
+}
+.trust-strip .container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-top: 0.9rem;
+  padding-bottom: 0.9rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.trust-strip span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Section heading */
+.section {
+  padding: 4rem 0;
+}
+.section-head {
+  text-align: center;
+  max-width: 42ch;
+  margin: 0 auto 2.5rem;
+}
+.section-head h2 {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--leaf-900);
+  margin: 0 0 0.5rem;
+}
+.section-head p {
+  color: var(--leaf-800);
+  margin: 0;
+}
+
+/* Categories */
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+.category-card {
+  background: var(--leaf-100);
+  border-radius: var(--radius);
+  padding: 2rem 1rem;
+  text-align: center;
+  text-decoration: none;
+  color: var(--leaf-900);
+  font-weight: 700;
+  transition: transform 0.15s ease;
+}
+.category-card:hover { transform: translateY(-3px); }
+.category-icon {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+/* Products */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+.product-card {
+  border: 1px solid var(--leaf-300);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.product-thumb {
+  background: var(--leaf-300);
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: var(--leaf-900);
+  position: relative;
+}
+.sale-badge {
+  position: absolute;
+  top: 0.6rem;
+  left: 0.6rem;
+  background: var(--accent-700);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+}
+.product-price.was {
+  color: var(--leaf-800);
+  text-decoration: line-through;
+  font-weight: 400;
+  font-size: 0.9rem;
+  margin-right: 0.4rem;
+}
+.product-price.now {
+  color: var(--accent-700);
+}
+.product-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex: 1;
+}
+.product-tag {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--leaf-700);
+}
+.product-name {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--leaf-900);
+  margin: 0;
+}
+.product-meta {
+  font-size: 0.85rem;
+  color: var(--leaf-800);
+  margin: 0 0 0.5rem;
+}
+.product-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+}
+.product-price {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--leaf-900);
+}
+.add-btn {
+  background: var(--leaf-700);
+  color: var(--leaf-100);
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+.add-btn:hover { background: var(--leaf-800); }
+
+/* Care promise band */
+.promise-band {
+  background: var(--leaf-800);
+  color: var(--leaf-100);
+}
+.promise-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  padding: 3.5rem 0;
+}
+.promise-item h3 {
+  font-size: 1.1rem;
+  margin: 0 0 0.5rem;
+  color: var(--leaf-100);
+}
+.promise-item p {
+  margin: 0;
+  color: var(--leaf-300);
+  font-size: 0.95rem;
+}
+.promise-icon {
+  font-size: 1.8rem;
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+/* Newsletter */
+.newsletter {
+  background: var(--leaf-100);
+}
+.newsletter .container {
+  padding: 3.5rem 0;
+  text-align: center;
+  max-width: 600px;
+}
+.newsletter h2 {
+  font-family: var(--font-display);
+  color: var(--leaf-900);
+  margin: 0 0 0.5rem;
+}
+.newsletter p {
+  color: var(--leaf-800);
+  margin: 0 0 1.5rem;
+}
+.newsletter-form {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.newsletter-form input[type="email"] {
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--leaf-700);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  min-width: 260px;
+  color: var(--leaf-900);
+}
+.newsletter-form input[type="email"]::placeholder {
+  color: var(--leaf-800);
+}
+
+/* Footer */
+.site-footer {
+  background: var(--leaf-900);
+  color: var(--leaf-300);
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 2rem;
+  padding: 3.5rem 0 2rem;
+}
+.footer-grid h4 {
+  color: var(--leaf-100);
+  font-size: 0.95rem;
+  margin: 0 0 1rem;
+}
+.footer-grid ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  font-size: 0.9rem;
+}
+.footer-grid a {
+  text-decoration: none;
+  color: var(--leaf-300);
+}
+.footer-grid a:hover {
+  color: var(--leaf-100);
+  text-decoration: underline;
+}
+.footer-brand p {
+  color: var(--leaf-300);
+  font-size: 0.9rem;
+  max-width: 32ch;
+}
+.footer-bottom {
+  border-top: 1px solid var(--leaf-800);
+  padding: 1.25rem 0;
+  font-size: 0.8rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  color: var(--leaf-300);
+}
+
+@media (max-width: 900px) {
+  .hero .container { grid-template-columns: 1fr; }
+  .category-grid, .product-grid { grid-template-columns: repeat(2, 1fr); }
+  .promise-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .main-nav { display: none; }
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="logo" href="#main">
+      <span class="logo-mark" aria-hidden="true">🌿</span>
+      Leaflet &amp; Co.
+    </a>
+    <nav class="main-nav" aria-label="Primary">
+      <ul>
+        <li><a href="#categories">Shop</a></li>
+        <li><a href="#bestsellers">Bestsellers</a></li>
+        <li><a href="#care">Plant Care</a></li>
+        <li><a href="#newsletter">Newsletter</a></li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-btn" aria-label="Search">🔍</button>
+      <span class="icon-btn-wrap">
+        <button class="icon-btn" aria-label="View cart, 2 items">🛒</button>
+        <span class="cart-badge" aria-hidden="true">2</span>
+      </span>
+      <a class="btn btn-primary" href="#bestsellers">Shop Now</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero">
+    <div class="container">
+      <div>
+        <p class="hero-eyebrow">New season arrivals</p>
+        <h1>Bring nature home, one leaf at a time.</h1>
+        <p>Hand-picked houseplants, delivered healthy and ready to thrive — with a care guide for every pot we ship.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#bestsellers">Browse Plants</a>
+          <a class="btn btn-outline" href="#care">Plant Care Guide</a>
+        </div>
+      </div>
+      <div class="hero-art" role="img" aria-label="Illustration of a large potted monstera plant">🪴</div>
+    </div>
+  </section>
+
+  <div class="trust-strip">
+    <div class="container">
+      <span>🚚 Free shipping over $50</span>
+      <span>🌱 30-day healthy-arrival guarantee</span>
+      <span>📦 Carbon-neutral delivery</span>
+      <span>💬 Live plant care support</span>
+    </div>
+  </div>
+
+  <section class="section" id="categories">
+    <div class="container">
+      <div class="section-head">
+        <h2>Shop by category</h2>
+        <p>Whatever your space or skill level, there's a plant ready for it.</p>
+      </div>
+      <div class="category-grid">
+        <a class="category-card" href="#">
+          <span class="category-icon" aria-hidden="true">🌵</span>
+          Low-Maintenance
+        </a>
+        <a class="category-card" href="#">
+          <span class="category-icon" aria-hidden="true">🌴</span>
+          Statement Plants
+        </a>
+        <a class="category-card" href="#">
+          <span class="category-icon" aria-hidden="true">🌸</span>
+          Flowering
+        </a>
+        <a class="category-card" href="#">
+          <span class="category-icon" aria-hidden="true">🍃</span>
+          Air Purifying
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="bestsellers" style="background: var(--leaf-100);">
+    <div class="container">
+      <div class="section-head">
+        <h2>Bestsellers this month</h2>
+        <p>Loved by first-time plant parents and seasoned collectors alike.</p>
+      </div>
+      <div class="product-grid">
+        <article class="product-card">
+          <div class="product-thumb">
+            <span class="sale-badge">Sale</span>
+            <span aria-hidden="true">🪴</span>
+          </div>
+          <div class="product-body">
+            <p class="product-tag">Easy Care</p>
+            <h3 class="product-name">Monstera Deliciosa</h3>
+            <p class="product-meta">Bright indirect light · Pet safe: no</p>
+            <div class="product-footer">
+              <span>
+                <span class="product-price was">$39.00</span>
+                <span class="product-price now">$31.00</span>
+              </span>
+              <button class="add-btn">Add to Cart</button>
+            </div>
+          </div>
+        </article>
+        <article class="product-card">
+          <div class="product-thumb" aria-hidden="true">🌿</div>
+          <div class="product-body">
+            <p class="product-tag">Air Purifying</p>
+            <h3 class="product-name">Snake Plant</h3>
+            <p class="product-meta">Low light tolerant · Pet safe: no</p>
+            <div class="product-footer">
+              <span class="product-price">$24.00</span>
+              <button class="add-btn">Add to Cart</button>
+            </div>
+          </div>
+        </article>
+        <article class="product-card">
+          <div class="product-thumb" aria-hidden="true">🌵</div>
+          <div class="product-body">
+            <p class="product-tag">Low-Maintenance</p>
+            <h3 class="product-name">Golden Barrel Cactus</h3>
+            <p class="product-meta">Full sun · Water sparingly</p>
+            <div class="product-footer">
+              <span class="product-price">$18.50</span>
+              <button class="add-btn">Add to Cart</button>
+            </div>
+          </div>
+        </article>
+        <article class="product-card">
+          <div class="product-thumb" aria-hidden="true">🌸</div>
+          <div class="product-body">
+            <p class="product-tag">Flowering</p>
+            <h3 class="product-name">Peace Lily</h3>
+            <p class="product-meta">Medium light · Pet safe: no</p>
+            <div class="product-footer">
+              <span class="product-price">$29.00</span>
+              <button class="add-btn">Add to Cart</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="promise-band" id="care">
+    <div class="container promise-grid">
+      <div class="promise-item">
+        <span class="promise-icon" aria-hidden="true">🌱</span>
+        <h3>Grown with care</h3>
+        <p>Every plant is nurtured at our greenhouse for at least 8 weeks before it ships to you.</p>
+      </div>
+      <div class="promise-item">
+        <span class="promise-icon" aria-hidden="true">📋</span>
+        <h3>Personalized care guide</h3>
+        <p>Each order includes a printed guide matched to your exact plant and your home's light conditions.</p>
+      </div>
+      <div class="promise-item">
+        <span class="promise-icon" aria-hidden="true">🔁</span>
+        <h3>30-day guarantee</h3>
+        <p>If your plant arrives unhealthy, we'll replace it free — no questions asked.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="newsletter" id="newsletter">
+    <div class="container">
+      <h2>Get plant care tips in your inbox</h2>
+      <p>One email a week. Seasonal care advice, new arrivals, and the occasional discount.</p>
+      <form class="newsletter-form">
+        <label class="sr-only" for="newsletter-email">Email address</label>
+        <input id="newsletter-email" type="email" placeholder="you@example.com" required>
+        <button class="btn btn-primary" type="submit">Subscribe</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <a class="logo" href="#main" style="color: var(--leaf-100);">
+        <span class="logo-mark" aria-hidden="true">🌿</span>
+        Leaflet &amp; Co.
+      </a>
+      <p>Healthy plants, sustainably grown and delivered straight to your door.</p>
+    </div>
+    <div>
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="#">Houseplants</a></li>
+        <li><a href="#">Outdoor Plants</a></li>
+        <li><a href="#">Plant Pots</a></li>
+        <li><a href="#">Gift Cards</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Support</h4>
+      <ul>
+        <li><a href="#">Shipping Info</a></li>
+        <li><a href="#">Plant Care Guides</a></li>
+        <li><a href="#">Returns</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Sustainability</a></li>
+        <li><a href="#">Careers</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <span>© 2026 Leaflet &amp; Co. All rights reserved.</span>
+    <span>Accessible by design — WCAG 2.2 AA</span>
+  </div>
+</footer>
+
+</body>
+</html>

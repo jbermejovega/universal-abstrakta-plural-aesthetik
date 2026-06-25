@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tide Forecast Bureau</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #08111d;
+        --bg-2: #0d1727;
+        --surface: #101c2f;
+        --surface-2: #16243b;
+        --line: #27405f;
+        --text: #f4f7ff;
+        --muted: #b4c3db;
+        --accent: #8ea8cf;
+        --accent-strong: #dce7fb;
+        --shadow: rgba(0, 0, 0, 0.35);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        min-height: 100%;
+        background:
+          radial-gradient(circle at top left, rgba(142, 168, 207, 0.16), transparent 36%),
+          radial-gradient(circle at 85% 15%, rgba(220, 231, 251, 0.1), transparent 28%),
+          linear-gradient(180deg, var(--bg), var(--bg-2));
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Georgia, "Times New Roman", serif;
+        color: var(--text);
+        background: transparent;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 42px 42px;
+        mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.9), transparent 90%);
+      }
+
+      .page {
+        width: min(1160px, calc(100vw - 32px));
+        margin: 0 auto;
+        padding: 28px 0 40px;
+      }
+
+      .masthead {
+        display: grid;
+        gap: 22px;
+        padding: 22px;
+        border: 1px solid rgba(220, 231, 251, 0.14);
+        border-radius: 28px;
+        background:
+          linear-gradient(135deg, rgba(22, 36, 59, 0.92), rgba(16, 28, 47, 0.82)),
+          linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent);
+        box-shadow: 0 24px 70px var(--shadow);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        width: fit-content;
+        padding: 8px 14px;
+        border: 1px solid rgba(142, 168, 207, 0.4);
+        border-radius: 999px;
+        color: var(--accent-strong);
+        font-size: 0.82rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        background: rgba(8, 17, 29, 0.5);
+      }
+
+      .hero {
+        display: grid;
+        gap: 18px;
+        grid-template-columns: minmax(0, 1.7fr) minmax(300px, 0.9fr);
+        align-items: end;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(3rem, 7vw, 6.4rem);
+        line-height: 0.92;
+        letter-spacing: -0.06em;
+        text-wrap: balance;
+      }
+
+      .lede {
+        max-width: 58ch;
+        margin: 0;
+        color: var(--muted);
+        font-size: clamp(1.02rem, 1.9vw, 1.22rem);
+        line-height: 1.7;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .stat {
+        padding: 18px;
+        border-radius: 20px;
+        border: 1px solid rgba(220, 231, 251, 0.12);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(8, 17, 29, 0.1));
+      }
+
+      .stat .label {
+        display: block;
+        color: var(--accent);
+        font-size: 0.78rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+      }
+
+      .stat .value {
+        margin: 0;
+        font-size: clamp(1.5rem, 3vw, 2.25rem);
+        letter-spacing: -0.04em;
+      }
+
+      .main {
+        display: grid;
+        gap: 20px;
+        grid-template-columns: 1.2fr 0.8fr;
+        margin-top: 20px;
+      }
+
+      .panel {
+        padding: 22px;
+        border-radius: 24px;
+        border: 1px solid rgba(220, 231, 251, 0.12);
+        background: rgba(16, 28, 47, 0.72);
+        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.2);
+      }
+
+      .panel h2 {
+        margin: 0 0 12px;
+        font-size: 1.05rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--accent-strong);
+      }
+
+      .panel p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .forecast-grid {
+        display: grid;
+        gap: 14px;
+        margin-top: 18px;
+      }
+
+      .forecast {
+        display: grid;
+        gap: 10px;
+        padding: 16px 18px;
+        border-radius: 18px;
+        border: 1px solid rgba(39, 64, 95, 0.9);
+        background: linear-gradient(90deg, rgba(22, 36, 59, 0.92), rgba(16, 28, 47, 0.72));
+      }
+
+      .forecast-top {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        align-items: baseline;
+      }
+
+      .forecast-title {
+        margin: 0;
+        font-size: 1.05rem;
+      }
+
+      .forecast-time {
+        color: var(--accent);
+        font-size: 0.84rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .forecast-copy {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.65;
+      }
+
+      .side-stack {
+        display: grid;
+        gap: 20px;
+      }
+
+      .route-list {
+        display: grid;
+        gap: 12px;
+        margin: 18px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .route-list li {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 14px 16px;
+        border-radius: 16px;
+        background: rgba(8, 17, 29, 0.42);
+        border: 1px solid rgba(220, 231, 251, 0.08);
+      }
+
+      .route-list strong {
+        font-weight: 700;
+      }
+
+      .route-list span {
+        color: var(--muted);
+      }
+
+      .bar {
+        position: relative;
+        overflow: hidden;
+        height: 12px;
+        margin-top: 14px;
+        border-radius: 999px;
+        background: rgba(8, 17, 29, 0.7);
+        border: 1px solid rgba(39, 64, 95, 0.85);
+      }
+
+      .bar::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        width: 68%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, var(--accent), var(--accent-strong));
+      }
+
+      .cta {
+        margin-top: 18px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        padding: 0 18px;
+        border-radius: 999px;
+        color: #08111d;
+        background: linear-gradient(135deg, var(--accent-strong), var(--accent));
+        text-decoration: none;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
+
+      .cta:hover,
+      .cta:focus-visible {
+        filter: brightness(1.03);
+        outline: 2px solid var(--accent-strong);
+        outline-offset: 3px;
+      }
+
+      .footer-note {
+        margin-top: 18px;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      @media (max-width: 900px) {
+        .hero,
+        .main {
+          grid-template-columns: 1fr;
+        }
+
+        .stats {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .page {
+          width: min(100vw - 20px, 1160px);
+          padding: 10px 0 20px;
+        }
+
+        .masthead,
+        .panel {
+          padding: 18px;
+          border-radius: 22px;
+        }
+
+        .stats {
+          grid-template-columns: 1fr;
+        }
+
+        h1 {
+          font-size: clamp(2.6rem, 15vw, 4.4rem);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="masthead" aria-labelledby="title">
+        <p class="eyebrow">Monochrome dispatch / coastal intelligence</p>
+        <div class="hero">
+          <div>
+            <h1 id="title">Tide Forecast Bureau</h1>
+            <p class="lede">
+              A fictional operations desk for ferries, harbor pilots, and night watch crews.
+              Each bulletin is written for low-light conditions: clear hierarchy, calm contrast,
+              and enough visual structure to read when the sea is moving faster than the room.
+            </p>
+          </div>
+          <div class="stats" aria-label="Current conditions">
+            <article class="stat">
+              <span class="label">Visibility</span>
+              <p class="value">12 km</p>
+            </article>
+            <article class="stat">
+              <span class="label">Wind</span>
+              <p class="value">18 kn</p>
+            </article>
+            <article class="stat">
+              <span class="label">Current</span>
+              <p class="value">Outgoing</p>
+            </article>
+            <article class="stat">
+              <span class="label">Tide</span>
+              <p class="value">Rising</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="main" aria-label="Forecast details">
+        <article class="panel">
+          <h2>Shift bulletin</h2>
+          <p>
+            The outer channel stays stable through dawn, but the inner basin will stack a short
+            chop after midnight. Keep arrival windows generous, and reserve the east berth for
+            anything that needs a clean turn radius.
+          </p>
+
+          <div class="forecast-grid">
+            <article class="forecast">
+              <div class="forecast-top">
+                <h3 class="forecast-title">Harbor mouth</h3>
+                <span class="forecast-time">23:00 - 02:00</span>
+              </div>
+              <p class="forecast-copy">
+                Long swell, low interference, and a steady push from the northwest. Safe for
+                departures, but the deck crew should expect spray at the breakwater.
+              </p>
+            </article>
+
+            <article class="forecast">
+              <div class="forecast-top">
+                <h3 class="forecast-title">Pilot lane</h3>
+                <span class="forecast-time">02:00 - 05:30</span>
+              </div>
+              <p class="forecast-copy">
+                Visibility remains usable under cloud cover. Signal lamps will read clearly if the
+                approach stays inside the marked range buoys.
+              </p>
+            </article>
+
+            <article class="forecast">
+              <div class="forecast-top">
+                <h3 class="forecast-title">Inner basin</h3>
+                <span class="forecast-time">05:30 - 08:00</span>
+              </div>
+              <p class="forecast-copy">
+                Short-period chop builds near sunrise. Best window for unloading cargo that needs a
+                level ramp and an impatient crew.
+              </p>
+            </article>
+          </div>
+        </article>
+
+        <aside class="side-stack">
+          <section class="panel">
+            <h2>Priority routes</h2>
+            <ul class="route-list">
+              <li><strong>North quay</strong> <span>Express mail</span></li>
+              <li><strong>South dock</strong> <span>Passenger ferry</span></li>
+              <li><strong>Outer reef</strong> <span>Survey vessel</span></li>
+              <li><strong>East pier</strong> <span>Cold storage</span></li>
+            </ul>
+          </section>
+
+          <section class="panel">
+            <h2>Operational margin</h2>
+            <p>
+              The bureau keeps a wide safety buffer tonight. If the blue-toned bar below looks calm,
+              that is intentional: the entire page is built on a tight monochrome palette with
+              accessible contrast, not decorative noise.
+            </p>
+            <div class="bar" aria-hidden="true"></div>
+            <p class="footer-note">Last issued by the night desk at 22:41.</p>
+            <a class="cta" href="#title">Review the bulletin</a>
+          </section>
+        </aside>
+      </section>
+    </main>
+  </body>
+</html>

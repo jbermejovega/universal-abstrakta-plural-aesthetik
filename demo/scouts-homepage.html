@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Star Sprouts — Kids Band Homepage</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito+Sans:wght@400;500;600;700;800&display=swap');
+
+/*
+ * Accessible monochrome foundation from the palette MCP:
+ * #061413, #103836, #216e69, #278c86, #58cdc5, #baece9 on a black theme.
+ * Accent colors validated with check_contrast on #061413:
+ * #ffd24a, #ff7a59, and #75d7ff all pass AA normal with dark text.
+ */
+:root {
+  --bg: #061413;
+  --bg-alt: #103836;
+  --panel: #216e69;
+  --panel-strong: #278c86;
+  --panel-bright: #58cdc5;
+  --text: #baece9;
+  --text-soft: #75d7ff;
+  --ink: #061413;
+  --sun: #ffd24a;
+  --coral: #ff7a59;
+  --sky: #75d7ff;
+  --shadow: 0 24px 60px rgba(0, 0, 0, 0.34);
+  --radius-xl: 32px;
+  --radius-lg: 24px;
+  --radius-md: 18px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Nunito Sans", "Trebuchet MS", sans-serif;
+  color: var(--text);
+  line-height: 1.6;
+  background:
+    radial-gradient(circle at 15% 16%, rgba(255, 210, 74, 0.16), transparent 24%),
+    radial-gradient(circle at 82% 18%, rgba(117, 215, 255, 0.18), transparent 22%),
+    radial-gradient(circle at 74% 76%, rgba(255, 122, 89, 0.16), transparent 20%),
+    linear-gradient(180deg, #061413 0%, #0a1f1d 48%, #061413 100%);
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle at 1px 1px, rgba(186, 236, 233, 0.08) 1px, transparent 0);
+  background-size: 28px 28px;
+  opacity: 0.22;
+}
+
+a {
+  color: inherit;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: 0;
+  transform: translateY(-130%);
+  background: var(--sun);
+  color: var(--ink);
+  padding: 0.8rem 1rem;
+  border-radius: 999px;
+  z-index: 20;
+  text-decoration: none;
+  font-weight: 800;
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  transform: translateY(1rem);
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(18px);
+  background: linear-gradient(180deg, rgba(6, 20, 19, 0.92), rgba(6, 20, 19, 0.72));
+  border-bottom: 1px solid rgba(88, 205, 197, 0.22);
+}
+
+.shell {
+  width: min(1120px, calc(100% - 2rem));
+  margin: 0 auto;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  padding: 1rem 0;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  text-decoration: none;
+  font-family: "Fredoka", "Trebuchet MS", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.brand-mark {
+  width: 2.45rem;
+  height: 2.45rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 30% 28%, #fff8d5 0 18%, transparent 19%),
+    linear-gradient(135deg, var(--sun), var(--coral));
+  box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.05);
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 700;
+  padding: 0.45rem 0.8rem;
+  border-radius: 999px;
+}
+
+nav a:hover,
+nav a:focus-visible {
+  background: rgba(88, 205, 197, 0.12);
+  color: var(--sun);
+}
+
+a:focus-visible {
+  outline: 3px solid var(--sun);
+  outline-offset: 3px;
+}
+
+main {
+  position: relative;
+}
+
+.hero,
+.section,
+.band-note,
+footer {
+  width: min(1120px, calc(100% - 2rem));
+  margin: 0 auto;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.08fr 0.92fr;
+  gap: 2rem;
+  align-items: center;
+  padding: 4.5rem 0 2rem;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: var(--sun);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 2.4rem;
+  height: 0.2rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--sun), var(--coral));
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Fredoka", "Trebuchet MS", sans-serif;
+  line-height: 1.05;
+  margin: 0;
+}
+
+h1 {
+  font-size: clamp(3rem, 7vw, 5.8rem);
+  letter-spacing: -0.03em;
+  max-width: 10ch;
+  margin-top: 0.8rem;
+}
+
+.lede {
+  margin: 1.2rem 0 0;
+  max-width: 56ch;
+  color: var(--text);
+  font-size: 1.08rem;
+}
+
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin-top: 1.7rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.25rem;
+  padding: 0.9rem 1.3rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 800;
+  border: 2px solid transparent;
+  transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease, border-color 160ms ease;
+}
+
+.btn:hover,
+.btn:focus-visible {
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  color: var(--ink);
+  background: linear-gradient(135deg, var(--sun), #ffe58b);
+  box-shadow: 0 16px 32px rgba(255, 210, 74, 0.22);
+}
+
+.btn-primary:hover,
+.btn-primary:focus-visible {
+  box-shadow: 0 18px 40px rgba(255, 210, 74, 0.32);
+}
+
+.btn-secondary {
+  color: var(--text);
+  background: rgba(88, 205, 197, 0.08);
+  border-color: rgba(186, 236, 233, 0.24);
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus-visible {
+  background: rgba(117, 215, 255, 0.14);
+  border-color: rgba(117, 215, 255, 0.42);
+}
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+  margin-top: 1.8rem;
+}
+
+.hero-stats div,
+.poster,
+.song-card,
+.member-card,
+.show-item,
+.book-card,
+.band-note {
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(186, 236, 233, 0.12);
+  background: linear-gradient(180deg, rgba(16, 56, 54, 0.96), rgba(6, 20, 19, 0.9));
+  box-shadow: var(--shadow);
+}
+
+.hero-stats div {
+  padding: 1rem 1.05rem;
+}
+
+.hero-stats strong {
+  display: block;
+  font-family: "Fredoka", "Trebuchet MS", sans-serif;
+  font-size: 1.35rem;
+  color: var(--sun);
+}
+
+.hero-stats span {
+  display: block;
+  margin-top: 0.2rem;
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.hero-stage {
+  position: relative;
+  min-height: 34rem;
+}
+
+.spotlight {
+  position: absolute;
+  inset: auto;
+  border-radius: 999px;
+  filter: blur(8px);
+  opacity: 0.9;
+}
+
+.spotlight-one {
+  top: 1.5rem;
+  left: 1.1rem;
+  width: 9rem;
+  height: 9rem;
+  background: radial-gradient(circle, rgba(255, 210, 74, 0.8), transparent 66%);
+}
+
+.spotlight-two {
+  right: 0.7rem;
+  bottom: 4.5rem;
+  width: 10rem;
+  height: 10rem;
+  background: radial-gradient(circle, rgba(117, 215, 255, 0.8), transparent 66%);
+}
+
+.poster {
+  position: absolute;
+  inset: 2.3rem 0 0 1.6rem;
+  padding: 1.3rem;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 18% 16%, rgba(255, 210, 74, 0.28), transparent 24%),
+    radial-gradient(circle at 82% 10%, rgba(117, 215, 255, 0.22), transparent 20%),
+    radial-gradient(circle at 74% 84%, rgba(255, 122, 89, 0.18), transparent 18%),
+    linear-gradient(180deg, rgba(33, 110, 105, 0.92), rgba(6, 20, 19, 0.94));
+}
+
+.poster::before,
+.poster::after {
+  content: "";
+  position: absolute;
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+.poster::before {
+  width: 18rem;
+  height: 18rem;
+  right: -7rem;
+  top: -5rem;
+  background: radial-gradient(circle, rgba(88, 205, 197, 0.55), transparent 64%);
+}
+
+.poster::after {
+  width: 13rem;
+  height: 13rem;
+  left: -5rem;
+  bottom: -5rem;
+  background: radial-gradient(circle, rgba(255, 122, 89, 0.5), transparent 64%);
+}
+
+.poster-label {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: var(--sun);
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.poster-title {
+  position: relative;
+  z-index: 1;
+  margin-top: 1rem;
+  font-size: clamp(2rem, 3.5vw, 3.4rem);
+  max-width: 9ch;
+}
+
+.poster-copy {
+  position: relative;
+  z-index: 1;
+  margin: 1rem 0 0;
+  max-width: 22ch;
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.poster-tracklist {
+  position: relative;
+  z-index: 1;
+  margin-top: 1.3rem;
+  display: grid;
+  gap: 0.8rem;
+}
+
+.track {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  padding: 0.8rem 0.95rem;
+  border-radius: 1rem;
+  background: rgba(6, 20, 19, 0.46);
+  border: 1px solid rgba(186, 236, 233, 0.16);
+}
+
+.track span:first-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-weight: 800;
+}
+
+.track span:first-child::before {
+  content: "♪";
+  color: var(--sun);
+}
+
+.track small {
+  color: var(--text-soft);
+  font-weight: 700;
+}
+
+.section {
+  padding: 4.5rem 0 0;
+}
+
+.section-head {
+  display: grid;
+  gap: 0.65rem;
+  margin-bottom: 1.8rem;
+}
+
+.section-head h2 {
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  max-width: 14ch;
+}
+
+.section-head p {
+  max-width: 62ch;
+  margin: 0;
+  color: var(--text);
+}
+
+.accent-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 0.3rem;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.42rem 0.72rem;
+  border-radius: 999px;
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.chip-sun {
+  background: var(--sun);
+}
+
+.chip-coral {
+  background: var(--coral);
+}
+
+.chip-sky {
+  background: var(--sky);
+}
+
+.song-grid,
+.member-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.song-card,
+.member-card,
+.book-card {
+  padding: 1.2rem;
+}
+
+.card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.song-number,
+.avatar {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  color: var(--ink);
+  font-family: "Fredoka", "Trebuchet MS", sans-serif;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--sun), #ffe58b);
+}
+
+.song-card h3,
+.member-card h3 {
+  margin-top: 1rem;
+  font-size: 1.45rem;
+}
+
+.song-card p,
+.member-card p,
+.book-card p,
+.band-note p,
+.show-item p {
+  margin: 0.75rem 0 0;
+  color: var(--text);
+}
+
+.song-meta,
+.member-role,
+.show-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 1rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(117, 215, 255, 0.12);
+  border: 1px solid rgba(117, 215, 255, 0.22);
+  color: var(--sky);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.member-role {
+  background: rgba(255, 122, 89, 0.12);
+  border-color: rgba(255, 122, 89, 0.24);
+  color: var(--coral);
+}
+
+.show-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 1rem;
+}
+
+.show-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.9rem;
+}
+
+.show-item {
+  display: grid;
+  grid-template-columns: 7.5rem 1fr auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem 1.1rem;
+}
+
+.show-date {
+  display: grid;
+  gap: 0.15rem;
+  align-content: center;
+  justify-items: center;
+  min-height: 5.2rem;
+  padding: 0.7rem 0.55rem;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, var(--coral), #ff977d);
+  color: var(--ink);
+  font-family: "Fredoka", "Trebuchet MS", sans-serif;
+}
+
+.show-date strong {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.show-date span {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 900;
+}
+
+.show-item h3 {
+  font-size: 1.35rem;
+}
+
+.show-item time,
+.show-item .place {
+  color: var(--text);
+}
+
+.show-note {
+  padding: 1.4rem;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(255, 210, 74, 0.18), transparent 26%),
+    radial-gradient(circle at 84% 20%, rgba(117, 215, 255, 0.18), transparent 24%),
+    linear-gradient(180deg, rgba(16, 56, 54, 0.98), rgba(6, 20, 19, 0.94));
+}
+
+.show-note h3 {
+  font-size: 1.7rem;
+}
+
+.show-note ul {
+  margin: 1rem 0 0;
+  padding-left: 1.15rem;
+  color: var(--text);
+}
+
+.band-note {
+  margin-top: 4.5rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1.25rem;
+  align-items: center;
+  padding: 1.35rem 1.4rem;
+  background:
+    linear-gradient(120deg, rgba(255, 210, 74, 0.08), transparent 34%),
+    linear-gradient(180deg, rgba(16, 56, 54, 0.98), rgba(6, 20, 19, 0.96));
+}
+
+.band-note h2 {
+  font-size: clamp(1.9rem, 3.4vw, 3rem);
+  max-width: 12ch;
+}
+
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.book-card {
+  min-height: 100%;
+}
+
+.book-card a {
+  display: inline-flex;
+  margin-top: 1rem;
+  color: var(--sun);
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.book-card a:hover,
+.book-card a:focus-visible {
+  text-decoration: underline;
+}
+
+footer {
+  padding: 3.25rem 0 2.5rem;
+}
+
+.footer-inner {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  border-top: 1px solid rgba(186, 236, 233, 0.14);
+  padding-top: 1.5rem;
+}
+
+.footer-inner p {
+  margin: 0.35rem 0 0;
+  color: var(--text);
+}
+
+.footer-links {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: var(--text);
+}
+
+.footer-links a:hover,
+.footer-links a:focus-visible {
+  color: var(--sun);
+}
+
+@media (max-width: 920px) {
+  .hero,
+  .show-grid,
+  .band-note,
+  .book-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .song-grid,
+  .member-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hero-stage {
+    min-height: 30rem;
+  }
+
+  .show-item {
+    grid-template-columns: 7rem 1fr;
+  }
+
+  .show-meta {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+}
+
+@media (max-width: 640px) {
+  .shell,
+  .hero,
+  .section,
+  .band-note,
+  footer {
+    width: min(100%, calc(100% - 1.25rem));
+  }
+
+  .topbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .hero {
+    padding-top: 3rem;
+  }
+
+  .hero-stats,
+  .song-grid,
+  .member-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-stage {
+    min-height: 28rem;
+  }
+
+  .poster {
+    inset: 1.4rem 0 0 0;
+  }
+
+  .show-item {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header>
+  <div class="shell topbar">
+    <a class="brand" href="#main">
+      <span class="brand-mark" aria-hidden="true">S</span>
+      The Star Sprouts
+    </a>
+    <nav aria-label="Primary">
+      <ul>
+        <li><a href="#songs">Songs</a></li>
+        <li><a href="#band">Band</a></li>
+        <li><a href="#shows">Shows</a></li>
+        <li><a href="#book">Book</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" aria-labelledby="hero-title">
+    <div>
+      <span class="eyebrow">All-ages pop with classroom roots</span>
+      <h1 id="hero-title">Bright songs for small hands and loud hearts.</h1>
+      <p class="lede">The Star Sprouts make family shows that feel like a tiny festival: sing-along hooks, friendly volume, and playful stage banter that keeps every kid in the room moving.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#shows">See upcoming shows</a>
+        <a class="btn btn-secondary" href="#book">Book a matinee</a>
+      </div>
+      <div class="hero-stats" aria-label="Band highlights">
+        <div>
+          <strong>45 min</strong>
+          <span>family set</span>
+        </div>
+        <div>
+          <strong>3</strong>
+          <span>clap breaks</span>
+        </div>
+        <div>
+          <strong>100%</strong>
+          <span>joy-first</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-stage" aria-hidden="true">
+      <span class="spotlight spotlight-one"></span>
+      <span class="spotlight spotlight-two"></span>
+      <article class="poster">
+        <span class="poster-label">Tonight's mini-mix</span>
+        <h2 class="poster-title">The stage is small. The chorus is huge.</h2>
+        <p class="poster-copy">A pocket-sized concert poster built for laughter, movement, and just enough glitter to make the room shine.</p>
+        <div class="poster-tracklist">
+          <div class="track">
+            <span>Rocket Shoes</span>
+            <small>opening burst</small>
+          </div>
+          <div class="track">
+            <span>Sticker Parade</span>
+            <small>call-and-response</small>
+          </div>
+          <div class="track">
+            <span>Moonlight Picnic</span>
+            <small>soft landing</small>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="songs" class="section" aria-labelledby="songs-title">
+    <div class="section-head">
+      <span class="eyebrow">Songs</span>
+      <h2 id="songs-title">A setlist built for dancing, chanting, and easy wins.</h2>
+      <p>Each tune keeps the melody simple enough for a first listen and interesting enough for grown-ups to hum later.</p>
+      <div class="accent-chip-row" aria-label="Music vibes">
+        <span class="chip chip-sun">Sing-along</span>
+        <span class="chip chip-coral">Handclaps</span>
+        <span class="chip chip-sky">Dance break</span>
+      </div>
+    </div>
+
+    <div class="song-grid">
+      <article class="song-card">
+        <div class="card-top">
+          <div class="song-number" aria-hidden="true">01</div>
+          <span class="song-meta">Opening burst</span>
+        </div>
+        <h3>Rocket Shoes</h3>
+        <p>A bouncy pop blast about heading out the door with one shoe on and a whole day ahead of you.</p>
+      </article>
+
+      <article class="song-card">
+        <div class="card-top">
+          <div class="song-number" aria-hidden="true">02</div>
+          <span class="song-meta">Crowd chorus</span>
+        </div>
+        <h3>Sticker Parade</h3>
+        <p>A call-and-response groove with a chorus that feels like a backpack full of bright shapes and good news.</p>
+      </article>
+
+      <article class="song-card">
+        <div class="card-top">
+          <div class="song-number" aria-hidden="true">03</div>
+          <span class="song-meta">Soft landing</span>
+        </div>
+        <h3>Moonlight Picnic</h3>
+        <p>A calmer finale with glockenspiel sparkle, a gentle sway, and a night sky ending that lowers the lights nicely.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="band" class="section" aria-labelledby="band-title">
+    <div class="section-head">
+      <span class="eyebrow">Band</span>
+      <h2 id="band-title">Four musicians, one bright little constellation.</h2>
+      <p>Every member writes songs about snack time, rain boots, parking-lot dance moves, and the tiny brave moments that matter most.</p>
+    </div>
+
+    <div class="member-grid">
+      <article class="member-card">
+        <div class="card-top">
+          <div class="avatar" aria-hidden="true">LS</div>
+          <span class="member-role">Lead vocals</span>
+        </div>
+        <h3>Luna Sparks</h3>
+        <p>Frontperson, ukulele wrangler, and the band member who can get any room to answer a chorus twice.</p>
+      </article>
+
+      <article class="member-card">
+        <div class="card-top">
+          <div class="avatar" aria-hidden="true">MR</div>
+          <span class="member-role">Drums</span>
+        </div>
+        <h3>Milo Reed</h3>
+        <p>The beat maker behind every stomp, clap, and tiny thunder roll. He keeps the set moving without ever rushing the sing-alongs.</p>
+      </article>
+
+      <article class="member-card">
+        <div class="card-top">
+          <div class="avatar" aria-hidden="true">BH</div>
+          <span class="member-role">Keys and bells</span>
+        </div>
+        <h3>Bea Harbor</h3>
+        <p>She adds the sparkle: glockenspiel, keys, and those little melody lines that sound like sunlight on the floor.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="shows" class="section" aria-labelledby="shows-title">
+    <div class="section-head">
+      <span class="eyebrow">Shows</span>
+      <h2 id="shows-title">Upcoming stops on the tiny festival tour.</h2>
+      <p>Every stop includes a family-friendly volume check, lyric cards for the crowd, and a final song built for big goodbyes.</p>
+    </div>
+
+    <div class="show-grid">
+      <ol class="show-list">
+        <li class="show-item">
+          <div class="show-date"><strong>14</strong><span>Aug</span></div>
+          <div>
+            <h3>Maple Street Library Lawn</h3>
+            <time datetime="2026-08-14T10:30">10:30 AM</time>
+            <p class="place">Story hour stage - open to all families.</p>
+          </div>
+          <span class="show-meta">Sing-along set</span>
+        </li>
+
+        <li class="show-item">
+          <div class="show-date"><strong>02</strong><span>Sep</span></div>
+          <div>
+            <h3>Riverlight School Fair</h3>
+            <time datetime="2026-09-02T13:00">1:00 PM</time>
+            <p class="place">Courtyard stage - gentle volume available.</p>
+          </div>
+          <span class="show-meta">Matinee</span>
+        </li>
+
+        <li class="show-item">
+          <div class="show-date"><strong>18</strong><span>Sep</span></div>
+          <div>
+            <h3>Lantern Park Festival</h3>
+            <time datetime="2026-09-18T16:00">4:00 PM</time>
+            <p class="place">Main green - snacks, dancing, and a sunset closer.</p>
+          </div>
+          <span class="show-meta">All ages</span>
+        </li>
+      </ol>
+
+      <aside class="show-note" aria-labelledby="family-note-title">
+        <h3 id="family-note-title">What families usually love most</h3>
+        <p>The Star Sprouts keep the room friendly for young listeners and still interesting for the grown-ups who came along for the ride.</p>
+        <ul>
+          <li>Lyric sheets for easy chanting.</li>
+          <li>A calm corner when little ears need a break.</li>
+          <li>Movement sections baked into the set.</li>
+          <li>A closing song that brings everyone together again.</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <section id="book" class="section" aria-labelledby="book-title">
+    <div class="band-note">
+      <div>
+        <span class="eyebrow">Book</span>
+        <h2 id="book-title">Bring the sprouts to your stage.</h2>
+        <p>Schools, birthday parties, libraries, block parties, and quiet-room versions are all part of the plan. If the room can fit a clapping circle, it can host a Star Sprouts show.</p>
+      </div>
+      <a class="btn btn-primary" href="mailto:hello@starsprouts.example">Book the band</a>
+    </div>
+
+    <div class="book-grid" style="margin-top: 1rem;">
+      <article class="book-card">
+        <span class="chip chip-sun">For organizers</span>
+        <h3>Simple setup, bright payoff.</h3>
+        <p>We travel light, adapt to the room, and keep the set easy to follow so kids can jump in fast.</p>
+      </article>
+
+      <article class="book-card">
+        <span class="chip chip-sky">For families</span>
+        <h3>Music that meets kids where they are.</h3>
+        <p>The show stays playful without turning noisy: a good balance of rhythm, melody, and room to breathe.</p>
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <strong>The Star Sprouts</strong>
+      <p>Family-sized pop, small-stage sparkle, and songs that stick around on the ride home.</p>
+    </div>
+    <nav aria-label="Footer">
+      <ul class="footer-links">
+        <li><a href="#songs">Songs</a></li>
+        <li><a href="#band">Band</a></li>
+        <li><a href="#shows">Shows</a></li>
+        <li><a href="#book">Book</a></li>
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>

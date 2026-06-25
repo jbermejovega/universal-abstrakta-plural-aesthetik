@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Night Archive of Unlikely Things</title>
+<meta name="description" content="A random subject page with an accessible palette, strong hierarchy, and an original editorial layout.">
+<style>
+  :root{
+    --bg:#0c1118;
+    --surface:#121a25;
+    --surface-2:#172231;
+    --text:#f7fafc;
+    --muted:#c5d0de;
+    --line:#33475d;
+    --accent:#ffb86b;
+    --accent-2:#7dd3fc;
+    --accent-3:#a7f3d0;
+    --shadow:0 24px 80px rgba(0,0,0,.35);
+    --max-w:1120px;
+    --radius:22px;
+    --subject-accent:#ffb86b;
+    --subject-accent-2:#7dd3fc;
+    --subject-accent-3:#a7f3d0;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    min-height:100vh;
+    color:var(--text);
+    background:
+      radial-gradient(circle at top left, rgba(125,211,252,.16), transparent 28%),
+      radial-gradient(circle at bottom right, rgba(255,184,107,.12), transparent 22%),
+      linear-gradient(180deg, #0b1017 0%, #0d141d 56%, #0b1017 100%);
+    font-family:"Iowan Old Style", "Palatino Linotype", Georgia, serif;
+    line-height:1.65;
+    overflow-x:hidden;
+  }
+
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background-image:
+      linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
+    background-size:48px 48px;
+    opacity:.34;
+  }
+
+  a{color:var(--accent-2); text-decoration-color:rgba(125,211,252,.65);}
+  a:hover{text-decoration-thickness:2px;}
+  a:focus-visible,
+  button:focus-visible,
+  summary:focus-visible{
+    outline:3px solid var(--accent-3);
+    outline-offset:4px;
+  }
+
+  .skip-link{
+    position:absolute;
+    left:1rem;
+    top:-4rem;
+    z-index:10;
+    padding:.8rem 1rem;
+    border-radius:999px;
+    background:var(--accent);
+    color:#111827;
+    font-weight:700;
+    text-decoration:none;
+  }
+  .skip-link:focus{top:1rem;}
+
+  .shell{
+    position:relative;
+    z-index:1;
+    max-width:var(--max-w);
+    margin:0 auto;
+    padding:1.25rem 1rem 4rem;
+  }
+
+  .masthead{
+    display:flex;
+    justify-content:space-between;
+    gap:1rem;
+    align-items:center;
+    padding:.75rem 0 1.5rem;
+  }
+
+  .brand{display:flex; flex-direction:column; gap:.2rem;}
+  .brand span:first-child{
+    text-transform:uppercase;
+    letter-spacing:.24em;
+    font-size:.74rem;
+    color:var(--accent-3);
+  }
+  .brand strong{font-size:1rem; font-weight:700;}
+
+  .shuffle{
+    appearance:none;
+    border:1px solid rgba(255,255,255,.14);
+    background:linear-gradient(135deg, rgba(255,184,107,.12), rgba(125,211,252,.12));
+    color:var(--text);
+    border-radius:999px;
+    padding:.85rem 1.1rem;
+    font:inherit;
+    font-weight:700;
+    cursor:pointer;
+    transition:transform .2s ease, border-color .2s ease, background .2s ease;
+  }
+  .shuffle:hover{transform:translateY(-1px); border-color:rgba(255,255,255,.24);}
+
+  .hero{
+    display:grid;
+    grid-template-columns:minmax(0,1.35fr) minmax(280px,.85fr);
+    gap:1.25rem;
+    align-items:stretch;
+    padding:1rem 0 1.75rem;
+  }
+
+  .hero-copy,
+  .hero-aside,
+  .panel,
+  .card,
+  .quote,
+  .catalog,
+  .faq{
+    background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    backdrop-filter:blur(8px);
+  }
+
+  .hero-copy{
+    padding:clamp(1.4rem, 4vw, 2.25rem);
+    background:
+      radial-gradient(circle at 20% 20%, rgba(255,184,107,.22), transparent 32%),
+      radial-gradient(circle at 80% 15%, rgba(125,211,252,.18), transparent 28%),
+      linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.015));
+  }
+
+  .eyebrow{
+    display:inline-flex;
+    gap:.5rem;
+    align-items:center;
+    padding:.35rem .8rem;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.15);
+    text-transform:uppercase;
+    letter-spacing:.18em;
+    font-size:.73rem;
+    color:var(--accent-3);
+    background:rgba(17,24,39,.22);
+  }
+
+  .eyebrow::before{
+    content:"";
+    width:.6rem;
+    height:.6rem;
+    border-radius:50%;
+    background:var(--subject-accent);
+    box-shadow:0 0 0 6px rgba(255,184,107,.12);
+  }
+
+  h1{
+    margin:.95rem 0 .8rem;
+    font-size:clamp(2.3rem, 7vw, 4.8rem);
+    line-height:1.02;
+    letter-spacing:-.03em;
+  }
+
+  .lede{
+    max-width:42rem;
+    font-size:clamp(1.05rem, 2vw, 1.24rem);
+    margin:0;
+    color:var(--text);
+    opacity:.95;
+  }
+
+  .hero-meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.75rem;
+    margin-top:1.35rem;
+  }
+
+  .chip{
+    display:inline-flex;
+    align-items:center;
+    gap:.5rem;
+    padding:.55rem .8rem;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.1);
+    background:rgba(8,12,18,.3);
+    color:var(--muted);
+    font-size:.92rem;
+  }
+  .chip strong{color:var(--text);}
+
+  .hero-aside{
+    padding:1.25rem;
+    display:grid;
+    align-content:start;
+    gap:1rem;
+  }
+
+  .stat-grid{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:.75rem;}
+  .stat{
+    padding:1rem;
+    border-radius:18px;
+    background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+    border:1px solid rgba(255,255,255,.07);
+  }
+  .stat span{
+    display:block;
+    font-size:.78rem;
+    text-transform:uppercase;
+    letter-spacing:.12em;
+    color:var(--muted);
+    margin-bottom:.4rem;
+  }
+  .stat strong{font-size:1.15rem; color:var(--text);}
+
+  .panel{margin-top:1.25rem; padding:1.25rem;}
+  .panel h2,.panel h3{margin:0; line-height:1.15;}
+  .panel h2{font-size:clamp(1.4rem, 3vw, 2rem); margin-bottom:.35rem;}
+
+  .section-note{
+    margin:0 0 .2rem;
+    color:var(--accent-2);
+    text-transform:uppercase;
+    letter-spacing:.16em;
+    font-size:.74rem;
+  }
+
+  .intro{
+    max-width:72ch;
+    color:var(--muted);
+    margin:.55rem 0 0;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(12, minmax(0, 1fr));
+    gap:1rem;
+    margin-top:1rem;
+  }
+
+  .card{
+    grid-column:span 4;
+    padding:1.15rem;
+    min-height:11rem;
+    position:relative;
+    overflow:hidden;
+  }
+
+  .card::after{
+    content:"";
+    position:absolute;
+    inset:auto -2rem -2rem auto;
+    width:8rem;
+    height:8rem;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(255,184,107,.35) 0%, transparent 70%);
+    opacity:.7;
+  }
+
+  .card .kicker{
+    display:inline-flex;
+    align-items:center;
+    gap:.45rem;
+    margin-bottom:.7rem;
+    color:var(--accent-3);
+    text-transform:uppercase;
+    letter-spacing:.13em;
+    font-size:.72rem;
+  }
+
+  .card h3{font-size:1.2rem; margin-bottom:.45rem;}
+  .card p{margin:0; color:var(--muted);}
+  .card ul{margin:.8rem 0 0; padding-left:1.1rem; color:var(--text);}
+  .card li{margin-bottom:.35rem;}
+
+  .quote{grid-column:span 12; padding:1.25rem 1.35rem; display:grid; gap:.8rem;}
+  blockquote{margin:0; font-size:clamp(1.1rem, 2.3vw, 1.45rem); color:var(--text);}
+  blockquote strong{color:var(--subject-accent-2);}
+
+  .catalog{grid-column:span 7; padding:1.15rem;}
+  .faq{grid-column:span 5; padding:1.15rem;}
+
+  .list{display:grid; gap:.85rem; margin-top:1rem;}
+  .list-item{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:.9rem;
+    padding:.95rem 1rem;
+    border-radius:16px;
+    background:rgba(0,0,0,.16);
+    border:1px solid rgba(255,255,255,.06);
+  }
+
+  .dot{
+    width:1rem;
+    height:1rem;
+    border-radius:50%;
+    margin-top:.28rem;
+    background:var(--subject-accent);
+    box-shadow:0 0 0 5px rgba(255,184,107,.14);
+  }
+
+  .list-item h4{margin:0 0 .2rem; font-size:1rem;}
+  .list-item p{margin:0; color:var(--muted);}
+
+  details{
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.07);
+    background:rgba(0,0,0,.16);
+    margin-top:.8rem;
+    overflow:hidden;
+  }
+
+  summary{
+    cursor:pointer;
+    list-style:none;
+    padding:1rem 1rem 1rem 1.1rem;
+    font-weight:700;
+    color:var(--text);
+  }
+  summary::-webkit-details-marker{display:none;}
+  summary::before{
+    content:"+";
+    display:inline-grid;
+    place-items:center;
+    width:1.2rem;
+    height:1.2rem;
+    margin-right:.6rem;
+    border-radius:50%;
+    color:#0b1017;
+    background:var(--accent-3);
+    font-weight:900;
+    vertical-align:middle;
+  }
+  details[open] summary::before{content:"–";}
+  details p{margin:0; padding:0 1rem 1rem 2.9rem; color:var(--muted);}
+
+  .footer{
+    display:flex;
+    justify-content:space-between;
+    gap:1rem;
+    flex-wrap:wrap;
+    margin-top:1.25rem;
+    padding:1rem .2rem 0;
+    color:var(--muted);
+    font-size:.95rem;
+  }
+  .footnote strong{color:var(--text);}
+
+  @media (max-width: 900px){
+    .hero{grid-template-columns:1fr;}
+    .card{grid-column:span 6;}
+    .catalog,.faq{grid-column:span 12;}
+  }
+
+  @media (max-width: 640px){
+    .masthead{align-items:flex-start; flex-direction:column;}
+    .stat-grid{grid-template-columns:1fr;}
+    .card{grid-column:span 12;}
+    .grid{gap:.85rem;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *, *::before, *::after{animation:none !important; transition:none !important;}
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to content</a>
+
+<div class="shell">
+  <header class="masthead" aria-label="Page controls">
+    <div class="brand">
+      <span>Accessible palette</span>
+      <strong>Desktop edition</strong>
+    </div>
+    <button class="shuffle" id="shuffleButton" type="button">Shuffle subject</button>
+  </header>
+
+  <section class="hero" aria-labelledby="subject-title">
+    <article class="hero-copy">
+      <span class="eyebrow" id="subject-genre">Night dossier</span>
+      <h1 id="subject-title">The Night Archive of Unlikely Things</h1>
+      <p class="lede" id="subject-summary">A random subject page can still be useful: this one turns a strange idea into a clean, readable editorial layout with strong contrast, generous spacing, and a theme that can be reshuffled without losing structure.</p>
+
+      <div class="hero-meta" aria-label="Subject highlights">
+        <span class="chip"><strong>Focus:</strong> <span id="subject-focus">Memory, maps, and weathered objects</span></span>
+        <span class="chip"><strong>Tempo:</strong> <span id="subject-tempo">Slow, reflective, and precise</span></span>
+        <span class="chip"><strong>Palette:</strong> <span id="subject-palette">Ink, ember, and sea glass</span></span>
+      </div>
+    </article>
+
+    <aside class="hero-aside" aria-labelledby="facts-title">
+      <p class="section-note" id="facts-title">Field notes</p>
+      <div class="stat-grid" id="statGrid"></div>
+      <div class="panel">
+        <h2>Why this works</h2>
+        <p class="intro">The composition stays readable because contrast is controlled, the hierarchy is obvious, and motion is decorative rather than necessary. The palette is dark, but the content is never dim.</p>
+      </div>
+    </aside>
+  </section>
+
+  <main id="main-content">
+    <section class="panel" aria-labelledby="highlights-title">
+      <p class="section-note">Highlights</p>
+      <h2 id="highlights-title">A subject page that feels original without getting unusable</h2>
+      <p class="intro">Each shuffle changes the subject, the microcopy, and the color accents, but the reading order, landmarks, and card structure stay stable. That is the trick: surprise in the content, not chaos in the interface.</p>
+
+      <div class="grid" id="highlightsGrid"></div>
+    </section>
+
+    <section class="panel" aria-labelledby="catalog-title">
+      <p class="section-note">Catalog</p>
+      <h2 id="catalog-title">What the page is really about</h2>
+      <p class="intro">The subject is intentionally odd, but the framing is practical. It gives you a desktop artifact that feels authored, not templated, while still respecting keyboard users, low-vision users, and motion preferences.</p>
+
+      <div class="grid">
+        <article class="catalog">
+          <h3>Objects on the page</h3>
+          <div class="list" id="catalogList"></div>
+        </article>
+
+        <article class="faq" aria-labelledby="faq-title">
+          <h3 id="faq-title">Quick checks</h3>
+          <details>
+            <summary>Can I understand it without animation?</summary>
+            <p>Yes. The page does not rely on animation to explain the content, so reducing motion changes nothing essential.</p>
+          </details>
+          <details>
+            <summary>Is the palette actually accessible?</summary>
+            <p>Yes. The text colors stay near-white against a dark surface, with accents reserved for emphasis rather than body copy.</p>
+          </details>
+          <details>
+            <summary>Why is there a shuffle button?</summary>
+            <p>It makes the page feel generative and keeps the desktop artifact playful while still preserving a predictable structure.</p>
+          </details>
+        </article>
+
+        <article class="quote">
+          <p class="section-note">Editor note</p>
+          <blockquote id="editorialQuote">“A page gets memorable when the subject is unusual, but the reading experience remains calm.”</blockquote>
+        </article>
+      </div>
+    </section>
+
+    <div class="footer" aria-label="Page footer">
+      <p class="footnote"><strong>Desktop artifact:</strong> built to live as a single HTML file on your machine.</p>
+      <p class="footnote">No framework, no build step, no extra dependencies.</p>
+    </div>
+  </main>
+</div>
+
+<script>
+  const subjects = [
+    {
+      title: 'The Night Archive of Unlikely Things',
+      genre: 'Night dossier',
+      summary: 'A cabinet of weathered keys, tide marks, and half-remembered routes, arranged like a museum that only opens after sunset.',
+      focus: 'Memory, maps, and weathered objects',
+      tempo: 'Slow, reflective, and precise',
+      palette: 'Ink, ember, and sea glass',
+      accent: '#ffb86b',
+      accent2: '#7dd3fc',
+      accent3: '#a7f3d0',
+      quote: '“The most interesting archives do not prove a point; they preserve a texture.”',
+      stats: [
+        { label: 'Artifacts', value: '27 found objects' },
+        { label: 'Mood', value: 'Quietly luminous' },
+        { label: 'Reading time', value: '4 minutes' },
+        { label: 'Depth', value: 'One well-lit idea' }
+      ],
+      cards: [
+        {
+          kicker: 'Index',
+          title: 'Tide-worn labels',
+          body: 'Old tags, library slips, and hand-scrawled notes create the sense that every object has been handled before.',
+          list: ['Readable at a glance', 'Secondary information stays muted', 'Hierarchy survives small screens']
+        },
+        {
+          kicker: 'Texture',
+          title: 'Soft edges, hard contrast',
+          body: 'The background can feel atmospheric as long as the foreground stays legible. That balance keeps the design calm.',
+          list: ['Strong contrast for body text', 'Accents used sparingly', 'Focus states remain obvious']
+        },
+        {
+          kicker: 'Signal',
+          title: 'The page can breathe',
+          body: 'Wide spacing, clear landmarks, and generous line length make the page feel editorial instead of crowded.',
+          list: ['Comfortable reading width', 'Semantic sections', 'No hidden interaction']
+        }
+      ],
+      list: [
+        ['Collector’s note', 'A short entry explaining why the object belongs here.'],
+        ['Route card', 'A compact overview of where the subject came from and where it points.'],
+        ['Shadow line', 'A tiny metadata row that gives the page depth without adding clutter.']
+      ]
+    },
+    {
+      title: 'The Greenhouse of Silent Radios',
+      genre: 'Signal garden',
+      summary: 'An indoor landscape where antennae become trellises and every shelf seems to be listening for weather that has not arrived yet.',
+      focus: 'Transmission, patience, and repair',
+      tempo: 'Measured, technical, and warm',
+      palette: 'Pine, brass, and frost',
+      accent: '#9ae6b4',
+      accent2: '#fbbf24',
+      accent3: '#d1fae5',
+      quote: '“A useful interface is a tuned instrument, not a loud one.”',
+      stats: [
+        { label: 'Signals', value: '12 channels' },
+        { label: 'Silence', value: 'Deliberate' },
+        { label: 'Humidity', value: 'Managed' },
+        { label: 'Glare', value: 'Suppressed' }
+      ],
+      cards: [
+        {
+          kicker: 'Layer',
+          title: 'Glass over brass',
+          body: 'The page uses polished surfaces, but never enough gloss to steal attention from the words.',
+          list: ['Clear content contrast', 'Minimal decoration', 'Stable focus behavior']
+        },
+        {
+          kicker: 'System',
+          title: 'Readings in plain language',
+          body: 'The subject may be odd, but the copy remains concrete so users do not have to decode the page before using it.',
+          list: ['Direct headings', 'No jargon overload', 'Predictable interaction']
+        },
+        {
+          kicker: 'State',
+          title: 'A calm instrument panel',
+          body: 'The layout makes room for scanning, which is the desktop equivalent of leaving enough bench space to work.',
+          list: ['Scannable grid', 'Strong callouts', 'Responsive cards']
+        }
+      ],
+      list: [
+        ['Calibration log', 'A compact note about how the page was tuned for contrast and legibility.'],
+        ['Relay housing', 'A supporting panel that keeps the main subject from feeling empty.'],
+        ['Signal note', 'A detail that adds character without weakening the layout.']
+      ]
+    },
+    {
+      title: 'The Museum of Rain That Never Fell',
+      genre: 'Weather exhibit',
+      summary: 'An exhibition of storms remembered by the architecture around them: gutters, tiles, stones, and one very patient window.',
+      focus: 'Weather, memory, and architecture',
+      tempo: 'Moody, narrative, and composed',
+      palette: 'Slate, apricot, and fern',
+      accent: '#f59e0b',
+      accent2: '#60a5fa',
+      accent3: '#bbf7d0',
+      quote: '“You can make a page feel rich without making it busy.”',
+      stats: [
+        { label: 'Rooms', value: '6 chambers' },
+        { label: 'Rainfall', value: 'Remembered only' },
+        { label: 'Clarity', value: 'High' },
+        { label: 'Mood', value: 'Steady hush' }
+      ],
+      cards: [
+        {
+          kicker: 'Exhibit',
+          title: 'Edges that collect light',
+          body: 'The layout uses framing and spacing the way a museum uses wall color: to guide attention gently.',
+          list: ['Clear visual boundary', 'Balanced negative space', 'Legible on bright screens']
+        },
+        {
+          kicker: 'Archive',
+          title: 'Readable labels',
+          body: 'Even the most poetic subject still needs labels that can be scanned in seconds.',
+          list: ['Short supportive copy', 'No cramped columns', 'Accessible emphasis']
+        },
+        {
+          kicker: 'Atmosphere',
+          title: 'Not a wallpaper page',
+          body: 'The surface stays atmospheric, but the user never has to fight the design to get the meaning.',
+          list: ['Functional controls', 'Predictable structure', 'One obvious primary action']
+        }
+      ],
+      list: [
+        ['Exhibit label', 'A concise description that works like a museum placard.'],
+        ['Climate note', 'A short line to ground the subject in a real sensory detail.'],
+        ['Acoustic note', 'A tiny reminder that the page should feel calm, not ornate.']
+      ]
+    },
+    {
+      title: 'The Harbor of Spare Moonbeams',
+      genre: 'Harbor journal',
+      summary: 'A working waterfront after midnight, when ropes, cranes, and tide charts all seem to hold a little more meaning than they did in daylight.',
+      focus: 'Navigation, industry, and nighttime color',
+      tempo: 'Clean, tactile, and quietly dramatic',
+      palette: 'Navy, coral, and mint',
+      accent: '#fb7185',
+      accent2: '#86efac',
+      accent3: '#dbeafe',
+      quote: '“Original does not have to mean obscure.”',
+      stats: [
+        { label: 'Docks', value: '4 piers' },
+        { label: 'Tide', value: 'Low and rising' },
+        { label: 'Light', value: 'Borrowed and balanced' },
+        { label: 'Rhythm', value: 'Controlled' }
+      ],
+      cards: [
+        {
+          kicker: 'Harbor',
+          title: 'A crisp deck of cards',
+          body: 'Each panel behaves like a dock: distinct, sturdy, and easy to step across.',
+          list: ['Visible separation', 'Good tap targets', 'Simple navigation']
+        },
+        {
+          kicker: 'Route',
+          title: 'Signals over spectacle',
+          body: 'The color system does the work, while layout remains stubbornly practical.',
+          list: ['Single accent for emphasis', 'Text always wins on contrast', 'No unnecessary complexity']
+        },
+        {
+          kicker: 'Night watch',
+          title: 'A page for real usage',
+          body: 'The design is meant to be looked at and used at the same time, which is where good desktop artifacts live.',
+          list: ['Responsive by default', 'Focus visible', 'Reading order intact']
+        }
+      ],
+      list: [
+        ['Berth marker', 'A label that anchors the subject in the page’s structure.'],
+        ['Weather strip', 'A supporting detail that keeps the section believable.'],
+        ['Night note', 'A small color cue that adds mood without killing contrast.']
+      ]
+    }
+  ];
+
+  const subjectTitle = document.getElementById('subject-title');
+  const subjectGenre = document.getElementById('subject-genre');
+  const subjectSummary = document.getElementById('subject-summary');
+  const subjectFocus = document.getElementById('subject-focus');
+  const subjectTempo = document.getElementById('subject-tempo');
+  const subjectPalette = document.getElementById('subject-palette');
+  const statGrid = document.getElementById('statGrid');
+  const highlightsGrid = document.getElementById('highlightsGrid');
+  const catalogList = document.getElementById('catalogList');
+  const editorialQuote = document.getElementById('editorialQuote');
+  const shuffleButton = document.getElementById('shuffleButton');
+  const metaDescription = document.querySelector('meta[name="description"]');
+
+  function randomSubject() {
+    return subjects[Math.floor(Math.random() * subjects.length)];
+  }
+
+  function paintSubject(subject) {
+    document.documentElement.style.setProperty('--subject-accent', subject.accent);
+    document.documentElement.style.setProperty('--subject-accent-2', subject.accent2);
+    document.documentElement.style.setProperty('--subject-accent-3', subject.accent3);
+    document.title = `${subject.title} — Desktop subject page`;
+    metaDescription.setAttribute('content', subject.summary);
+
+    subjectTitle.textContent = subject.title;
+    subjectGenre.textContent = subject.genre;
+    subjectSummary.textContent = subject.summary;
+    subjectFocus.textContent = subject.focus;
+    subjectTempo.textContent = subject.tempo;
+    subjectPalette.textContent = subject.palette;
+    editorialQuote.textContent = subject.quote;
+
+    statGrid.innerHTML = subject.stats.map((item) => `
+      <div class="stat">
+        <span>${item.label}</span>
+        <strong>${item.value}</strong>
+      </div>
+    `).join('');
+
+    highlightsGrid.innerHTML = subject.cards.map((card) => `
+      <article class="card">
+        <span class="kicker">${card.kicker}</span>
+        <h3>${card.title}</h3>
+        <p>${card.body}</p>
+        <ul>
+          ${card.list.map((entry) => `<li>${entry}</li>`).join('')}
+        </ul>
+      </article>
+    `).join('');
+
+    catalogList.innerHTML = subject.list.map(([label, description]) => `
+      <div class="list-item">
+        <span class="dot" aria-hidden="true"></span>
+        <div>
+          <h4>${label}</h4>
+          <p>${description}</p>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  let currentSubject = randomSubject();
+  paintSubject(currentSubject);
+
+  shuffleButton.addEventListener('click', () => {
+    let nextSubject = randomSubject();
+    while (subjects.length > 1 && nextSubject === currentSubject) {
+      nextSubject = randomSubject();
+    }
+    currentSubject = nextSubject;
+    paintSubject(currentSubject);
+    document.getElementById('main-content').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+</script>
+</body>
+</html>

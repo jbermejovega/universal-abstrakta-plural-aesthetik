@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voyager — Explore the Cosmos</title>
+<style>
+  /*
+   * WCAG AA PAIRING MANIFEST — source: #3b2f8c · theme: black
+   *
+   * BODY TEXT (any font size, >=4.5:1):
+   *   shade-100 (#120e2b) -> 900, 800, 700
+   *   shade-300 (#312775) -> 900, 800
+   *   shade-600 (#6151c6) -> 900
+   *   shade-700 (#7e72d0) -> black, 100
+   *   shade-800 (#bcb5e7) -> black, 100, 300
+   *   shade-900 (#e3e1f5) -> black, 100, 300, 600
+   *
+   * LARGE TEXT ONLY (>=24px or >=18.67px bold, 3:1-4.5:1):
+   *   shade-100 (#120e2b) -> 600
+   *   shade-300 (#312775) -> 700
+   *   shade-600 (#6151c6) -> 100, 800, black
+   *   shade-700 (#7e72d0) -> 300, 900
+   *   shade-800 (#bcb5e7) -> 600
+   *   shade-900 (#e3e1f5) -> 700
+   *
+   * ACCENT (#ffc93c) checked independently with check_contrast:
+   *   #ffc93c on #000000      -> 13.67:1 AA normal
+   *   #120e2b on #ffc93c      -> 12.17:1 AA normal
+   */
+  :root {
+    --space-100: #120e2b; /* bg-only at small sizes for 600 */
+    --space-300: #312775;
+    --space-600: #6151c6;
+    --space-700: #7e72d0;
+    --space-800: #bcb5e7;
+    --space-900: #e3e1f5;
+    --space-black: #000000;
+    --accent: #ffc93c;
+    --font-display: "Georgia", "Times New Roman", serif;
+    --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--space-black);
+    color: var(--space-900);
+    font-family: var(--font-body);
+    line-height: 1.6;
+  }
+
+  a { color: inherit; }
+
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    background: var(--accent);
+    color: var(--space-100);
+    padding: 0.75rem 1.25rem;
+    font-weight: 700;
+    z-index: 100;
+  }
+  .skip-link:focus {
+    left: 1rem;
+    top: 1rem;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  /* ---------- Header ---------- */
+  header {
+    position: sticky;
+    top: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--space-300);
+    z-index: 50;
+  }
+
+  .nav-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+  }
+
+  .logo {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--space-900);
+    letter-spacing: 0.04em;
+    text-decoration: none;
+  }
+  .logo span { color: var(--accent); }
+
+  nav ul {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  nav a {
+    color: var(--space-800);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+  nav a:hover, nav a:focus-visible {
+    color: var(--space-900);
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at 20% 20%, var(--space-300) 0%, transparent 45%),
+      radial-gradient(ellipse at 80% 70%, var(--space-300) 0%, transparent 40%),
+      var(--space-black);
+  }
+
+  .stars {
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(1.5px 1.5px at 10% 20%, var(--space-900) 50%, transparent 100%),
+      radial-gradient(1px 1px at 25% 60%, var(--space-800) 50%, transparent 100%),
+      radial-gradient(2px 2px at 40% 15%, var(--space-900) 50%, transparent 100%),
+      radial-gradient(1px 1px at 55% 75%, var(--space-700) 50%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 70% 35%, var(--space-900) 50%, transparent 100%),
+      radial-gradient(1px 1px at 85% 80%, var(--space-800) 50%, transparent 100%),
+      radial-gradient(2px 2px at 92% 25%, var(--space-900) 50%, transparent 100%),
+      radial-gradient(1px 1px at 15% 90%, var(--space-700) 50%, transparent 100%);
+    opacity: 0.8;
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    width: 100%;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    color: var(--space-100);
+    background: var(--accent);
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    margin-bottom: 1.25rem;
+  }
+
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    line-height: 1.1;
+    color: var(--space-900);
+    max-width: 800px;
+    margin-bottom: 1.25rem;
+  }
+
+  .hero p.lede {
+    font-size: clamp(1.05rem, 2vw, 1.3rem);
+    color: var(--space-800);
+    max-width: 600px;
+    margin-bottom: 2rem;
+  }
+
+  .btn-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  .btn {
+    display: inline-block;
+    padding: 0.85rem 1.75rem;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    border: 2px solid transparent;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--space-100);
+  }
+  .btn-primary:hover, .btn-primary:focus-visible {
+    background: var(--space-900);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--space-900);
+    border-color: var(--space-700);
+  }
+  .btn-secondary:hover, .btn-secondary:focus-visible {
+    background: var(--space-100);
+  }
+
+  /* ---------- Sections ---------- */
+  section {
+    padding: 5rem 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-head {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 3rem;
+  }
+
+  .section-head .tag {
+    color: var(--space-700);
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .section-head h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    color: var(--space-900);
+    margin: 0.5rem 0 1rem;
+  }
+
+  .section-head p {
+    color: var(--space-800);
+  }
+
+  /* Missions grid */
+  .missions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .mission-card {
+    background: var(--space-100);
+    border: 1px solid var(--space-300);
+    border-radius: 12px;
+    padding: 1.75rem;
+  }
+
+  .mission-card .icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .mission-card h3 {
+    color: var(--space-900);
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .mission-card p {
+    color: var(--space-800);
+    font-size: 0.95rem;
+  }
+
+  .mission-card .status {
+    display: inline-block;
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--space-100);
+    background: var(--space-700);
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+  }
+
+  /* Stats band */
+  .stats {
+    background: var(--space-100);
+    border-top: 1px solid var(--space-300);
+    border-bottom: 1px solid var(--space-300);
+  }
+
+  .stats-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3.5rem 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 2rem;
+    text-align: center;
+  }
+
+  .stat-number {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .stat-label {
+    color: var(--space-800);
+    font-size: 0.95rem;
+    margin-top: 0.25rem;
+  }
+
+  /* Newsletter / CTA */
+  .cta {
+    background: var(--space-300);
+    border-radius: 16px;
+    padding: 3rem 2rem;
+    text-align: center;
+    margin: 2rem auto 5rem;
+  }
+
+  .cta h2 {
+    font-family: var(--font-display);
+    color: var(--space-900);
+    font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+    margin-bottom: 0.75rem;
+  }
+
+  .cta p {
+    color: var(--space-900);
+    max-width: 500px;
+    margin: 0 auto 1.75rem;
+  }
+
+  .cta-form {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .cta-form label {
+    position: absolute;
+    left: -9999px;
+  }
+
+  .cta-form input[type="email"] {
+    padding: 0.85rem 1rem;
+    border-radius: 8px;
+    border: 2px solid var(--space-700);
+    background: var(--space-100);
+    color: var(--space-900);
+    font-size: 1rem;
+    min-width: 260px;
+  }
+  .cta-form input[type="email"]::placeholder {
+    color: var(--space-800);
+  }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--space-300);
+    padding: 2.5rem 1.5rem;
+  }
+
+  .footer-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    color: var(--space-800);
+    font-size: 0.9rem;
+  }
+
+  .footer-wrap a {
+    color: var(--space-800);
+    text-decoration: underline;
+  }
+  .footer-wrap a:hover, .footer-wrap a:focus-visible {
+    color: var(--space-900);
+  }
+
+  @media (max-width: 640px) {
+    nav ul { gap: 1rem; }
+    .nav-wrap { flex-direction: column; gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<header>
+  <div class="nav-wrap">
+    <a href="#" class="logo">Voyager<span>·</span></a>
+    <nav aria-label="Primary">
+      <ul>
+        <li><a href="#missions">Missions</a></li>
+        <li><a href="#stats">By the numbers</a></li>
+        <li><a href="#subscribe">Subscribe</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="stars" aria-hidden="true"></div>
+    <div class="hero-content">
+      <span class="eyebrow">Live tracking · Deep Space Network</span>
+      <h1 id="hero-heading">Charting humanity's next leap into the cosmos.</h1>
+      <p class="lede">
+        Real-time mission data, telescope discoveries, and launch schedules —
+        follow every step of our journey beyond Earth's orbit.
+      </p>
+      <div class="btn-row">
+        <a href="#missions" class="btn btn-primary">View active missions</a>
+        <a href="#subscribe" class="btn btn-secondary">Get launch alerts</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="missions" aria-labelledby="missions-heading">
+    <div class="section-head">
+      <span class="tag">Current operations</span>
+      <h2 id="missions-heading">Missions in progress</h2>
+      <p>A snapshot of the spacecraft and telescopes actively gathering data right now.</p>
+    </div>
+    <div class="missions">
+      <article class="mission-card">
+        <div class="icon" aria-hidden="true">🛰️</div>
+        <h3>Orion-7 Probe</h3>
+        <p>Mapping the southern polar ice caps of Europa ahead of a 2027 landing attempt.</p>
+        <span class="status">In transit</span>
+      </article>
+      <article class="mission-card">
+        <div class="icon" aria-hidden="true">🔭</div>
+        <h3>Halcyon Telescope</h3>
+        <p>Deep-field infrared survey searching for exoplanets in the habitable zone.</p>
+        <span class="status">Collecting data</span>
+      </article>
+      <article class="mission-card">
+        <div class="icon" aria-hidden="true">🚀</div>
+        <h3>Artemis Relay</h3>
+        <p>Crewed lunar gateway resupply mission, currently in low lunar orbit.</p>
+        <span class="status">Orbit insertion</span>
+      </article>
+      <article class="mission-card">
+        <div class="icon" aria-hidden="true">🛸</div>
+        <h3>Helios Sail</h3>
+        <p>Solar-sail propulsion test en route to a flyby of asteroid 16 Psyche.</p>
+        <span class="status">Cruising</span>
+      </article>
+    </div>
+  </section>
+
+  <section id="stats" class="stats" aria-labelledby="stats-heading">
+    <div class="stats-grid">
+      <h2 id="stats-heading" style="grid-column:1/-1; font-family:var(--font-display); color:var(--space-900); font-size:clamp(1.6rem,3.5vw,2.2rem); margin-bottom:0.5rem;">
+        The mission by the numbers
+      </h2>
+      <div>
+        <div class="stat-number">142</div>
+        <div class="stat-label">Active spacecraft tracked</div>
+      </div>
+      <div>
+        <div class="stat-number">5,800+</div>
+        <div class="stat-label">Confirmed exoplanets</div>
+      </div>
+      <div>
+        <div class="stat-number">38</div>
+        <div class="stat-label">Light-years to nearest survey target</div>
+      </div>
+      <div>
+        <div class="stat-number">9</div>
+        <div class="stat-label">Launches scheduled this year</div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="cta-heading">
+    <div class="cta">
+      <h2 id="cta-heading">Never miss a launch window</h2>
+      <p>Join the mission log and get notified the moment a rocket clears the tower.</p>
+      <form class="cta-form" id="subscribe" action="#" method="get">
+        <label for="email">Email address</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" required>
+        <button type="submit" class="btn btn-primary">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-wrap">
+    <p>&copy; 2026 Voyager Mission Log. All telemetry is for educational use.</p>
+    <nav aria-label="Footer">
+      <a href="#missions">Missions</a> ·
+      <a href="#stats">Stats</a> ·
+      <a href="#subscribe">Subscribe</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>

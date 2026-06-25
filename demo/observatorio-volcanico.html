@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RNMV — Red de Monitoreo Volcánico</title>
+  <style>
+    /*
+     * WCAG AA PAIRING MANIFEST — source: #8b2500 · theme: white
+     *
+     * BODY TEXT (any font size, ≥4.5:1):
+     *   shade-100 (#ffefea) → 900, 800, 700
+     *   shade-300 (#ffb9a0) → 900, 800
+     *   shade-600 (#ff4207) → 900
+     *   shade-700 (#cb3600) → white, 100
+     *   shade-800 (#751c00) → white, 100, 300
+     *   shade-900 (#411100) → white, 100, 300, 600
+     *
+     * LARGE TEXT ONLY (≥24px or ≥18.67px bold, 3:1–4.5:1):
+     *   shade-100 (#ffefea) → 600
+     *   shade-300 (#ffb9a0) → 700
+     *   shade-600 (#ff4207) → 100, 800, white
+     *   shade-700 (#cb3600) → 300, 900
+     *   shade-800 (#751c00) → 600
+     *   shade-900 (#411100) → 700
+     */
+    :root {
+      --volcan-100: #ffefea; /* ✅ text→900·800·700  ⚠️ lg→600 */
+      --volcan-300: #ffb9a0; /* ✅ text→900·800  ⚠️ lg→700 */
+      --volcan-600: #ff4207; /* ✅ text→900  ⚠️ lg→100·800·white */
+      --volcan-700: #cb3600; /* ✅ text→white·100  ⚠️ lg→300·900 */
+      --volcan-800: #751c00; /* ✅ text→white·100·300  ⚠️ lg→600 */
+      --volcan-900: #411100; /* ✅ text→white·100·300·600  ⚠️ lg→700 */
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      background: #fff;
+      color: var(--volcan-900); /* ✅ 900 on white — 16.09:1 */
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 2px solid var(--volcan-600);
+    }
+    nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+    .nav-logo-abbr {
+      display: block;
+      font-family: 'Courier New', monospace;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: var(--volcan-800); /* ✅ 800 on white — 10.92:1 */
+    }
+    .nav-logo-name {
+      display: block;
+      font-size: 0.65rem;
+      font-family: system-ui, sans-serif;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--volcan-700); /* ✅ 700 on white — 5.16:1 */
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--volcan-800); /* ✅ 800 on white */
+      text-decoration: none;
+      font-family: system-ui, sans-serif;
+      font-size: 0.875rem;
+      letter-spacing: 0.06em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--volcan-700); }
+    .nav-status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.72rem;
+      color: var(--volcan-700); /* ✅ 700 on white */
+    }
+    .status-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--volcan-600);
+      animation: blink 1.4s ease-in-out infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.15; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 5rem 0 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, var(--volcan-100) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero .container {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .hero-eyebrow {
+      font-family: 'Courier New', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--volcan-700); /* ✅ 700 on white */
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 2rem;
+      height: 2px;
+      background: var(--volcan-600);
+      flex-shrink: 0;
+    }
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--volcan-900); /* ✅ 900 on white — 16.09:1 */
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--volcan-700); /* ✅ 700 on white — 5.16:1 */
+    }
+    .hero-desc {
+      font-family: system-ui, sans-serif;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--volcan-800); /* ✅ 800 on white — 10.92:1 */
+      max-width: 480px;
+      margin-bottom: 2rem;
+    }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-block;
+      padding: 0.875rem 1.75rem;
+      background: var(--volcan-800);
+      color: #fff; /* ✅ white on 800 — 10.92:1 */
+      text-decoration: none;
+      font-family: system-ui, sans-serif;
+      font-size: 0.875rem;
+      letter-spacing: 0.08em;
+      border: none; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-primary:hover { background: var(--volcan-900); }
+    .btn-outline {
+      display: inline-block;
+      padding: 0.875rem 1.75rem;
+      background: transparent;
+      color: var(--volcan-800); /* ✅ 800 on white */
+      text-decoration: none;
+      font-family: system-ui, sans-serif;
+      font-size: 0.875rem;
+      letter-spacing: 0.08em;
+      border: 1px solid var(--volcan-700);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--volcan-800); color: var(--volcan-900); }
+
+    /* ── SEISMOGRAPH PANEL ── */
+    .seismo-panel {
+      background: var(--volcan-100); /* shade-100 bg */
+      border: 1px solid var(--volcan-300);
+      padding: 1.5rem;
+    }
+    .seismo-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .seismo-label {
+      font-family: 'Courier New', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--volcan-800); /* ✅ 800 on 100 — 9.77:1 */
+    }
+    .seismo-station {
+      font-family: 'Courier New', monospace;
+      font-size: 0.65rem;
+      color: var(--volcan-700); /* ✅ 700 on 100 — 4.62:1 */
+    }
+    .seismo-svg { width: 100%; height: 70px; display: block; }
+    .seismo-baseline { stroke: var(--volcan-300); stroke-width: 1; stroke-dasharray: 4 4; }
+    .seismo-path {
+      fill: none;
+      stroke: var(--volcan-600);
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 3000;
+      stroke-dashoffset: 3000;
+      animation: seismo-draw 4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    @keyframes seismo-draw { to { stroke-dashoffset: 0; } }
+    .seismo-footer {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.75rem;
+    }
+    .seismo-data {
+      font-family: 'Courier New', monospace;
+      font-size: 0.65rem;
+      color: var(--volcan-700); /* ✅ 700 on 100 */
+    }
+    .seismo-data strong { color: var(--volcan-800); /* ✅ 800 on 100 */ }
+    .hero-mini-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .mini-stat {
+      padding: 1rem;
+      border-left: 3px solid var(--volcan-600);
+    }
+    .mini-stat--light { background: var(--volcan-100); }
+    .mini-stat--vivid { background: var(--volcan-600); }
+    .mini-stat-val {
+      font-family: 'Courier New', monospace;
+      font-size: 1.5rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .mini-stat--light .mini-stat-val { color: var(--volcan-900); /* ✅ 900 on 100 — 14.40:1 */ }
+    .mini-stat--vivid .mini-stat-val { color: var(--volcan-900); /* ✅ 900 on 600 — 4.62:1 */ }
+    .mini-stat-key {
+      font-family: system-ui, sans-serif;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 0.25rem;
+    }
+    .mini-stat--light .mini-stat-key { color: var(--volcan-800); /* ✅ 800 on 100 */ }
+    .mini-stat--vivid .mini-stat-key { color: var(--volcan-900); /* ✅ 900 on 600 */ }
+
+    /* ── ALERT TICKER ── */
+    .alert-ticker {
+      background: var(--volcan-600);
+      padding: 0.6rem 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .ticker-track {
+      display: inline-flex;
+      animation: ticker-scroll 32s linear infinite;
+    }
+    .ticker-item {
+      font-family: 'Courier New', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      color: var(--volcan-900); /* ✅ 900 on 600 — 4.62:1 */
+      padding: 0 3rem;
+    }
+    .ticker-item::before { content: '▲ '; }
+    @keyframes ticker-scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── STATS ── */
+    .stats {
+      padding: 5rem 0;
+      background: var(--volcan-100);
+      border-top: 1px solid var(--volcan-300);
+      border-bottom: 1px solid var(--volcan-300);
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+    .stat-item {
+      padding: 1.5rem;
+      border-left: 3px solid var(--volcan-600);
+    }
+    .stat-value {
+      font-family: 'Courier New', monospace;
+      font-size: 3rem;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--volcan-900); /* ✅ 900 on 100 — 14.40:1 */
+    }
+    .stat-unit { font-size: 1.25rem; color: var(--volcan-700); /* ✅ 700 on 100 — 4.62:1 */ }
+    .stat-label {
+      margin-top: 0.5rem;
+      font-family: system-ui, sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--volcan-800); /* ✅ 800 on 100 — 9.77:1 */
+    }
+
+    /* ── SHARED SECTION HEADER ── */
+    .section-header { margin-bottom: 3rem; }
+    .section-tag {
+      display: inline-block;
+      font-family: 'Courier New', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--volcan-700); /* ✅ 700 on white */
+      border: 1px solid var(--volcan-600);
+      padding: 0.25rem 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .section-header h2 {
+      font-size: clamp(1.75rem, 4vw, 2.75rem);
+      color: var(--volcan-900); /* ✅ 900 on white */
+    }
+    .section-header p {
+      font-family: system-ui, sans-serif;
+      font-size: 0.95rem;
+      color: var(--volcan-800); /* ✅ 800 on white */
+      max-width: 540px;
+      margin-top: 0.75rem;
+    }
+
+    /* ── ALERT LEVELS ── */
+    .alert-levels { padding: 6rem 0; }
+    .levels-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--volcan-300);
+    }
+    .level-card {
+      padding: 2rem;
+      border-right: 1px solid var(--volcan-300);
+      position: relative;
+      overflow: hidden;
+    }
+    .level-card:last-child { border-right: none; }
+    .level-card--1 { background: #fff; }
+    .level-card--2 { background: var(--volcan-100); }
+    .level-card--3 { background: var(--volcan-300); }
+    .level-card--4 { background: var(--volcan-600); }
+    .level-number {
+      font-family: 'Courier New', monospace;
+      font-size: 5rem;
+      font-weight: 700;
+      line-height: 1;
+      position: absolute;
+      top: 0.5rem; right: 1rem;
+      opacity: 0.08;
+      color: var(--volcan-900);
+    }
+    .level-name {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+    .level-card--1 .level-name,
+    .level-card--2 .level-name { color: var(--volcan-900); /* ✅ 900 on white/100 */ }
+    .level-card--3 .level-name { color: var(--volcan-900); /* ✅ 900 on 300 — 9.73:1 */ }
+    .level-card--4 .level-name { color: var(--volcan-900); /* ✅ 900 on 600 — 4.62:1 */ }
+    .level-subtitle {
+      font-family: 'Courier New', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .level-card--1 .level-subtitle { color: var(--volcan-700); /* ✅ 700 on white */ }
+    .level-card--2 .level-subtitle { color: var(--volcan-700); /* ✅ 700 on 100 */ }
+    .level-card--3 .level-subtitle { color: var(--volcan-800); /* ✅ 800 on 300 — 6.61:1 */ }
+    .level-card--4 .level-subtitle { color: var(--volcan-900); /* ✅ 900 on 600 */ }
+    .level-desc {
+      font-family: system-ui, sans-serif;
+      font-size: 0.875rem;
+      line-height: 1.6;
+    }
+    .level-card--1 .level-desc,
+    .level-card--2 .level-desc { color: var(--volcan-800); /* ✅ 800 on white/100 */ }
+    .level-card--3 .level-desc { color: var(--volcan-900); /* ✅ 900 on 300 */ }
+    .level-card--4 .level-desc { color: var(--volcan-900); /* ✅ 900 on 600 */ }
+    .level-action {
+      margin-top: 1.25rem;
+      font-family: system-ui, sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .level-card--1 .level-action,
+    .level-card--2 .level-action { color: var(--volcan-700); }
+    .level-card--3 .level-action { color: var(--volcan-800); }
+    .level-card--4 .level-action { color: var(--volcan-900); }
+
+    /* ── ACTIVE VOLCANOES ── */
+    .volcanoes {
+      padding: 6rem 0;
+      background: var(--volcan-100);
+    }
+    .volcanoes .section-tag {
+      color: var(--volcan-700); /* ✅ 700 on 100 */
+    }
+    .volcanoes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+    .volcano-card {
+      background: #fff;
+      border: 1px solid var(--volcan-300);
+      overflow: hidden;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .volcano-card:hover {
+      box-shadow: 0 8px 30px rgba(65, 17, 0, 0.12);
+      transform: translateY(-2px);
+    }
+    .volcano-header {
+      background: var(--volcan-900); /* shade-900 bg */
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .volcano-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff; /* ✅ white on 900 — 16.09:1 */
+      margin-bottom: 0.2rem;
+    }
+    .volcano-location {
+      font-family: 'Courier New', monospace;
+      font-size: 0.63rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--volcan-300); /* ✅ 300 on 900 — 9.73:1 */
+    }
+    .volcano-alert {
+      font-family: 'Courier New', monospace;
+      font-size: 0.63rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      padding: 0.25rem 0.6rem;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+    .alert--green  { background: var(--volcan-800); color: var(--volcan-100); /* ✅ 100 on 800 — 9.77:1 */ }
+    .alert--yellow { background: var(--volcan-700); color: #fff;              /* ✅ white on 700 — 5.16:1 */ }
+    .alert--orange { background: var(--volcan-600); color: var(--volcan-900); /* ✅ 900 on 600 — 4.62:1 */ }
+    .alert--red    { background: #fff;              color: var(--volcan-800); /* ✅ 800 on white — 10.92:1 */ border: 1px solid var(--volcan-300); }
+    .volcano-body { padding: 1.25rem 1.5rem; }
+    .volcano-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .v-stat { text-align: center; }
+    .v-stat-val {
+      font-family: 'Courier New', monospace;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--volcan-900); /* ✅ 900 on white */
+    }
+    .v-stat-key {
+      font-family: system-ui, sans-serif;
+      font-size: 0.63rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--volcan-800); /* ✅ 800 on white */
+    }
+    .volcano-desc {
+      font-family: system-ui, sans-serif;
+      font-size: 0.875rem;
+      color: var(--volcan-800); /* ✅ 800 on white */
+      line-height: 1.6;
+      border-top: 1px solid var(--volcan-100);
+      padding-top: 1rem;
+    }
+
+    /* ── MONITORING TECH (DARK) ── */
+    .monitoring {
+      padding: 6rem 0;
+      background: var(--volcan-900); /* shade-900 bg */
+    }
+    .monitoring .section-tag {
+      color: var(--volcan-300); /* ✅ 300 on 900 — 9.73:1 */
+      border-color: var(--volcan-700);
+    }
+    .monitoring .section-header h2 { color: #fff; /* ✅ white on 900 */ }
+    .monitoring .section-header p  { color: var(--volcan-300); /* ✅ 300 on 900 */ }
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1px;
+      background: var(--volcan-800);
+    }
+    .tech-item {
+      background: var(--volcan-900);
+      padding: 2rem;
+    }
+    .tech-icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
+    .tech-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff; /* ✅ white on 900 */
+      margin-bottom: 0.25rem;
+    }
+    .tech-code {
+      font-family: 'Courier New', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--volcan-600); /* ✅ 600 on 900 — 4.62:1 */
+      margin-bottom: 0.75rem;
+    }
+    .tech-desc {
+      font-family: system-ui, sans-serif;
+      font-size: 0.875rem;
+      color: var(--volcan-300); /* ✅ 300 on 900 — 9.73:1 */
+      line-height: 1.6;
+    }
+
+    /* ── TIMELINE ── */
+    .eruptions { padding: 6rem 0; }
+    .timeline {
+      position: relative;
+      padding-left: 2.5rem;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--volcan-600), var(--volcan-100));
+    }
+    .timeline-item {
+      position: relative;
+      padding-bottom: 3rem;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -2.625rem;
+      top: 0.3rem;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--volcan-700);
+      box-shadow: 0 0 0 3px var(--volcan-100);
+    }
+    .timeline-year {
+      font-family: 'Courier New', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      color: var(--volcan-700); /* ✅ 700 on white */
+      margin-bottom: 0.35rem;
+    }
+    .timeline-title {
+      font-size: 1.2rem;
+      color: var(--volcan-900); /* ✅ 900 on white */
+      margin-bottom: 0.35rem;
+    }
+    .timeline-vei {
+      display: inline-block;
+      font-family: 'Courier New', monospace;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      padding: 0.15rem 0.5rem;
+      background: var(--volcan-100);
+      color: var(--volcan-800); /* ✅ 800 on 100 */
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+    }
+    .timeline-desc {
+      font-family: system-ui, sans-serif;
+      font-size: 0.9rem;
+      color: var(--volcan-800); /* ✅ 800 on white */
+      max-width: 640px;
+      line-height: 1.65;
+    }
+
+    /* ── CTA ── */
+    .cta {
+      padding: 6rem 0;
+      background: var(--volcan-800); /* shade-800 bg */
+      text-align: center;
+    }
+    .cta h2 {
+      font-size: clamp(1.75rem, 4vw, 2.75rem);
+      color: #fff; /* ✅ white on 800 — 10.92:1 */
+      margin-bottom: 1rem;
+    }
+    .cta p {
+      font-family: system-ui, sans-serif;
+      font-size: 1rem;
+      color: var(--volcan-100); /* ✅ 100 on 800 — 9.77:1 */
+      max-width: 520px;
+      margin: 0 auto 2rem;
+    }
+    .btn-cta {
+      display: inline-block;
+      padding: 0.875rem 2rem;
+      background: var(--volcan-600);
+      color: var(--volcan-900); /* ✅ 900 on 600 — 4.62:1 */
+      text-decoration: none;
+      font-family: system-ui, sans-serif;
+      font-size: 0.875rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      transition: background 0.2s, color 0.2s;
+    }
+    .btn-cta:hover { background: var(--volcan-700); color: #fff; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--volcan-900); /* shade-900 bg */
+      border-top: 2px solid var(--volcan-800);
+      padding: 2.5rem 0;
+    }
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-text {
+      font-family: system-ui, sans-serif;
+      font-size: 0.8rem;
+      color: var(--volcan-300); /* ✅ 300 on 900 — 9.73:1 */
+    }
+    .footer-badge {
+      font-family: 'Courier New', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      color: var(--volcan-100); /* ✅ 100 on 900 — 14.40:1 */
+      border: 1px solid var(--volcan-700);
+      padding: 0.25rem 0.75rem;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .levels-grid { grid-template-columns: 1fr 1fr; }
+      .level-card { border-bottom: 1px solid var(--volcan-300); }
+    }
+    @media (max-width: 768px) {
+      .hero .container { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      .nav-links, .nav-status { display: none; }
+    }
+    @media (max-width: 480px) {
+      .levels-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="container">
+      <div>
+        <span class="nav-logo-abbr">RNMV</span>
+        <span class="nav-logo-name">Red de Monitoreo Volcánico</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#alertas">Alertas</a></li>
+        <li><a href="#volcanes">Volcanes</a></li>
+        <li><a href="#tecnologia">Tecnología</a></li>
+        <li><a href="#historia">Historia</a></li>
+      </ul>
+      <div class="nav-status">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span>MONITOREO ACTIVO — 24/7</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-text">
+        <p class="hero-eyebrow">Sistema de alerta temprana · América del Sur</p>
+        <h1>Escuchamos<br/>el <em>pulso</em><br/>de la Tierra</h1>
+        <p class="hero-desc">
+          800 millones de personas viven en zonas de riesgo volcánico. Nuestra red de 93 estaciones sísmicas monitorea en tiempo real para que las comunidades tengan el tiempo que necesitan para actuar.
+        </p>
+        <div class="hero-actions">
+          <a href="#volcanes" class="btn-primary">Ver volcanes activos</a>
+          <a href="#alertas" class="btn-outline">Niveles de alerta</a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="seismo-panel">
+          <div class="seismo-header">
+            <span class="seismo-label">Sismógrafo en vivo</span>
+            <span class="seismo-station">EST. VLR-01 · Villarrica</span>
+          </div>
+          <svg class="seismo-svg" viewBox="0 0 500 70" aria-hidden="true" preserveAspectRatio="none">
+            <line class="seismo-baseline" x1="0" y1="35" x2="500" y2="35"/>
+            <path class="seismo-path" d="
+              M0,35 L60,35
+              L63,33 L66,37 L69,32 L72,38 L75,35
+              L140,35
+              L143,31 L146,41 L149,28 L152,44 L155,30 L158,42 L161,35
+              L210,35
+              L213,5 L216,65 L219,2 L222,68 L225,5 L228,65
+              L231,8 L234,62 L237,15 L240,58 L243,25 L246,50 L249,33 L252,42 L255,35
+              L330,35
+              L333,31 L336,39 L339,33 L342,37 L345,35
+              L420,35
+              L423,33 L426,37 L429,34 L432,36 L435,35
+              L500,35
+            "/>
+          </svg>
+          <div class="seismo-footer">
+            <span class="seismo-data">Mag: <strong>2.4 ML</strong></span>
+            <span class="seismo-data">Prof: <strong>3.2 km</strong></span>
+            <span class="seismo-data">14:32:07 UTC</span>
+          </div>
+        </div>
+
+        <div class="hero-mini-stats">
+          <div class="mini-stat mini-stat--light">
+            <div class="mini-stat-val">47</div>
+            <div class="mini-stat-key">Volcanes en alerta</div>
+          </div>
+          <div class="mini-stat mini-stat--vivid">
+            <div class="mini-stat-val">3</div>
+            <div class="mini-stat-key">Nivel naranja / rojo</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ALERT TICKER -->
+  <div class="alert-ticker" role="marquee" aria-label="Alertas volcánicas activas en tiempo real">
+    <div class="ticker-track">
+      <span class="ticker-item">Villarrica — Nivel Naranja — Incremento sísmico VT · 14:30 UTC</span>
+      <span class="ticker-item">Popocatépetl — Nivel Naranja — Explosiones menores · 12:15 UTC</span>
+      <span class="ticker-item">Tungurahua — Nivel Rojo — Emisión de ceniza a 8 km · 10:02 UTC</span>
+      <span class="ticker-item">Taal — Nivel Amarillo — Actividad de gases SO₂ · 08:44 UTC</span>
+      <span class="ticker-item">Copahue — Nivel Amarillo — Tremor de fondo elevado · 06:19 UTC</span>
+      <!-- duplicate for seamless loop -->
+      <span class="ticker-item">Villarrica — Nivel Naranja — Incremento sísmico VT · 14:30 UTC</span>
+      <span class="ticker-item">Popocatépetl — Nivel Naranja — Explosiones menores · 12:15 UTC</span>
+      <span class="ticker-item">Tungurahua — Nivel Rojo — Emisión de ceniza a 8 km · 10:02 UTC</span>
+      <span class="ticker-item">Taal — Nivel Amarillo — Actividad de gases SO₂ · 08:44 UTC</span>
+      <span class="ticker-item">Copahue — Nivel Amarillo — Tremor de fondo elevado · 06:19 UTC</span>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <section class="stats" aria-label="Estadísticas de monitoreo volcánico global">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-value">1.500<span class="stat-unit">+</span></div>
+          <div class="stat-label">Volcanes activos en el mundo</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">800<span class="stat-unit">M</span></div>
+          <div class="stat-label">Personas en zona de riesgo</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">93</div>
+          <div class="stat-label">Estaciones sísmicas en red</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">72<span class="stat-unit">h</span></div>
+          <div class="stat-label">Tiempo mínimo de alerta temprana</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ALERT LEVELS -->
+  <section class="alert-levels" id="alertas">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Sistema de alertas</span>
+        <h2>Cuatro niveles,<br/>una decisión</h2>
+        <p>El semáforo volcánico establece cuatro estados de actividad que definen las acciones de respuesta civil y científica.</p>
+      </div>
+      <div class="levels-grid">
+        <div class="level-card level-card--1">
+          <span class="level-number" aria-hidden="true">1</span>
+          <div class="level-name">Nivel Verde</div>
+          <div class="level-subtitle">Actividad basal</div>
+          <p class="level-desc">El volcán exhibe comportamiento dentro de los parámetros históricos. Sismicidad, deformación y emisión de gases en niveles normales.</p>
+          <div class="level-action">→ Monitoreo rutinario</div>
+        </div>
+        <div class="level-card level-card--2">
+          <span class="level-number" aria-hidden="true">2</span>
+          <div class="level-name">Nivel Amarillo</div>
+          <div class="level-subtitle">Anomalía detectada</div>
+          <p class="level-desc">Se registran cambios en uno o más parámetros de observación. Puede indicar el inicio de un período de intranquilidad volcánica.</p>
+          <div class="level-action">→ Monitoreo intensificado</div>
+        </div>
+        <div class="level-card level-card--3">
+          <span class="level-number" aria-hidden="true">3</span>
+          <div class="level-name">Nivel Naranja</div>
+          <div class="level-subtitle">Actividad elevada</div>
+          <p class="level-desc">Alta probabilidad de erupción en días o semanas. Las autoridades civiles activan planes de contingencia y posible pre-evacuación.</p>
+          <div class="level-action">→ Activar planes de evacuación</div>
+        </div>
+        <div class="level-card level-card--4">
+          <span class="level-number" aria-hidden="true">4</span>
+          <div class="level-name">Nivel Rojo</div>
+          <div class="level-subtitle">Erupción inminente</div>
+          <p class="level-desc">Erupción en curso o inminente con material peligroso. Evacuación inmediata de las zonas de exclusión definidas sin excepción.</p>
+          <div class="level-action">→ Evacuación inmediata</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACTIVE VOLCANOES -->
+  <section class="volcanoes" id="volcanes">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">En observación ahora</span>
+        <h2>Volcanes activos</h2>
+        <p>Estado actualizado al 14 de junio de 2026 — 14:32 UTC</p>
+      </div>
+      <div class="volcanoes-grid">
+
+        <article class="volcano-card">
+          <div class="volcano-header">
+            <div>
+              <div class="volcano-name">Villarrica</div>
+              <div class="volcano-location">Araucanía · Chile · 39.4°S</div>
+            </div>
+            <span class="volcano-alert alert--orange">Naranja</span>
+          </div>
+          <div class="volcano-body">
+            <div class="volcano-stats">
+              <div class="v-stat"><div class="v-stat-val">2.847 m</div><div class="v-stat-key">Elevación</div></div>
+              <div class="v-stat"><div class="v-stat-val">VEI 3</div><div class="v-stat-key">Hist. máx.</div></div>
+              <div class="v-stat"><div class="v-stat-val">2.4 ML</div><div class="v-stat-key">Sismo hoy</div></div>
+            </div>
+            <p class="volcano-desc">Estratovolcán con lago de lava permanente en la cima. Alta frecuencia histórica de erupciones. Uno de los más activos de los Andes. Última gran erupción en 2015.</p>
+          </div>
+        </article>
+
+        <article class="volcano-card">
+          <div class="volcano-header">
+            <div>
+              <div class="volcano-name">Tungurahua</div>
+              <div class="volcano-location">Tungurahua · Ecuador · 1.5°S</div>
+            </div>
+            <span class="volcano-alert alert--red">Rojo</span>
+          </div>
+          <div class="volcano-body">
+            <div class="volcano-stats">
+              <div class="v-stat"><div class="v-stat-val">5.023 m</div><div class="v-stat-key">Elevación</div></div>
+              <div class="v-stat"><div class="v-stat-val">VEI 4</div><div class="v-stat-key">Hist. máx.</div></div>
+              <div class="v-stat"><div class="v-stat-val">8 km</div><div class="v-stat-key">Columna ceniza</div></div>
+            </div>
+            <p class="volcano-desc">Actividad eruptiva en curso desde agosto 1999. La columna de ceniza afecta comunidades en radio de 30 km. Emisión de bloques incandescentes activa.</p>
+          </div>
+        </article>
+
+        <article class="volcano-card">
+          <div class="volcano-header">
+            <div>
+              <div class="volcano-name">Popocatépetl</div>
+              <div class="volcano-location">Puebla · México · 19.0°N</div>
+            </div>
+            <span class="volcano-alert alert--orange">Naranja</span>
+          </div>
+          <div class="volcano-body">
+            <div class="volcano-stats">
+              <div class="v-stat"><div class="v-stat-val">5.426 m</div><div class="v-stat-key">Elevación</div></div>
+              <div class="v-stat"><div class="v-stat-val">VEI 4</div><div class="v-stat-key">Hist. máx.</div></div>
+              <div class="v-stat"><div class="v-stat-val">25 M</div><div class="v-stat-key">Pers. en radio</div></div>
+            </div>
+            <p class="volcano-desc">El volcán más peligroso de México por densidad poblacional. Ciudad de México a 70 km. Actividad explosiva con material incandescente registrada en las últimas 48 horas.</p>
+          </div>
+        </article>
+
+        <article class="volcano-card">
+          <div class="volcano-header">
+            <div>
+              <div class="volcano-name">Copahue</div>
+              <div class="volcano-location">Biobío / Neuquén · Chile–Argentina</div>
+            </div>
+            <span class="volcano-alert alert--yellow">Amarillo</span>
+          </div>
+          <div class="volcano-body">
+            <div class="volcano-stats">
+              <div class="v-stat"><div class="v-stat-val">2.965 m</div><div class="v-stat-key">Elevación</div></div>
+              <div class="v-stat"><div class="v-stat-val">VEI 3</div><div class="v-stat-key">Hist. máx.</div></div>
+              <div class="v-stat"><div class="v-stat-val">↑14%</div><div class="v-stat-key">SO₂ semanal</div></div>
+            </div>
+            <p class="volcano-desc">Volcán binacional fronterizo. Su cráter contiene uno de los pocos lagos de ácido sulfúrico del mundo. Incremento de tremor volcánico en las últimas 72 horas.</p>
+          </div>
+        </article>
+
+        <article class="volcano-card">
+          <div class="volcano-header">
+            <div>
+              <div class="volcano-name">Taal</div>
+              <div class="volcano-location">Batangas · Filipinas · 14.0°N</div>
+            </div>
+            <span class="volcano-alert alert--yellow">Amarillo</span>
+          </div>
+          <div class="volcano-body">
+            <div class="volcano-stats">
+              <div class="v-stat"><div class="v-stat-val">311 m</div><div class="v-stat-key">Elevación</div></div>
+              <div class="v-stat"><div class="v-stat-val">VEI 4</div><div class="v-stat-key">Hist. máx.</div></div>
+              <div class="v-stat"><div class="v-stat-val">4.2 km</div><div class="v-stat-key">Zona exclusión</div></div>
+            </div>
+            <p class="volcano-desc">Volcán dentro de un lago dentro de otro volcán. Estructura caldera anidada única en el mundo. Erupción hidrovolcánica en 2020 generó tsunami lacustre.</p>
+          </div>
+        </article>
+
+        <article class="volcano-card">
+          <div class="volcano-header">
+            <div>
+              <div class="volcano-name">Calbuco</div>
+              <div class="volcano-location">Los Lagos · Chile · 41.3°S</div>
+            </div>
+            <span class="volcano-alert alert--green">Verde</span>
+          </div>
+          <div class="volcano-body">
+            <div class="volcano-stats">
+              <div class="v-stat"><div class="v-stat-val">2.003 m</div><div class="v-stat-key">Elevación</div></div>
+              <div class="v-stat"><div class="v-stat-val">VEI 4</div><div class="v-stat-key">Hist. máx.</div></div>
+              <div class="v-stat"><div class="v-stat-val">Normal</div><div class="v-stat-key">Sismicidad</div></div>
+            </div>
+            <p class="volcano-desc">Su erupción de 2015 fue una de las más inesperadas del siglo — cero señales previas claras. Hoy en monitoreo rutinario tras 9 años de calma post-eruptiva.</p>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- MONITORING TECH (DARK SECTION) -->
+  <section class="monitoring" id="tecnologia">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Infraestructura</span>
+        <h2>La tecnología<br/>que nos da tiempo</h2>
+        <p>Seis tipos de sensores trabajan en paralelo para triangular señales de erupción antes de que ocurran. Cada segundo cuenta.</p>
+      </div>
+      <div class="tech-grid">
+        <div class="tech-item">
+          <span class="tech-icon" aria-hidden="true">📡</span>
+          <div class="tech-name">Sismómetros de banda ancha</div>
+          <div class="tech-code">SBB · 0.01–50 Hz</div>
+          <p class="tech-desc">Detectan terremotos volcánicos (VT), tremores armónicos y eventos de largo período. La firma sísmica es el primer indicador de movimiento de magma en profundidad.</p>
+        </div>
+        <div class="tech-item">
+          <span class="tech-icon" aria-hidden="true">🛰️</span>
+          <div class="tech-name">GPS diferencial GNSS</div>
+          <div class="tech-code">GNSS-D · ±2 mm precisión</div>
+          <p class="tech-desc">Mide deformación del terreno con precisión milimétrica. La inflación del volcán indica presión interna creciente. La deflación post-erupción confirma vaciamiento de cámara.</p>
+        </div>
+        <div class="tech-item">
+          <span class="tech-icon" aria-hidden="true">🔴</span>
+          <div class="tech-name">Satélites SAR Sentinel-1</div>
+          <div class="tech-code">InSAR · 6 días revisita</div>
+          <p class="tech-desc">Interferometría de apertura sintética desde órbita. Detecta deformaciones de centímetros en zonas sin acceso físico. Clave para volcanes remotos en los Andes.</p>
+        </div>
+        <div class="tech-item">
+          <span class="tech-icon" aria-hidden="true">☁️</span>
+          <div class="tech-name">Espectrómetros DOAS</div>
+          <div class="tech-code">SO₂ · toneladas/día</div>
+          <p class="tech-desc">Cuantifican dióxido de azufre en el penacho volcánico. El SO₂ solo llega a superficie desde el magma: un incremento súbito señala ascenso de magma desgasificado.</p>
+        </div>
+        <div class="tech-item">
+          <span class="tech-icon" aria-hidden="true">🌡️</span>
+          <div class="tech-name">Cámaras FLIR térmicas</div>
+          <div class="tech-code">IR · −40 a 2000°C</div>
+          <p class="tech-desc">Imágenes infrarrojas del cráter en tiempo real. Detectan apertura de nuevas fumarolas, variaciones de temperatura en el lago de cráter y eyección de material incandescente.</p>
+        </div>
+        <div class="tech-item">
+          <span class="tech-icon" aria-hidden="true">⚡</span>
+          <div class="tech-name">Sensores de infrasónido</div>
+          <div class="tech-code">IFN · 0.01–20 Hz</div>
+          <p class="tech-desc">Capturan ondas de presión acústica por debajo del umbral auditivo humano. Las explosiones volcánicas generan firmas infrasónicas detectables a cientos de kilómetros.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ERUPTION TIMELINE -->
+  <section class="eruptions" id="historia">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Historia eruptiva</span>
+        <h2>Las erupciones que<br/>cambiaron el mundo</h2>
+      </div>
+      <div class="timeline">
+
+        <article class="timeline-item">
+          <p class="timeline-year">1815 — Indonesia</p>
+          <h3 class="timeline-title">Tambora — La peor erupción registrada</h3>
+          <span class="timeline-vei">VEI 7 — Ultrapliniana</span>
+          <p class="timeline-desc">71.000 muertos directos. 1.000 km³ de material expulsado. Generó el "año sin verano" de 1816: fallo global de cosechas, hambrunas en América del Norte y Europa, y una caída media de temperatura de 1°C durante tres años.</p>
+        </article>
+
+        <article class="timeline-item">
+          <p class="timeline-year">1883 — Indonesia</p>
+          <h3 class="timeline-title">Krakatoa — El sonido más fuerte de la historia</h3>
+          <span class="timeline-vei">VEI 6 — Pliniana</span>
+          <p class="timeline-desc">La explosión fue escuchada a 5.000 km. El tsunami de 37 metros mató a 36.000 personas. El polvo volcánico en la estratósfera causó cielos rojos en todo el mundo durante meses y redujo la temperatura global.</p>
+        </article>
+
+        <article class="timeline-item">
+          <p class="timeline-year">1980 — Estados Unidos</p>
+          <h3 class="timeline-title">Mount St. Helens — Inicio del monitoreo moderno</h3>
+          <span class="timeline-vei">VEI 5 — Pliniana lateral</span>
+          <p class="timeline-desc">Primera erupción volcánica documentada con monitoreo sísmico intensivo. Los sismómetros registraron meses de señales previas al colapso lateral. Estableció el protocolo de evacuación basado en sismicidad que se usa hasta hoy.</p>
+        </article>
+
+        <article class="timeline-item">
+          <p class="timeline-year">1985 — Colombia</p>
+          <h3 class="timeline-title">Nevado del Ruiz — La tragedia que pudo evitarse</h3>
+          <span class="timeline-vei">VEI 3 — Subcontinental</span>
+          <p class="timeline-desc">23.000 muertos en Armero. La erupción fue pequeña, pero el calor fundió glaciares y generó lahares de 5 metros que enterraron la ciudad en 30 minutos. Los sismólogos habían alertado con semanas de anticipación. Las evacuaciones no se ejecutaron. El mayor fracaso de comunicación científica en historia volcánica.</p>
+        </article>
+
+        <article class="timeline-item">
+          <p class="timeline-year">2010 — Islandia</p>
+          <h3 class="timeline-title">Eyjafjallajökull — El caos sin muertos</h3>
+          <span class="timeline-vei">VEI 4 — Pliniana</span>
+          <p class="timeline-desc">107.000 vuelos cancelados. 10 millones de pasajeros varados. €1.300 M en pérdidas. Pero cero muertos. Demostró que el monitoreo y la comunicación científica, cuando funcionan, pueden convertir una crisis eruptiva en una interrupción gestionable.</p>
+        </article>
+
+        <article class="timeline-item">
+          <p class="timeline-year">2022 — Tonga</p>
+          <h3 class="timeline-title">Hunga Tonga — La erupción submarina del siglo</h3>
+          <span class="timeline-vei">VEI 5–6 — Hidrovolcánica</span>
+          <p class="timeline-desc">La explosión más grande registrada con instrumentos modernos. La onda de presión viajó alrededor del planeta seis veces. El tsunami alcanzó costas en Japón, Perú y Nueva Zelanda. Evidenció la necesidad crítica de monitoreo de volcanes submarinos.</p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="container">
+      <h2>El tiempo es la única<br/>variable que controlamos</h2>
+      <p>Cada sensor en nuestra red existe por una sola razón: darte tiempo para actuar. Conocé el estado actual de todos los volcanes bajo monitoreo.</p>
+      <a href="#volcanes" class="btn-cta">Ver estado en tiempo real</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <p class="footer-text">© 2026 RNMV — Red Nacional de Monitoreo Volcánico · Contenido educativo de divulgación científica</p>
+        <span class="footer-badge">WCAG 2.2 AA — 100% accesible</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

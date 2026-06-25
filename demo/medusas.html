@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Medusas: las bailarinas invisibles del océano</title>
+<style>
+/*
+ * WCAG AA PAIRING MANIFEST — source: #b06ab3 · theme: white
+ *
+ * BODY TEXT (any font size, ≥4.5:1):
+ *   shade-100 (#f8f1f8) → 900, 800, 700
+ *   shade-300 (#dec0df) → 900, 800
+ *   shade-600 (#b871b8) → 900
+ *   shade-700 (#9b519e) → white, 100
+ *   shade-800 (#592d59) → white, 100, 300
+ *   shade-900 (#301930) → white, 100, 300, 600
+ *
+ * LARGE TEXT ONLY (≥24px or ≥18.67px bold, 3:1–4.5:1):
+ *   shade-100 (#f8f1f8) → 600
+ *   shade-300 (#dec0df) → 700
+ *   shade-600 (#b871b8) → 100, 800, white
+ *   shade-700 (#9b519e) → 300, 900
+ *   shade-800 (#592d59) → 600
+ *   shade-900 (#301930) → 700
+ */
+:root {
+  --jelly-100: #f8f1f8; /* ✅ text→900·800·700  ⚠️ lg→600 */
+  --jelly-300: #dec0df; /* ✅ text→900·800  ⚠️ lg→700 */
+  --jelly-600: #b871b8; /* ✅ text→900  ⚠️ lg→100·800·white */
+  --jelly-700: #9b519e; /* ✅ text→white·100  ⚠️ lg→300·900 */
+  --jelly-800: #592d59; /* ✅ text→white·100·300  ⚠️ lg→600 */
+  --jelly-900: #301930; /* ✅ text→white·100·300·600  ⚠️ lg→700 */
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: var(--jelly-800);
+  background: #ffffff;
+  line-height: 1.6;
+}
+
+a { color: inherit; }
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+}
+.skip-link:focus {
+  position: static;
+  display: inline-block;
+  background: var(--jelly-900);
+  color: #fff;
+  padding: 0.5rem 1rem;
+}
+
+.hero {
+  background: var(--jelly-700);
+  color: #ffffff;
+  padding: 4rem 1.5rem;
+  text-align: center;
+}
+.hero__title {
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin: 0 0 0.5rem;
+}
+.hero__subtitle {
+  font-size: 1.25rem;
+  max-width: 38ch;
+  margin: 0 auto;
+}
+
+.main {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.section {
+  padding: 3rem 0;
+  border-bottom: 1px solid var(--jelly-100);
+}
+.section:last-of-type {
+  border-bottom: none;
+}
+
+.section__heading {
+  color: var(--jelly-900);
+  font-size: 1.75rem;
+}
+
+.badge {
+  display: inline-block;
+  background: var(--jelly-100);
+  color: var(--jelly-700);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  margin-bottom: 1rem;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.card {
+  background: var(--jelly-100);
+  color: var(--jelly-900);
+  padding: 1.5rem;
+  border-radius: 12px;
+}
+.card__heading {
+  margin-top: 0;
+  color: var(--jelly-900);
+}
+
+.callout {
+  background: var(--jelly-300);
+  color: var(--jelly-800);
+  padding: 1.5rem;
+  border-radius: 12px;
+  font-size: 1.1rem;
+}
+
+.cta {
+  background: var(--jelly-700);
+  color: #ffffff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+.cta:hover,
+.cta:focus-visible {
+  background: var(--jelly-800);
+}
+.cta:focus-visible {
+  outline: 3px solid var(--jelly-300);
+  outline-offset: 2px;
+}
+
+.footer {
+  background: var(--jelly-900);
+  color: #ffffff;
+  text-align: center;
+  padding: 2rem 1.5rem;
+}
+.footer__link {
+  color: var(--jelly-100);
+  text-decoration: underline;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .card {
+    transition: transform 0.2s ease;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+  }
+  .cta {
+    transition: background 0.2s ease;
+  }
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+<header class="hero">
+  <h1 class="hero__title">Medusas: las bailarinas invisibles del océano</h1>
+  <p class="hero__subtitle">Sin cerebro, sin corazón y sin huesos, llevan 500 millones de años dominando todos los mares del planeta.</p>
+</header>
+
+<main class="main" id="contenido">
+  <section class="section" aria-labelledby="anatomia">
+    <span class="badge">Anatomía</span>
+    <h2 class="section__heading" id="anatomia">95% agua y un diseño impecable</h2>
+    <p>
+      Las medusas están compuestas casi en su totalidad por agua. Carecen de
+      cerebro, corazón y sistema respiratorio, pero poseen una red nerviosa
+      difusa que les permite detectar luz, gravedad y estímulos químicos.
+      Su cuerpo se divide en dos capas celulares con una gelatina —la
+      mesoglea— entre ellas, una arquitectura tan simple como efectiva.
+    </p>
+    <div class="card-grid">
+      <div class="card">
+        <h3 class="card__heading">Cnidocitos letales</h3>
+        <p>Sus tentáculos albergan células urticantes que se disparan en nanosegundos al contacto, incluso después de muertas.</p>
+      </div>
+      <div class="card">
+        <h3 class="card__heading">Propulsión a chorro</h3>
+        <p>Contraen y expanden su campana para expulsar agua, moviéndose con una eficiencia energética envidiable.</p>
+      </div>
+      <div class="card">
+        <h3 class="card__heading">Sin anillos de edad</h3>
+        <p>No hay forma de saber cuántos años tiene una medusa silvestre: carecen de estructuras duras que registren el paso del tiempo.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="inmortalidad">
+    <span class="badge">Biología extrema</span>
+    <h2 class="section__heading" id="inmortalidad">La criatura que desafía a la muerte</h2>
+    <p>
+      <em>Turritopsis dohrnii</em>, conocida como la medusa inmortal, es capaz
+      de revertir su ciclo vital: cuando sufre daño físico, hambre o estrés
+      ambiental, sus células adultas se transforman de nuevo en pólipos,
+      reiniciando su vida desde cero. Es el único animal conocido capaz de
+      burlar la muerte biológica por completo.
+    </p>
+    <div class="callout">
+      El proceso se llama transdiferenciación celular: un tipo de célula se
+      convierte directamente en otro, sin pasar por un estado troncal. Los
+      científicos estudian este mecanismo para entender el envejecimiento humano.
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="ecosistema">
+    <span class="badge">Ecología</span>
+    <h2 class="section__heading" id="ecosistema">Centinelas del cambio climático</h2>
+    <p>
+      El aumento de la temperatura oceánica y la sobrepesca han disparado las
+      proliferaciones masivas de medusas en todos los océanos. Donde otras
+      especies colapsan, ellas prosperan: toleran zonas muertas con poco oxígeno,
+      aguas ácidas y contaminación que resultan letales para peces y crustáceos.
+      Son el indicador más visible de un océano en transformación.
+    </p>
+    <button class="cta" type="button">Quiero aprender más sobre cnidarios</button>
+  </section>
+</main>
+
+<footer class="footer">
+  <p>Página de demostración generada con la paleta accesible «Orquídea Fantasma» (#B06AB3).</p>
+  <p><a class="footer__link" href="#contenido">Volver arriba</a></p>
+</footer>
+</body>
+</html>

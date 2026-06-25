@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Wood Wide Web — How Fungi Talk to Forests</title>
+<style>
+  :root {
+    --fungi-100: #f8f1ec;
+    --fungi-300: #e2c3ae;
+    --fungi-600: #bc7a4a;
+    --fungi-700: #9a5f37;
+    --fungi-800: #553620;
+    --fungi-900: #2f1d11;
+
+    --font-display: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+    --font-body: -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    font-family: var(--font-body);
+    background: #ffffff;
+    color: var(--fungi-900);
+    line-height: 1.6;
+  }
+
+  a { color: inherit; }
+
+  .skip-link {
+    position: absolute;
+    left: -999px;
+    top: 0;
+    background: var(--fungi-900);
+    color: var(--fungi-100);
+    padding: 0.75rem 1.25rem;
+    z-index: 100;
+  }
+  .skip-link:focus {
+    left: 1rem;
+    top: 1rem;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--fungi-700);
+    outline-offset: 3px;
+  }
+
+  /* ---------- Layout shells ---------- */
+  section {
+    padding: clamp(3rem, 8vw, 7rem) 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .wrap {
+    max-width: 56rem;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .eyebrow {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--fungi-700);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 1.6rem;
+    height: 2px;
+    background: var(--fungi-700);
+    display: inline-block;
+  }
+
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    margin: 0 0 1rem;
+    line-height: 1.15;
+  }
+
+  p { margin: 0 0 1.1rem; max-width: 38rem; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    background: var(--fungi-100);
+    padding-top: clamp(4rem, 12vw, 9rem);
+    padding-bottom: clamp(4rem, 12vw, 9rem);
+    text-align: center;
+  }
+
+  .hero .wrap { max-width: 44rem; margin-inline: auto; }
+
+  .hero h1 {
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    color: var(--fungi-900);
+  }
+
+  .hero .lede {
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    color: var(--fungi-800);
+    margin: 0 auto 2rem;
+  }
+
+  .mycelium-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0.55;
+  }
+
+  .mycelium-svg path {
+    fill: none;
+    stroke: var(--fungi-600);
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    stroke-dasharray: 6 10;
+    animation: grow 14s linear infinite;
+    opacity: 0.5;
+  }
+  .mycelium-svg path:nth-child(odd) { animation-duration: 18s; opacity: 0.35; }
+  .mycelium-svg path:nth-child(3n) { animation-direction: reverse; }
+
+  @keyframes grow {
+    to { stroke-dashoffset: -400; }
+  }
+
+  .spore {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--fungi-600);
+    opacity: 0.5;
+    filter: blur(0.3px);
+    animation: drift 9s ease-in-out infinite;
+  }
+  @keyframes drift {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-14px) scale(1.15); }
+  }
+
+  /* ---------- Intro / facts grid ---------- */
+  .panel-light { background: #ffffff; }
+  .panel-tint  { background: var(--fungi-100); }
+  .panel-dark  { background: var(--fungi-900); color: var(--fungi-100); }
+  .panel-dark .eyebrow { color: var(--fungi-300); }
+  .panel-dark .eyebrow::before { background: var(--fungi-300); }
+  .panel-dark h2 { color: #ffffff; }
+  .panel-dark p { color: var(--fungi-300); }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+  }
+
+  .card {
+    background: #ffffff;
+    border: 1px solid var(--fungi-300);
+    border-radius: 1rem;
+    padding: 1.75rem;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .card:hover, .card:focus-within {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px -12px rgba(47, 29, 17, 0.25);
+  }
+  .card .num {
+    font-family: var(--font-display);
+    font-size: 2.2rem;
+    color: var(--fungi-700);
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+  .card h3 { font-size: 1.05rem; color: var(--fungi-900); }
+  .card p { color: var(--fungi-800); font-size: 0.95rem; margin: 0; }
+
+  /* ---------- Timeline ---------- */
+  .timeline {
+    margin-top: 2.5rem;
+    border-left: 2px solid var(--fungi-300);
+    padding-left: 1.75rem;
+  }
+  .timeline-item { position: relative; padding-bottom: 2.25rem; }
+  .timeline-item:last-child { padding-bottom: 0; }
+  .timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -2.05rem;
+    top: 0.25rem;
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 50%;
+    background: var(--fungi-700);
+    border: 3px solid var(--fungi-100);
+  }
+  .timeline-item h3 {
+    font-size: 1.1rem;
+    color: var(--fungi-900);
+    margin-bottom: 0.25rem;
+  }
+  .timeline-item p { color: var(--fungi-800); }
+  .timeline-item .when {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--fungi-700);
+    letter-spacing: 0.04em;
+  }
+
+  /* ---------- Quote / pull ---------- */
+  blockquote {
+    margin: 2.5rem auto 0;
+    max-width: 38rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    line-height: 1.4;
+    color: var(--fungi-100);
+    border-left: 4px solid var(--fungi-600);
+    padding-left: 1.5rem;
+  }
+  blockquote footer {
+    margin-top: 0.75rem;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    color: var(--fungi-600);
+  }
+
+  /* ---------- Diagram ---------- */
+  .diagram {
+    margin-top: 2.5rem;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    text-align: center;
+  }
+  .node {
+    background: var(--fungi-800);
+    color: var(--fungi-100);
+    border-radius: 0.85rem;
+    padding: 1.5rem 1rem;
+    font-size: 0.95rem;
+  }
+  .node strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    color: #ffffff;
+    margin-bottom: 0.35rem;
+  }
+  .arrow {
+    align-self: center;
+    color: var(--fungi-300);
+    font-size: 1.5rem;
+  }
+
+  /* ---------- Footer ---------- */
+  footer.site {
+    background: var(--fungi-800);
+    color: var(--fungi-100);
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    font-size: 0.9rem;
+  }
+  footer.site a {
+    text-decoration: underline;
+    color: var(--fungi-100);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mycelium-svg path, .spore { animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="hero">
+  <svg class="mycelium-svg" viewBox="0 0 800 500" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M50 450 C150 380, 120 300, 220 260 S 320 180, 300 90" />
+    <path d="M220 260 C260 240, 310 250, 350 210" />
+    <path d="M300 90 C340 60, 400 70, 430 30" />
+    <path d="M650 470 C600 400, 620 320, 540 280 S 460 200, 470 110" />
+    <path d="M540 280 C500 260, 460 270, 420 240" />
+    <path d="M400 480 C420 420, 380 360, 410 300 S 380 220, 400 150" />
+    <path d="M150 380 C190 360, 200 320, 250 310" />
+  </svg>
+  <span class="spore" style="width:8px; height:8px; left:18%; top:22%;"></span>
+  <span class="spore" style="width:5px; height:5px; left:72%; top:30%; animation-delay:2s;"></span>
+  <span class="spore" style="width:6px; height:6px; left:55%; top:65%; animation-delay:4s;"></span>
+  <span class="spore" style="width:4px; height:4px; left:30%; top:70%; animation-delay:1s;"></span>
+  <div class="wrap">
+    <span class="eyebrow">Underground &amp; Underrated</span>
+    <h1>The Wood&nbsp;Wide&nbsp;Web</h1>
+    <p class="lede">
+      Beneath every forest floor runs a living network older than any cable
+      ever laid — threads of fungus carrying water, warnings, and sugar
+      between trees that have never met above ground.
+    </p>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="panel-light">
+    <div class="wrap">
+      <span class="eyebrow">The Thread Itself</span>
+      <h2>One organism, one cell wide, kilometers long</h2>
+      <p>
+        A single strand of fungal tissue — a <em>hypha</em> — is thinner than
+        a human hair. Millions of them braid together into <em>mycelium</em>,
+        a mesh so fine it can slip between soil particles too small for any
+        root. A mycelial network under one hectare of healthy forest can
+        stretch for hundreds of kilometers if unspooled end to end.
+      </p>
+      <div class="grid">
+        <div class="card">
+          <span class="num">200&nbsp;km</span>
+          <h3>per teaspoon of soil</h3>
+          <p>Estimated hyphal length found in a single teaspoon of healthy forest soil.</p>
+        </div>
+        <div class="card">
+          <span class="num">90%</span>
+          <h3>of land plants</h3>
+          <p>Form mycorrhizal partnerships with fungi to extend their effective root reach.</p>
+        </div>
+        <div class="card">
+          <span class="num">450M</span>
+          <h3>years of practice</h3>
+          <p>Fossil evidence places fungus-root partnerships before plants even had true roots.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel-tint">
+    <div class="wrap">
+      <span class="eyebrow">Trade Routes</span>
+      <h2>What actually moves through the network</h2>
+      <p>
+        Mycorrhizal fungi sheath plant roots and push hyphae far past where
+        roots can reach. In exchange for sugars the fungus cannot make
+        itself, it ships back water and scarce minerals — mainly phosphorus
+        and nitrogen — pulled from soil pockets the plant could never touch
+        alone.
+      </p>
+      <div class="diagram">
+        <div class="node"><strong>Tree A</strong>Photosynthesizes sugar, has surplus carbon to spare</div>
+        <div class="arrow" aria-hidden="true">⇄</div>
+        <div class="node"><strong>Fungal network</strong>Moves sugar, water, nitrogen and warning signals between hosts</div>
+        <div class="arrow" aria-hidden="true">⇄</div>
+        <div class="node"><strong>Seedling B</strong>Too shaded to photosynthesize enough on its own</div>
+      </div>
+      <p style="margin-top:1.75rem; font-size:0.9rem; color:var(--fungi-700);">
+        Research led by ecologist Suzanne Simard tracked carbon moving from
+        mature Douglas firs to shaded seedlings through exactly this kind of
+        shared mycelium — sometimes favoring their own kin.
+      </p>
+    </div>
+  </section>
+
+  <section class="panel-dark">
+    <div class="wrap">
+      <span class="eyebrow">Early Warning System</span>
+      <h2>Trees gossip through fungal lines</h2>
+      <p>
+        When aphids attack one plant, neighboring plants connected by the
+        same mycelial network start producing defensive chemicals before
+        the pest ever reaches them. The fungus doesn't just transport
+        resources — it carries signals, turning an entire stand of trees
+        into something closer to a single distributed organism.
+      </p>
+      <blockquote>
+        "It's not a forest of competitors. It's a forest of cooperators,
+        wired together below the surface we walk on."
+        <footer>— paraphrasing decades of mycorrhizal research</footer>
+      </blockquote>
+    </div>
+  </section>
+
+  <section class="panel-light">
+    <div class="wrap">
+      <span class="eyebrow">A Short History of Noticing</span>
+      <h2>How we found the network</h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <span class="when">1885</span>
+          <h3>Frank coins "mycorrhiza"</h3>
+          <p>German biologist Albert Bernhard Frank describes fungus-root partnerships in forest trees for the first time.</p>
+        </div>
+        <div class="timeline-item">
+          <span class="when">1960s–70s</span>
+          <h3>Radioactive tracers reveal flow</h3>
+          <p>Labeled carbon and phosphorus let researchers watch nutrients move between connected plants through shared fungi.</p>
+        </div>
+        <div class="timeline-item">
+          <span class="when">1997</span>
+          <h3>"Wood Wide Web" goes mainstream</h3>
+          <p>Suzanne Simard's field experiments showing carbon transfer between Douglas fir and paper birch reach the cover of <em>Nature</em>.</p>
+        </div>
+        <div class="timeline-item">
+          <span class="when">Today</span>
+          <h3>Mapping the underground</h3>
+          <p>Genetic sequencing now lets ecologists trace which individual trees are wired to which fungal individuals, hectare by hectare.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel-tint">
+    <div class="wrap">
+      <span class="eyebrow">Field Notes</span>
+      <h2>Small facts worth carrying around</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>The biggest organism on Earth is a fungus</h3>
+          <p>A single <em>Armillaria</em> individual in Oregon's Malheur National Forest covers roughly 9.6 km² of mycelium — and may be thousands of years old.</p>
+        </div>
+        <div class="card">
+          <h3>Mushrooms are just the announcement</h3>
+          <p>The cap-and-stem fruiting body you see above ground is a temporary spore-dispersal structure — a tiny fraction of the organism's mass.</p>
+        </div>
+        <div class="card">
+          <h3>Disturbed soil breaks the line</h3>
+          <p>Tilling, compaction, or heavy fertilizer can sever mycelial connections that took years for a fungus to build between hosts.</p>
+        </div>
+        <div class="card">
+          <h3>Not all trees share equally</h3>
+          <p>Some studies suggest fungi may charge a "toll," moving more resources toward partners that supply more carbon in return.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site">
+  <p style="margin:0;">A page about mycelium, written for whoever needed a reminder that the most important infrastructure is usually invisible.</p>
+</footer>
+
+</body>
+</html>

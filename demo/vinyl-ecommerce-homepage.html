@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ember & Groove — Vinyl Records, Hand-Picked</title>
+<style>
+/*
+ * WCAG AA PAIRING MANIFEST — source: #c75d2c · theme: white
+ * BODY TEXT (any size, >=4.5:1): 100->900/800/700, 300->900/800, 600->900, 700->white/100, 800->white/100/300, 900->white/100/300/600
+ * LARGE TEXT ONLY (>=24px or >=18.67px bold, 3:1-4.5:1): 100->600, 300->700, 600->100/800/white, 700->300/900, 800->600, 900->700
+ * Accent: #2F6F4F (success/in-stock) verified >=4.5:1 on white and on ember-100
+ */
+:root {
+  --ember-100: #fbf1ed; /* bg only at body-text sizes unless paired with 900/800/700 */
+  --ember-300: #edc0ac;
+  --ember-600: #d56c42; /* text only on 900; otherwise large-text/bg use */
+  --ember-700: #b05227; /* text on white/100 */
+  --ember-800: #652d16; /* text on white/100/300 */
+  --ember-900: #371a0c; /* text on white/100/300/600 */
+  --success: #2f6f4f;   /* verified vs white and ember-100 */
+
+  --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--ember-900);
+  background: #ffffff;
+  line-height: 1.5;
+}
+
+a { color: inherit; text-decoration: none; }
+
+img { display: block; max-width: 100%; }
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--ember-900);
+  color: #ffffff;
+  padding: 0.75rem 1.25rem;
+  z-index: 100;
+  font-weight: 600;
+}
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+}
+
+:focus-visible {
+  outline: 3px solid var(--ember-700);
+  outline-offset: 3px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* ===== Top utility bar ===== */
+.utility-bar {
+  background: var(--ember-900);
+  color: var(--ember-100);
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 0.5rem 1rem;
+}
+
+/* ===== Header ===== */
+header.site-header {
+  border-bottom: 1px solid var(--ember-300);
+  background: #ffffff;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.25rem 1.5rem;
+}
+
+.logo {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--ember-900);
+  letter-spacing: 0.02em;
+}
+.logo span { color: var(--ember-700); }
+
+nav.main-nav ul {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+nav.main-nav a {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--ember-800);
+  padding: 0.5rem 0;
+  border-bottom: 2px solid transparent;
+}
+nav.main-nav a:hover,
+nav.main-nav a:focus-visible {
+  border-bottom-color: var(--ember-700);
+  color: var(--ember-900);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ember-800);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.4rem;
+}
+.icon-button:hover { color: var(--ember-900); }
+
+.cart-count {
+  background: var(--ember-700);
+  color: #ffffff;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.1rem 0.5rem;
+}
+
+/* ===== Hero ===== */
+.hero {
+  background: var(--ember-100);
+  padding: 4rem 0;
+}
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+.hero-eyebrow {
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ember-700);
+  margin-bottom: 0.75rem;
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  line-height: 1.1;
+  color: var(--ember-900);
+  margin-bottom: 1.25rem;
+}
+.hero p {
+  font-size: 1.1rem;
+  color: var(--ember-800);
+  max-width: 36ch;
+  margin-bottom: 2rem;
+}
+.hero-cta-group {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.85rem 1.75rem;
+  border-radius: 4px;
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+.btn-primary {
+  background: var(--ember-900);
+  color: #ffffff;
+}
+.btn-primary:hover { background: var(--ember-800); }
+.btn-secondary {
+  background: transparent;
+  color: var(--ember-900);
+  border-color: var(--ember-900);
+}
+.btn-secondary:hover { background: var(--ember-900); color: #ffffff; }
+
+.hero-art {
+  aspect-ratio: 4 / 3;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--ember-600) 0%, var(--ember-800) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero-art .disc {
+  width: 60%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: repeating-radial-gradient(circle, var(--ember-900) 0 2px, var(--ember-800) 2px 6px);
+  position: relative;
+  box-shadow: 0 20px 40px rgba(55, 26, 12, 0.35);
+}
+.hero-art .disc::after {
+  content: "";
+  position: absolute;
+  inset: 42%;
+  border-radius: 50%;
+  background: var(--ember-100);
+  border: 3px solid var(--ember-900);
+}
+
+/* ===== Section heading ===== */
+.section {
+  padding: 4rem 0;
+}
+.section-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.section-heading h2 {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--ember-900);
+}
+.section-heading a {
+  font-weight: 700;
+  color: var(--ember-700);
+  font-size: 0.95rem;
+}
+.section-heading a:hover { color: var(--ember-900); text-decoration: underline; }
+
+/* ===== Genre chips ===== */
+.genre-row {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.genre-chip {
+  border: 1px solid var(--ember-300);
+  color: var(--ember-800);
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.6rem 1.1rem;
+  border-radius: 999px;
+  background: #ffffff;
+}
+.genre-chip[aria-pressed="true"] {
+  background: var(--ember-900);
+  color: #ffffff;
+  border-color: var(--ember-900);
+}
+.genre-chip:hover { border-color: var(--ember-700); }
+
+/* ===== Product grid ===== */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.75rem;
+}
+.product-card {
+  border: 1px solid var(--ember-300);
+  border-radius: 10px;
+  overflow: hidden;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+.product-card:hover {
+  border-color: var(--ember-700);
+}
+.product-thumb {
+  aspect-ratio: 1;
+  background: var(--ember-300);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.product-thumb .mini-disc {
+  width: 65%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: repeating-radial-gradient(circle, var(--ember-900) 0 2px, var(--ember-700) 2px 7px);
+}
+.badge {
+  position: absolute;
+  top: 0.6rem;
+  left: 0.6rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+}
+.badge-sale {
+  background: var(--ember-700);
+  color: #ffffff;
+}
+.product-info {
+  padding: 1rem 1.1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex: 1;
+}
+.product-genre {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ember-700);
+}
+.product-title {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--ember-900);
+}
+.product-artist {
+  font-size: 0.9rem;
+  color: var(--ember-800);
+}
+.product-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+.price {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--ember-900);
+}
+.price-was {
+  font-size: 0.85rem;
+  color: var(--ember-800);
+  text-decoration: line-through;
+}
+.stock-flag {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--success);
+  margin-top: 0.2rem;
+}
+.add-to-cart {
+  margin-top: 0.75rem;
+  width: 100%;
+  background: var(--ember-100);
+  color: var(--ember-900);
+  font-weight: 700;
+  font-size: 0.9rem;
+  border: 1px solid var(--ember-900);
+  border-radius: 6px;
+  padding: 0.6rem;
+  cursor: pointer;
+}
+.add-to-cart:hover {
+  background: var(--ember-900);
+  color: #ffffff;
+}
+
+/* ===== Value props ===== */
+.value-props {
+  background: var(--ember-900);
+  color: var(--ember-100);
+  padding: 3rem 0;
+}
+.value-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+.value-item h3 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  margin-bottom: 0.4rem;
+  color: #ffffff;
+}
+.value-item p {
+  color: var(--ember-100);
+  font-size: 0.95rem;
+}
+
+/* ===== Newsletter ===== */
+.newsletter {
+  background: var(--ember-100);
+  padding: 3.5rem 0;
+}
+.newsletter-inner {
+  max-width: 560px;
+  margin: 0 auto;
+  text-align: center;
+}
+.newsletter h2 {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  color: var(--ember-900);
+  margin-bottom: 0.5rem;
+}
+.newsletter p {
+  color: var(--ember-800);
+  margin-bottom: 1.5rem;
+}
+.newsletter-form {
+  display: flex;
+  gap: 0.75rem;
+}
+.newsletter-form label {
+  position: absolute;
+  left: -9999px;
+}
+.newsletter-form input {
+  flex: 1;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--ember-300);
+  border-radius: 6px;
+  font-size: 0.95rem;
+  color: var(--ember-900);
+}
+.newsletter-form input::placeholder { color: var(--ember-800); }
+
+/* ===== Footer ===== */
+footer.site-footer {
+  background: #ffffff;
+  border-top: 1px solid var(--ember-300);
+  padding: 3rem 0 1.5rem;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+.footer-col h3 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ember-700);
+  margin-bottom: 1rem;
+}
+.footer-col ul { list-style: none; }
+.footer-col li { margin-bottom: 0.6rem; }
+.footer-col a {
+  color: var(--ember-800);
+  font-size: 0.95rem;
+}
+.footer-col a:hover { color: var(--ember-900); text-decoration: underline; }
+.footer-brand p {
+  color: var(--ember-800);
+  font-size: 0.9rem;
+  max-width: 32ch;
+  margin-top: 0.75rem;
+}
+.footer-bottom {
+  border-top: 1px solid var(--ember-300);
+  padding-top: 1.25rem;
+  font-size: 0.85rem;
+  color: var(--ember-800);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+@media (max-width: 900px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .product-grid { grid-template-columns: repeat(2, 1fr); }
+  .value-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  nav.main-nav { display: none; }
+}
+</style>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<div class="utility-bar">Free shipping on orders over $60 · Hand-graded vinyl, every time</div>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="#main-content" class="logo">Ember <span>&amp;</span> Groove</a>
+    <nav class="main-nav" aria-label="Main">
+      <ul>
+        <li><a href="#new-arrivals">New Arrivals</a></li>
+        <li><a href="#shop-by-genre">Genres</a></li>
+        <li><a href="#staff-picks">Staff Picks</a></li>
+        <li><a href="#">Turntables</a></li>
+        <li><a href="#">Sell Your Records</a></li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <button type="button" class="icon-button" aria-label="Search records">Search</button>
+      <button type="button" class="icon-button" aria-label="Account">Account</button>
+      <button type="button" class="icon-button" aria-label="Cart, 3 items">
+        Cart <span class="cart-count">3</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main-content">
+
+  <section class="hero">
+    <div class="container hero-inner">
+      <div>
+        <p class="hero-eyebrow">First Pressings, Curated Weekly</p>
+        <h1>Records worth dropping the needle on.</h1>
+        <p>Independent record shop specializing in hand-graded original pressings, reissues, and the deep cuts your algorithm will never surface.</p>
+        <div class="hero-cta-group">
+          <a href="#new-arrivals" class="btn btn-primary">Shop New Arrivals</a>
+          <a href="#shop-by-genre" class="btn btn-secondary">Browse by Genre</a>
+        </div>
+      </div>
+      <div class="hero-art" role="img" aria-label="Illustration of a vinyl record on a warm gradient background">
+        <div class="disc"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="shop-by-genre" aria-labelledby="genre-heading">
+    <div class="container">
+      <div class="section-heading">
+        <h2 id="genre-heading">Shop by Genre</h2>
+      </div>
+      <div class="genre-row" role="group" aria-label="Filter by genre">
+        <button type="button" class="genre-chip" aria-pressed="true">All</button>
+        <button type="button" class="genre-chip" aria-pressed="false">Jazz</button>
+        <button type="button" class="genre-chip" aria-pressed="false">Soul &amp; Funk</button>
+        <button type="button" class="genre-chip" aria-pressed="false">Post-Punk</button>
+        <button type="button" class="genre-chip" aria-pressed="false">Latin</button>
+        <button type="button" class="genre-chip" aria-pressed="false">Ambient</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="new-arrivals" aria-labelledby="new-arrivals-heading">
+    <div class="container">
+      <div class="section-heading">
+        <h2 id="new-arrivals-heading">New Arrivals</h2>
+        <a href="#">View all new arrivals</a>
+      </div>
+      <ul class="product-grid">
+
+        <li class="product-card">
+          <div class="product-thumb">
+            <span class="badge badge-sale">Sale</span>
+            <div class="mini-disc" role="img" aria-label="Vinyl record artwork placeholder"></div>
+          </div>
+          <div class="product-info">
+            <span class="product-genre">Jazz</span>
+            <h3 class="product-title">Coastal Static</h3>
+            <p class="product-artist">The Marrow Trio</p>
+            <div class="product-price-row">
+              <span class="price">$24.00</span>
+              <span class="price-was">$32.00</span>
+            </div>
+            <span class="stock-flag">In stock</span>
+            <button type="button" class="add-to-cart">Add to cart</button>
+          </div>
+        </li>
+
+        <li class="product-card">
+          <div class="product-thumb">
+            <div class="mini-disc" role="img" aria-label="Vinyl record artwork placeholder"></div>
+          </div>
+          <div class="product-info">
+            <span class="product-genre">Soul &amp; Funk</span>
+            <h3 class="product-title">Slow Burn Sessions</h3>
+            <p class="product-artist">Odette Reyes</p>
+            <div class="product-price-row">
+              <span class="price">$29.00</span>
+            </div>
+            <span class="stock-flag">In stock</span>
+            <button type="button" class="add-to-cart">Add to cart</button>
+          </div>
+        </li>
+
+        <li class="product-card">
+          <div class="product-thumb">
+            <div class="mini-disc" role="img" aria-label="Vinyl record artwork placeholder"></div>
+          </div>
+          <div class="product-info">
+            <span class="product-genre">Post-Punk</span>
+            <h3 class="product-title">Concrete Garden</h3>
+            <p class="product-artist">Verlaine Static</p>
+            <div class="product-price-row">
+              <span class="price">$27.50</span>
+            </div>
+            <span class="stock-flag">In stock</span>
+            <button type="button" class="add-to-cart">Add to cart</button>
+          </div>
+        </li>
+
+        <li class="product-card">
+          <div class="product-thumb">
+            <span class="badge badge-sale">Sale</span>
+            <div class="mini-disc" role="img" aria-label="Vinyl record artwork placeholder"></div>
+          </div>
+          <div class="product-info">
+            <span class="product-genre">Latin</span>
+            <h3 class="product-title">Cumbia del Norte</h3>
+            <p class="product-artist">Los Hermanos Vidal</p>
+            <div class="product-price-row">
+              <span class="price">$21.00</span>
+              <span class="price-was">$26.00</span>
+            </div>
+            <span class="stock-flag">In stock</span>
+            <button type="button" class="add-to-cart">Add to cart</button>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="staff-picks" aria-labelledby="staff-picks-heading" style="background: var(--ember-100);">
+    <div class="container">
+      <div class="section-heading">
+        <h2 id="staff-picks-heading">Staff Picks</h2>
+        <a href="#">View all staff picks</a>
+      </div>
+      <ul class="product-grid">
+
+        <li class="product-card">
+          <div class="product-thumb">
+            <div class="mini-disc" role="img" aria-label="Vinyl record artwork placeholder"></div>
+          </div>
+          <div class="product-info">
+            <span class="product-genre">Ambient</span>
+            <h3 class="product-title">Lower Frequencies</h3>
+            <p class="product-artist">Hollow Field</p>
+            <div class="product-price-row">
+              <span class="price">$31.00</span>
+            </div>
+            <span class="stock-flag">In stock</span>
+            <button type="button" class="add-to-cart">Add to cart</button>
+          </div>
+        </li>
+
+        <li class="product-card">
+          <div class="product-thumb">
+            <div class="mini-disc" role="img" aria-label="Vinyl record artwork placeholder"></div>
+          </div>
+          <div class="product-info">
+            <span class="product-genre">Jazz</span>
+            <h3 class="product-title">Nightcap, No. 3</h3>
+            <p class="product-artist">Idris Okafor Quartet</p>
+            <div class="product-price-row">
+              <span class="price">$26.00</span>
+            </div>
+            <span class="stock-flag">In stock</span>
+            <button type="button" class="add-to-cart">Add to cart</button>
+          </div>
+        </li>
+
+        <li class="product-card">
+          <div class="product-thumb">
+            <div class="mini-disc" role="img" aria-label="Vinyl record artwork placeholder"></div>
+          </div>
+          <div class="product-info">
+            <span class="product-genre">Soul &amp; Funk</span>
+            <h3 class="product-title">Brass Tactics</h3>
+            <p class="product-artist">The Marigold Horns</p>
+            <div class="product-price-row">
+              <span class="price">$23.50</span>
+            </div>
+            <span class="stock-flag">In stock</span>
+            <button type="button" class="add-to-cart">Add to cart</button>
+          </div>
+        </li>
+
+        <li class="product-card">
+          <div class="product-thumb">
+            <div class="mini-disc" role="img" aria-label="Vinyl record artwork placeholder"></div>
+          </div>
+          <div class="product-info">
+            <span class="product-genre">Post-Punk</span>
+            <h3 class="product-title">Wire &amp; Rust</h3>
+            <p class="product-artist">Static Province</p>
+            <div class="product-price-row">
+              <span class="price">$28.00</span>
+            </div>
+            <span class="stock-flag">In stock</span>
+            <button type="button" class="add-to-cart">Add to cart</button>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+  </section>
+
+  <section class="value-props">
+    <div class="container value-grid">
+      <div class="value-item">
+        <h3>Hand-graded, every record</h3>
+        <p>Every sleeve is visually and audibly graded before it ships — no surprises when you drop the needle.</p>
+      </div>
+      <div class="value-item">
+        <h3>Sourced from real collections</h3>
+        <p>We buy direct from estates and lifelong collectors, not bulk warehouse lots.</p>
+      </div>
+      <div class="value-item">
+        <h3>30-day return window</h3>
+        <p>If a pressing doesn't meet the grade we promised, send it back — no questions asked.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="newsletter" aria-labelledby="newsletter-heading">
+    <div class="container newsletter-inner">
+      <h2 id="newsletter-heading">Get first access to new pressings</h2>
+      <p>One email a week. New arrivals, restocks, and the occasional rare find before it hits the shop.</p>
+      <form class="newsletter-form" action="#" method="post">
+        <label for="newsletter-email">Email address</label>
+        <input type="email" id="newsletter-email" name="email" placeholder="you@example.com" required autocomplete="email">
+        <button type="submit" class="btn btn-primary">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#main-content" class="logo">Ember <span>&amp;</span> Groove</a>
+        <p>An independent record shop for people who still read liner notes.</p>
+      </div>
+      <div class="footer-col">
+        <h3>Shop</h3>
+        <ul>
+          <li><a href="#">New Arrivals</a></li>
+          <li><a href="#">Genres</a></li>
+          <li><a href="#">Turntables</a></li>
+          <li><a href="#">Gift Cards</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Support</h3>
+        <ul>
+          <li><a href="#">Shipping &amp; Returns</a></li>
+          <li><a href="#">Grading Guide</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Company</h3>
+        <ul>
+          <li><a href="#">Our Story</a></li>
+          <li><a href="#">Sell Your Records</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Ember &amp; Groove. All rights reserved.</p>
+      <p>Built with an accessible, WCAG AA-verified color palette.</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

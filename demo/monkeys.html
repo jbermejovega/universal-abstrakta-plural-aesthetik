@@ -1,0 +1,711 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Monkey Grove</title>
+    <style>
+      :root {
+        --monkey-100: #edf6ef;
+        --monkey-300: #abd4b4;
+        --monkey-600: #4d9a5e;
+        --monkey-700: #3e7a4c;
+        --monkey-800: #22452a;
+        --monkey-900: #132517;
+        --page-bg: #fbfdfb;
+        --panel-bg: rgba(255, 255, 255, 0.86);
+        --shadow: 0 24px 80px rgba(19, 37, 23, 0.12);
+        --radius-xl: 32px;
+        --radius-lg: 24px;
+        --radius-md: 18px;
+        --radius-pill: 999px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Georgia, "Times New Roman", Times, serif;
+        color: var(--monkey-900);
+        background:
+          radial-gradient(circle at top left, rgba(171, 212, 180, 0.36), transparent 34%),
+          radial-gradient(circle at 85% 10%, rgba(77, 154, 94, 0.18), transparent 26%),
+          linear-gradient(180deg, #ffffff 0%, var(--page-bg) 100%);
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image:
+          linear-gradient(rgba(19, 37, 23, 0.02) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(19, 37, 23, 0.02) 1px, transparent 1px);
+        background-size: 72px 72px;
+        mask-image: radial-gradient(circle at center, black 40%, transparent 85%);
+      }
+
+      a {
+        color: inherit;
+        text-decoration-thickness: 0.11em;
+        text-underline-offset: 0.16em;
+      }
+
+      .page {
+        position: relative;
+        z-index: 1;
+        width: min(1180px, calc(100vw - 32px));
+        margin: 0 auto;
+        padding: 28px 0 56px;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 10px 0 28px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: 0.95rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .brand-mark {
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        background: var(--monkey-900);
+        color: #ffffff;
+        box-shadow: var(--shadow);
+      }
+
+      .nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 14px;
+        font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: 0.95rem;
+      }
+
+      .nav a {
+        padding: 10px 14px;
+        border-radius: var(--radius-pill);
+        background: rgba(255, 255, 255, 0.72);
+        border: 1px solid rgba(34, 69, 42, 0.12);
+        transition: transform 180ms ease, background 180ms ease;
+      }
+
+      .nav a:hover,
+      .nav a:focus-visible {
+        transform: translateY(-1px);
+        background: #ffffff;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+        gap: 28px;
+        align-items: stretch;
+        padding: 28px 0 34px;
+      }
+
+      .hero-copy {
+        padding: 28px 0 18px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 16px;
+        border-radius: var(--radius-pill);
+        background: var(--monkey-100);
+        border: 1px solid rgba(62, 122, 76, 0.18);
+        color: var(--monkey-800);
+        font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: 0.84rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 20px 0 18px;
+        max-width: 12ch;
+        font-size: clamp(3.9rem, 9vw, 7.1rem);
+        line-height: 0.92;
+        letter-spacing: -0.06em;
+      }
+
+      .lede {
+        max-width: 60ch;
+        margin: 0;
+        font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: clamp(1.06rem, 1.4vw, 1.22rem);
+        line-height: 1.75;
+        color: rgba(19, 37, 23, 0.86);
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 28px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        min-height: 52px;
+        padding: 0 18px;
+        border-radius: var(--radius-pill);
+        font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: 0.98rem;
+        font-weight: 700;
+        text-decoration: none;
+        transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+      }
+
+      .button.primary {
+        background: var(--monkey-900);
+        color: #ffffff;
+        box-shadow: 0 16px 34px rgba(19, 37, 23, 0.18);
+      }
+
+      .button.secondary {
+        background: #ffffff;
+        color: var(--monkey-800);
+        border: 1px solid rgba(34, 69, 42, 0.16);
+      }
+
+      .button:hover,
+      .button:focus-visible {
+        transform: translateY(-2px);
+      }
+
+      .hero-panel {
+        position: relative;
+        overflow: hidden;
+        border-radius: var(--radius-xl);
+        background:
+          linear-gradient(160deg, rgba(19, 37, 23, 0.96), rgba(34, 69, 42, 0.92)),
+          var(--monkey-900);
+        color: #ffffff;
+        box-shadow: var(--shadow);
+        padding: 28px;
+        isolation: isolate;
+      }
+
+      .hero-panel::before,
+      .hero-panel::after {
+        content: "";
+        position: absolute;
+        border-radius: 999px;
+        background: rgba(237, 246, 239, 0.12);
+      }
+
+      .hero-panel::before {
+        width: 280px;
+        height: 280px;
+        right: -90px;
+        top: -110px;
+      }
+
+      .hero-panel::after {
+        width: 190px;
+        height: 190px;
+        left: -70px;
+        bottom: -80px;
+      }
+
+      .panel-kicker {
+        position: relative;
+        z-index: 1;
+        display: inline-flex;
+        padding: 8px 14px;
+        border-radius: var(--radius-pill);
+        background: rgba(237, 246, 239, 0.1);
+        color: var(--monkey-100);
+        font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .stat-grid {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        gap: 14px;
+        margin-top: 20px;
+      }
+
+      .stat-card {
+        padding: 16px 18px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(237, 246, 239, 0.16);
+        backdrop-filter: blur(8px);
+      }
+
+      .stat-card strong {
+        display: block;
+        font-size: 1.75rem;
+        line-height: 1;
+        letter-spacing: -0.04em;
+      }
+
+      .stat-card span {
+        display: block;
+        margin-top: 7px;
+        font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        line-height: 1.5;
+        color: rgba(255, 255, 255, 0.86);
+      }
+
+      .section {
+        margin-top: 28px;
+      }
+
+      .section-header {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 18px;
+      }
+
+      .section-header h2 {
+        margin: 0;
+        font-size: clamp(2rem, 4vw, 3rem);
+        line-height: 1;
+        letter-spacing: -0.05em;
+      }
+
+      .section-header p {
+        margin: 0;
+        max-width: 46ch;
+        font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        color: rgba(19, 37, 23, 0.74);
+        line-height: 1.7;
+      }
+
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .card {
+        grid-column: span 4;
+        padding: 22px;
+        border-radius: var(--radius-lg);
+        background: var(--panel-bg);
+        border: 1px solid rgba(34, 69, 42, 0.12);
+        box-shadow: 0 14px 34px rgba(19, 37, 23, 0.06);
+        backdrop-filter: blur(12px);
+      }
+
+      .card h3 {
+        margin: 16px 0 10px;
+        font-size: 1.42rem;
+        line-height: 1.1;
+        letter-spacing: -0.04em;
+      }
+
+      .card p,
+      .feature-list li {
+        font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        line-height: 1.7;
+        color: rgba(19, 37, 23, 0.82);
+      }
+
+      .icon {
+        display: inline-grid;
+        place-items: center;
+        width: 54px;
+        height: 54px;
+        border-radius: 18px;
+        background: var(--monkey-100);
+        color: var(--monkey-900);
+        font-size: 1.45rem;
+        box-shadow: inset 0 0 0 1px rgba(62, 122, 76, 0.14);
+      }
+
+      .feature-list {
+        display: grid;
+        gap: 14px;
+        margin: 16px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .feature-list li {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 14px;
+        align-items: start;
+        padding: 14px 16px;
+        border-radius: 18px;
+        background: rgba(237, 246, 239, 0.72);
+        border: 1px solid rgba(62, 122, 76, 0.12);
+      }
+
+      .feature-list strong {
+        display: block;
+        margin-bottom: 4px;
+        color: var(--monkey-900);
+      }
+
+      .timeline {
+        display: grid;
+        gap: 14px;
+      }
+
+      .timeline-item {
+        display: grid;
+        grid-template-columns: 84px 1fr;
+        gap: 18px;
+        align-items: start;
+        padding: 16px 18px;
+        border-radius: 22px;
+        background: #ffffff;
+        border: 1px solid rgba(34, 69, 42, 0.1);
+      }
+
+      .timeline-item time {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        padding: 0 14px;
+        border-radius: var(--radius-pill);
+        background: var(--monkey-900);
+        color: #ffffff;
+        font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: 0.9rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .timeline-item h3 {
+        margin: 2px 0 8px;
+        font-size: 1.28rem;
+      }
+
+      .timeline-item p {
+        margin: 0;
+        font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        line-height: 1.7;
+        color: rgba(19, 37, 23, 0.8);
+      }
+
+      .bottom-cta {
+        margin-top: 28px;
+        padding: 28px;
+        border-radius: var(--radius-xl);
+        background: linear-gradient(135deg, var(--monkey-100), #ffffff);
+        border: 1px solid rgba(34, 69, 42, 0.12);
+        box-shadow: var(--shadow);
+        display: grid;
+        grid-template-columns: minmax(0, 1.4fr) auto;
+        align-items: center;
+        gap: 18px;
+      }
+
+      .bottom-cta h2 {
+        margin: 0 0 8px;
+        font-size: clamp(1.8rem, 3.7vw, 2.8rem);
+        letter-spacing: -0.05em;
+      }
+
+      .bottom-cta p {
+        margin: 0;
+        max-width: 60ch;
+        font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        line-height: 1.7;
+        color: rgba(19, 37, 23, 0.78);
+      }
+
+      .footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        margin-top: 18px;
+        padding: 22px 0 0;
+        border-top: 1px solid rgba(34, 69, 42, 0.12);
+        font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        color: rgba(19, 37, 23, 0.68);
+      }
+
+      @media (max-width: 960px) {
+        .hero,
+        .bottom-cta,
+        .section-header,
+        .topbar,
+        .footer {
+          grid-template-columns: 1fr;
+          flex-direction: column;
+          align-items: start;
+        }
+
+        .card {
+          grid-column: span 6;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .page {
+          width: min(100vw - 24px, 1180px);
+          padding-top: 18px;
+        }
+
+        .hero {
+          gap: 18px;
+          padding-top: 12px;
+        }
+
+        h1 {
+          max-width: 9ch;
+          font-size: clamp(3.2rem, 16vw, 4.8rem);
+        }
+
+        .card,
+        .timeline-item,
+        .bottom-cta,
+        .hero-panel {
+          padding: 20px;
+          border-radius: 22px;
+        }
+
+        .card,
+        .timeline-item {
+          grid-column: span 12;
+        }
+
+        .timeline-item {
+          grid-template-columns: 1fr;
+        }
+
+        .section-header {
+          margin-bottom: 14px;
+        }
+
+        .feature-list li {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header class="topbar">
+        <div class="brand" aria-label="Monkey Grove home">
+          <div class="brand-mark">M</div>
+          Monkey Grove
+        </div>
+        <nav class="nav" aria-label="Primary">
+          <a href="#habits">Habits</a>
+          <a href="#species">Species</a>
+          <a href="#ecosystems">Ecosystems</a>
+          <a href="#conservation">Conservation</a>
+        </nav>
+      </header>
+
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <div class="eyebrow">Wildlife spotlight</div>
+          <h1 id="hero-title">Monkeys are clever, social, and impossible to ignore.</h1>
+          <p class="lede">
+            From rainforest canopies to dry savannas, monkeys shape forests with every leap,
+            snack, and call. This homepage explores their behavior, habitats, and the reasons
+            protecting them protects the wider web of life.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#species">Explore species</a>
+            <a class="button secondary" href="#conservation">Learn how to help</a>
+          </div>
+        </div>
+
+        <aside class="hero-panel" aria-label="Monkey facts">
+          <div class="panel-kicker">Quick facts</div>
+          <div class="stat-grid">
+            <div class="stat-card">
+              <strong>260+</strong>
+              <span>Known monkey species adapted to forests, cliffs, islands, and open woodlands.</span>
+            </div>
+            <div class="stat-card">
+              <strong>Highly social</strong>
+              <span>Many monkeys live in groups with shared grooming, alliances, and alarm calls.</span>
+            </div>
+            <div class="stat-card">
+              <strong>Seed partners</strong>
+              <span>By eating fruit and moving through the canopy, they help regenerate forests.</span>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="section" id="habits" aria-labelledby="habits-title">
+        <div class="section-header">
+          <div>
+            <h2 id="habits-title">How monkeys live</h2>
+          </div>
+          <p>
+            The details differ by species, but the pattern is familiar: sharp minds, close
+            relationships, and a daily routine shaped by food, safety, and play.
+          </p>
+        </div>
+
+        <div class="cards">
+          <article class="card">
+            <div class="icon" aria-hidden="true">🍃</div>
+            <h3>Foraging with purpose</h3>
+            <p>
+              Monkeys mix fruit, leaves, seeds, flowers, and insects to survive. Their choices
+              change with the season, which helps forests spread and recover.
+            </p>
+          </article>
+          <article class="card">
+            <div class="icon" aria-hidden="true">🫶</div>
+            <h3>Group life matters</h3>
+            <p>
+              Grooming, calling, and playing are not side quests. They keep groups stable,
+              reduce stress, and help younger monkeys learn the rules of survival.
+            </p>
+          </article>
+          <article class="card">
+            <div class="icon" aria-hidden="true">🌿</div>
+            <h3>Forest engineering</h3>
+            <p>
+              By scattering seeds and pruning vegetation through movement, monkeys support the
+              shape and future of the habitats they depend on.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="species" aria-labelledby="species-title">
+        <div class="section-header">
+          <div>
+            <h2 id="species-title">A few monkey archetypes</h2>
+          </div>
+          <p>
+            The monkey world is broad. These examples highlight just how different their bodies,
+            diets, and habitats can be.
+          </p>
+        </div>
+
+        <ul class="feature-list">
+          <li>
+            <div class="icon" aria-hidden="true">🐒</div>
+            <div>
+              <strong>Capuchins</strong>
+              Known for tool use and problem-solving, capuchins are among the most inventive monkeys in the forest.
+            </div>
+          </li>
+          <li>
+            <div class="icon" aria-hidden="true">🌳</div>
+            <div>
+              <strong>Howler monkeys</strong>
+              Their calls can travel long distances, turning the canopy into a soundscape that marks territory and keeps the group together.
+            </div>
+          </li>
+          <li>
+            <div class="icon" aria-hidden="true">🍌</div>
+            <div>
+              <strong>Macaques</strong>
+              Adaptable and resilient, macaques thrive in a wide range of climates, from mountain forests to urban edges.
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <section class="section" id="ecosystems" aria-labelledby="ecosystems-title">
+        <div class="section-header">
+          <div>
+            <h2 id="ecosystems-title">Why ecosystems depend on them</h2>
+          </div>
+          <p>
+            The monkey story is really a forest story. Remove them, and the balance of food,
+            movement, and regeneration starts to shift.
+          </p>
+        </div>
+
+        <div class="timeline">
+          <article class="timeline-item">
+            <time datetime="1">1</time>
+            <div>
+              <h3>Fruits are eaten, then redistributed</h3>
+              <p>
+                Seeds survive the trip through a monkey’s digestive system and end up dropped
+                somewhere new, giving young trees a chance to grow.
+              </p>
+            </div>
+          </article>
+          <article class="timeline-item">
+            <time datetime="2">2</time>
+            <div>
+              <h3>Movement links distant patches</h3>
+              <p>
+                Monkeys move between canopy corridors and forest edges, connecting habitats that
+                would otherwise feel isolated.
+              </p>
+            </div>
+          </article>
+          <article class="timeline-item">
+            <time datetime="3">3</time>
+            <div>
+              <h3>Signals keep the group alert</h3>
+              <p>
+                Calls, posture, and timing help monkeys stay safe from predators and coordinate
+                their next move through the trees.
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="conservation" aria-labelledby="conservation-title">
+        <div class="bottom-cta">
+          <div>
+            <h2 id="conservation-title">Protecting monkeys means protecting the forest with them.</h2>
+            <p>
+              Habitat loss, hunting, and fragmentation push many monkey populations into smaller
+              and more vulnerable territories. Supporting habitat protection, responsible tourism,
+              and wildlife conservation gives them a better chance to thrive.
+            </p>
+          </div>
+          <a class="button primary" href="mailto:hello@monkeygrove.example">Start a campaign</a>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <span>Monkey Grove</span>
+        <span>Built with an accessible monochrome palette based on #2f5d3a.</span>
+      </footer>
+    </main>
+  </body>
+</html>

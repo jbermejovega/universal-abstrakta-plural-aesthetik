@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Wiggly Notes — A Band For Kids</title>
+<style>
+/*
+ * WCAG AA PAIRING MANIFEST — source: #7c3aed · theme: white
+ *
+ * BODY TEXT (any font size, ≥4.5:1):
+ *   shade-100 (#f7f3fe) → 900, 800, 700
+ *   shade-300 (#d6c2f9) → 900, 800
+ *   shade-600 (#9f6ff3) → 900
+ *   shade-700 (#8446ee) → white, 100
+ *   shade-800 (#470eab) → white, 100, 300
+ *   shade-900 (#290960) → white, 100, 300, 600
+ *
+ * LARGE TEXT ONLY (≥24px or ≥18.67px bold, 3:1–4.5:1):
+ *   These pairings are PROHIBITED for body text at any size.
+ *   No exception exists for "decorative", "secondary", or "non-critical" text —
+ *   WCAG 1.4.3 applies to all visible text regardless of its semantic importance.
+ *   shade-100 (#f7f3fe) → 600
+ *   shade-300 (#d6c2f9) → 700
+ *   shade-600 (#9f6ff3) → 100, 800, white
+ *   shade-700 (#8446ee) → 300, 900
+ *   shade-800 (#470eab) → 600
+ *   shade-900 (#290960) → 700
+ *
+ * ACCENT COLORS (validated separately via check_contrast — NOT part of the
+ * foundation matrix above). Each accent passes AA ONLY as a BACKGROUND with
+ * --color-900 (#290960) as the foreground. None of them are safe as text on
+ * white, nor as a background with white text on top — both combinations
+ * were checked and FAIL. Do not use them any other way.
+ *   --accent-orange (#ff6b35) bg → text 900 only (5.69:1)
+ *   --accent-yellow (#ffc93c) bg → text 900 only (10.50:1)
+ *   --accent-teal   (#00bfa6) bg → text 900 only (6.91:1)
+ *   --accent-pink   (#ff4d8d) bg → text 900 only (5.14:1)
+ */
+:root {
+  --color-100: #f7f3fe; /* ✅ text→900·800·700  ⚠️ lg→600 */
+  --color-300: #d6c2f9; /* ✅ text→900·800  ⚠️ lg→700 */
+  --color-600: #9f6ff3; /* ✅ text→900  ⚠️ lg→100·800·white */
+  --color-700: #8446ee; /* ✅ text→white·100  ⚠️ lg→300·900 */
+  --color-800: #470eab; /* ✅ text→white·100·300  ⚠️ lg→600 */
+  --color-900: #290960; /* ✅ text→white·100·300·600  ⚠️ lg→700 */
+
+  --accent-orange: #ff6b35; /* bg-only, text 900 */
+  --accent-yellow: #ffc93c; /* bg-only, text 900 */
+  --accent-teal: #00bfa6;   /* bg-only, text 900 */
+  --accent-pink: #ff4d8d;   /* bg-only, text 900 */
+
+  --font-display: "Baloo 2", "Comic Sans MS", system-ui, sans-serif;
+  --font-body: "Nunito", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--color-900);
+  background: white;
+  line-height: 1.5;
+}
+
+a { color: inherit; }
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--color-900);
+  color: white;
+  padding: 0.75rem 1.25rem;
+  z-index: 100;
+  font-weight: 700;
+  border-radius: 0 0 8px 0;
+}
+.skip-link:focus {
+  left: 0;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-900);
+  outline-offset: 3px;
+}
+
+.container {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Header */
+header.site-header {
+  background: white;
+  border-bottom: 3px solid var(--color-100);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  max-width: 72rem;
+  margin: 0 auto;
+}
+.logo {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.5rem;
+  color: var(--color-900);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.logo-mark {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: var(--accent-yellow);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+nav.main-nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.75rem;
+  margin: 0;
+  padding: 0;
+}
+nav.main-nav a {
+  text-decoration: none;
+  font-weight: 700;
+  color: var(--color-800);
+  font-size: 1rem;
+}
+nav.main-nav a:hover {
+  color: var(--color-900);
+  text-decoration: underline;
+}
+
+/* Hero */
+.hero {
+  background: var(--color-100);
+  padding: 4rem 0 5rem;
+  overflow: hidden;
+  position: relative;
+}
+.hero .container {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  line-height: 1.1;
+  margin: 0 0 1.25rem;
+  color: var(--color-900);
+}
+.hero h1 .highlight {
+  background: var(--accent-pink);
+  color: var(--color-900);
+  padding: 0 0.4rem;
+  border-radius: 6px;
+  display: inline-block;
+}
+.hero p.lede {
+  font-size: 1.2rem;
+  max-width: 34rem;
+  color: var(--color-900);
+  margin: 0 0 2rem;
+}
+.cta-group {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.btn {
+  display: inline-block;
+  font-weight: 800;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  padding: 0.85rem 1.75rem;
+  border-radius: 999px;
+  text-decoration: none;
+  border: 3px solid transparent;
+}
+.btn-primary {
+  background: var(--color-900);
+  color: white;
+}
+.btn-primary:hover {
+  background: var(--color-800);
+}
+.btn-secondary {
+  background: var(--accent-yellow);
+  color: var(--color-900);
+  border-color: var(--color-900);
+}
+.btn-secondary:hover {
+  background: var(--accent-orange);
+}
+
+.hero-art {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.blob {
+  border-radius: 40% 60% 55% 45% / 50% 45% 55% 50%;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--color-900);
+}
+.blob.orange { background: var(--accent-orange); }
+.blob.teal { background: var(--accent-teal); }
+.blob.pink { background: var(--accent-pink); }
+.blob.yellow { background: var(--accent-yellow); }
+
+/* Section heading helper */
+.section-heading {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  color: var(--color-900);
+  text-align: center;
+  margin: 0 0 0.75rem;
+}
+.section-sub {
+  text-align: center;
+  max-width: 38rem;
+  margin: 0 auto 3rem;
+  color: var(--color-800);
+  font-size: 1.05rem;
+}
+
+/* Members */
+.members {
+  padding: 5rem 0;
+}
+.member-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 2rem;
+}
+.member-card {
+  background: var(--color-100);
+  border-radius: 1.25rem;
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+.member-avatar {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  margin: 0 auto 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+}
+.member-name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: var(--color-900);
+  margin: 0 0 0.25rem;
+}
+.member-role {
+  font-weight: 700;
+  color: var(--color-800);
+  margin: 0 0 0.75rem;
+  font-size: 0.95rem;
+}
+.member-bio {
+  color: var(--color-900);
+  font-size: 0.95rem;
+}
+
+/* Songs */
+.songs {
+  background: var(--color-900);
+  color: white;
+  padding: 5rem 0;
+}
+.songs .section-heading,
+.songs .section-sub {
+  color: white;
+}
+.song-list {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  max-width: 40rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.song-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--color-800);
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+}
+.song-tag {
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  color: var(--color-900);
+}
+.song-title {
+  font-weight: 700;
+  flex: 1;
+}
+.song-length {
+  font-size: 0.9rem;
+  color: var(--color-300);
+}
+
+/* Tour dates */
+.tour {
+  padding: 5rem 0;
+}
+.tour-list {
+  display: grid;
+  gap: 1rem;
+  max-width: 44rem;
+  margin: 0 auto;
+}
+.tour-row {
+  display: grid;
+  grid-template-columns: 6rem 1fr auto;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.25rem;
+  border: 3px solid var(--color-100);
+  border-radius: 1rem;
+}
+.tour-date {
+  font-family: var(--font-display);
+  font-weight: 800;
+  color: var(--color-900);
+  text-align: center;
+  background: var(--accent-teal);
+  border-radius: 0.6rem;
+  padding: 0.5rem 0.25rem;
+  font-size: 0.95rem;
+  line-height: 1.2;
+}
+.tour-info h3 {
+  margin: 0 0 0.2rem;
+  font-size: 1.1rem;
+  color: var(--color-900);
+}
+.tour-info p {
+  margin: 0;
+  color: var(--color-800);
+  font-size: 0.9rem;
+}
+.tour-row .btn {
+  padding: 0.6rem 1.25rem;
+  font-size: 0.95rem;
+}
+
+/* Newsletter */
+.newsletter {
+  background: var(--accent-yellow);
+  padding: 4rem 0;
+  text-align: center;
+}
+.newsletter h2 {
+  font-family: var(--font-display);
+  color: var(--color-900);
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  margin: 0 0 0.75rem;
+}
+.newsletter p {
+  color: var(--color-900);
+  margin: 0 0 1.75rem;
+}
+.newsletter-form {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 28rem;
+  margin: 0 auto;
+}
+.newsletter-form input[type="email"] {
+  flex: 1;
+  min-width: 12rem;
+  padding: 0.85rem 1.25rem;
+  border-radius: 999px;
+  border: 3px solid var(--color-900);
+  font-size: 1rem;
+  font-family: var(--font-body);
+}
+.newsletter-form label {
+  display: block;
+  text-align: left;
+  font-weight: 700;
+  color: var(--color-900);
+  margin-bottom: 0.4rem;
+}
+
+/* Footer */
+footer.site-footer {
+  background: var(--color-900);
+  color: white;
+  padding: 3rem 0 2rem;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+.footer-grid h3 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  margin: 0 0 1rem;
+  color: var(--color-300);
+}
+.footer-grid ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.footer-grid a {
+  color: white;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+.footer-grid a:hover {
+  text-decoration: underline;
+}
+.footer-bottom {
+  border-top: 1px solid var(--color-800);
+  padding-top: 1.5rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--color-300);
+}
+
+@media (max-width: 56rem) {
+  .hero .container { grid-template-columns: 1fr; }
+  .nav-bar { flex-direction: column; gap: 1rem; }
+  .tour-row { grid-template-columns: 1fr; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<header class="site-header">
+  <div class="nav-bar">
+    <a href="#main" class="logo">
+      <span class="logo-mark" aria-hidden="true">🎵</span>
+      The Wiggly Notes
+    </a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <ul>
+        <li><a href="#members">The Band</a></li>
+        <li><a href="#songs">Songs</a></li>
+        <li><a href="#tour">Tour Dates</a></li>
+        <li><a href="#newsletter">Join Us</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero">
+    <div class="container">
+      <div>
+        <h1>Songs that make grown-ups dance and <span class="highlight">kids go wild!</span></h1>
+        <p class="lede">The Wiggly Notes is a five-piece band making giggly, sing-along music for kids ages 2–9 — and the grown-ups who bring them along for the ride.</p>
+        <div class="cta-group">
+          <a href="#tour" class="btn btn-primary">See Tour Dates</a>
+          <a href="#songs" class="btn btn-secondary">Listen Now</a>
+        </div>
+      </div>
+      <div class="hero-art" role="presentation" aria-hidden="true">
+        <div class="blob orange">🥁</div>
+        <div class="blob teal">🎸</div>
+        <div class="blob pink">🎤</div>
+        <div class="blob yellow">🎹</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="members" id="members">
+    <div class="container">
+      <h2 class="section-heading">Meet the Band</h2>
+      <p class="section-sub">Five friends, one stage, and way too many kazoo solos.</p>
+      <div class="member-grid">
+        <article class="member-card">
+          <div class="member-avatar" style="background: var(--accent-orange);" aria-hidden="true">🥁</div>
+          <h3 class="member-name">Bongo Bea</h3>
+          <p class="member-role">Drums &amp; Beatboxing</p>
+          <p class="member-bio">Can make a rhythm out of literally anything, including your shoe.</p>
+        </article>
+        <article class="member-card">
+          <div class="member-avatar" style="background: var(--accent-teal);" aria-hidden="true">🎸</div>
+          <h3 class="member-name">Stevie Strings</h3>
+          <p class="member-role">Guitar &amp; Ukulele</p>
+          <p class="member-bio">Taught the whole audience to play air guitar by accident.</p>
+        </article>
+        <article class="member-card">
+          <div class="member-avatar" style="background: var(--accent-pink);" aria-hidden="true">🎤</div>
+          <h3 class="member-name">Mimi Melody</h3>
+          <p class="member-role">Lead Vocals</p>
+          <p class="member-bio">Holds the world record for longest silly-voice song intro.</p>
+        </article>
+        <article class="member-card">
+          <div class="member-avatar" style="background: var(--accent-yellow);" aria-hidden="true">🎹</div>
+          <h3 class="member-name">Doodle Dex</h3>
+          <p class="member-role">Keys &amp; Sound Effects</p>
+          <p class="member-bio">Owns 14 kazoos and a keyboard that makes dinosaur noises.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="songs" id="songs">
+    <div class="container">
+      <h2 class="section-heading">Our Most-Requested Songs</h2>
+      <p class="section-sub">Press play in your head — we promise these are catchy.</p>
+      <ul class="song-list">
+        <li class="song-row">
+          <span class="song-tag" style="background: var(--accent-yellow);" aria-hidden="true">1</span>
+          <span class="song-title">Dance Like a Dinosaur</span>
+          <span class="song-length">2:41</span>
+        </li>
+        <li class="song-row">
+          <span class="song-tag" style="background: var(--accent-orange);" aria-hidden="true">2</span>
+          <span class="song-title">The Sock Puppet Shuffle</span>
+          <span class="song-length">3:05</span>
+        </li>
+        <li class="song-row">
+          <span class="song-tag" style="background: var(--accent-teal);" aria-hidden="true">3</span>
+          <span class="song-title">Bedtime Is Not the Boss of Me</span>
+          <span class="song-length">2:58</span>
+        </li>
+        <li class="song-row">
+          <span class="song-tag" style="background: var(--accent-pink);" aria-hidden="true">4</span>
+          <span class="song-title">Snack Time Boogie</span>
+          <span class="song-length">2:20</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="tour" id="tour">
+    <div class="container">
+      <h2 class="section-heading">Upcoming Shows</h2>
+      <p class="section-sub">Bring your loudest singing voice — we'll bring the kazoos.</p>
+      <div class="tour-list">
+        <div class="tour-row">
+          <div class="tour-date">JUL<br>12</div>
+          <div class="tour-info">
+            <h3>Sunny Park Amphitheater</h3>
+            <p>Portland, OR — 11:00 AM, all ages</p>
+          </div>
+          <a href="#" class="btn btn-secondary">Get Tickets</a>
+        </div>
+        <div class="tour-row">
+          <div class="tour-date">JUL<br>19</div>
+          <div class="tour-info">
+            <h3>Maplewood Library Lawn</h3>
+            <p>Austin, TX — 10:30 AM, free event</p>
+          </div>
+          <a href="#" class="btn btn-secondary">Get Tickets</a>
+        </div>
+        <div class="tour-row">
+          <div class="tour-date">AUG<br>02</div>
+          <div class="tour-info">
+            <h3>Bright Days Family Festival</h3>
+            <p>Denver, CO — 2:00 PM, all ages</p>
+          </div>
+          <a href="#" class="btn btn-secondary">Get Tickets</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="newsletter" id="newsletter">
+    <div class="container">
+      <h2>Join the Notes Club</h2>
+      <p>Get new songs, tour dates, and printable coloring sheets straight to your inbox.</p>
+      <form class="newsletter-form">
+        <div style="flex: 1; min-width: 12rem;">
+          <label for="email">Email address</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h3>The Wiggly Notes</h3>
+        <ul>
+          <li><a href="#members">The Band</a></li>
+          <li><a href="#songs">Songs</a></li>
+          <li><a href="#tour">Tour Dates</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>For Families</h3>
+        <ul>
+          <li><a href="#">Coloring Sheets</a></li>
+          <li><a href="#">Sing-Along Lyrics</a></li>
+          <li><a href="#">School Visits</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Connect</h3>
+        <ul>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Press Kit</a></li>
+          <li><a href="#">Booking</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 The Wiggly Notes. Made with kazoos and love.
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

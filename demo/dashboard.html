@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics Dashboard</title>
+  <style>
+    /* ── Palette ──────────────────────────────────────────────────────────────
+       Source: #1A1A2E  |  Theme: white
+       Validated pairs (WCAG AA):
+         900 #1e1e35  on white   → 16.25:1  aa-normal
+         800 #383862  on white   → 10.99:1  aa-normal
+         700 #6666a9  on white   →  5.20:1  aa-normal
+         900 #1e1e35  on 100     → 14.44:1  aa-normal
+         800 #383862  on 100     →  9.77:1  aa-normal
+         700 #6666a9  on 100     →  4.62:1  aa-normal
+         300 #c6c6df  on 900     →  9.71:1  aa-normal
+         900 #1e1e35  on 300     →  9.71:1  aa-normal
+         white        on 900     → 16.25:1  aa-normal (inverse)
+         white        on 800     → 10.99:1  aa-normal (inverse)
+         white        on 700     →  5.20:1  aa-normal (inverse)
+       UI component (non-text 3:1):
+         600 #8484b9  on white   →  3.51:1  ✓
+    ──────────────────────────────────────────────────────────────────────── */
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --c-100: #f1f1f7;
+      --c-300: #c6c6df;
+      --c-600: #8484b9;
+      --c-700: #6666a9;
+      --c-800: #383862;
+      --c-900: #1e1e35;
+      --white:  #ffffff;
+
+      --radius-card: 0.75rem;
+      --shadow-card: 0 1px 3px rgba(30,30,53,0.08), 0 1px 2px rgba(30,30,53,0.06);
+    }
+
+    /* ── Base ─────────────────────────────────────────────────────────────── */
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      "Helvetica Neue", Arial, sans-serif;
+      background: var(--c-100);
+      color: var(--c-900);
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    /* ── Skip link ────────────────────────────────────────────────────────── */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 1rem;
+      z-index: 9999;
+      padding: 0.5rem 1rem;
+      background: var(--c-900);
+      color: var(--white);
+      font-size: 0.875rem;
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: 0 0 0.375rem 0.375rem;
+      transition: top 0.1s;
+    }
+
+    .skip-link:focus {
+      top: 0;
+      outline: 3px solid var(--c-600);
+      outline-offset: 2px;
+    }
+
+    /* ── Header ───────────────────────────────────────────────────────────── */
+    /* white on 900: 16.25:1 | 300 on 900: 9.71:1 */
+    .site-header {
+      background: var(--c-900);
+      padding: 1.25rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .site-header__logo {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+    }
+
+    .logo-mark {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 0.375rem;
+      background: var(--c-700);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .logo-mark svg {
+      width: 1.125rem;
+      height: 1.125rem;
+      fill: var(--white);
+    }
+
+    .site-header h1 {
+      font-size: 1.0625rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.015em;
+    }
+
+    .site-header__meta {
+      text-align: right;
+    }
+
+    .site-header__meta p {
+      font-size: 0.8125rem;
+      color: var(--c-300);
+      line-height: 1.4;
+    }
+
+    .site-header__meta strong {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--white);
+    }
+
+    /* ── Layout ───────────────────────────────────────────────────────────── */
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    /* ── Section label ────────────────────────────────────────────────────── */
+    /* 800 on 100: 9.77:1 */
+    .section-label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--c-800);
+      margin-bottom: 0.875rem;
+    }
+
+    /* ── Focus ring (global) ──────────────────────────────────────────────── */
+    :focus-visible {
+      outline: 3px solid var(--c-700);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+
+    /* ── Stat tiles ───────────────────────────────────────────────────────── */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    /* 900 on white: 16.25:1 | 700 on white: 5.20:1 */
+    .stat-tile {
+      background: var(--white);
+      border-radius: var(--radius-card);
+      border: 1px solid var(--c-300);
+      border-top-width: 3px;
+      padding: 1.375rem 1.5rem 1.25rem;
+      box-shadow: var(--shadow-card);
+      position: relative;
+    }
+
+    .stat-tile:nth-child(1) { border-top-color: var(--c-900); } /* 16.25:1 on white ✓ */
+    .stat-tile:nth-child(2) { border-top-color: var(--c-800); } /* 10.99:1 on white ✓ */
+    .stat-tile:nth-child(3) { border-top-color: var(--c-700); } /*  5.20:1 on white ✓ */
+    .stat-tile:nth-child(4) { border-top-color: var(--c-600); } /*  3.51:1 on white ✓ UI ≥3:1 */
+
+    .stat-tile__icon {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 0.375rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.875rem;
+      background: var(--c-100);
+    }
+
+    .stat-tile__icon svg {
+      width: 1rem;
+      height: 1rem;
+    }
+
+    .stat-tile:nth-child(1) .stat-tile__icon svg { fill: var(--c-900); }
+    .stat-tile:nth-child(2) .stat-tile__icon svg { fill: var(--c-800); }
+    .stat-tile:nth-child(3) .stat-tile__icon svg { fill: var(--c-700); }
+    .stat-tile:nth-child(4) .stat-tile__icon svg { fill: var(--c-600); }
+
+    .stat-tile__label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--c-700); /* 5.20:1 on white ✓ */
+      margin-bottom: 0.375rem;
+    }
+
+    .stat-tile__value {
+      font-size: 2.125rem;
+      font-weight: 800;
+      color: var(--c-900); /* 16.25:1 on white ✓ */
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 0.625rem;
+    }
+
+    .stat-tile__change {
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+      font-size: 0.8rem;
+      color: var(--c-800); /* 10.99:1 on white ✓ */
+    }
+
+    .stat-tile__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.125rem;
+      padding: 0.125rem 0.375rem;
+      border-radius: 9999px;
+      font-size: 0.6875rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+
+    .stat-tile__badge--up {
+      background: var(--c-900); /* white on 900: 16.25:1 ✓ */
+      color: var(--white);
+    }
+
+    .stat-tile__badge--down {
+      background: var(--c-300); /* 900 on 300: 9.71:1 ✓ */
+      color: var(--c-900);
+    }
+
+    /* ── Chart ────────────────────────────────────────────────────────────── */
+    .chart-card {
+      background: var(--white);
+      border-radius: var(--radius-card);
+      border: 1px solid var(--c-300);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-card);
+      margin-bottom: 2rem;
+    }
+
+    .chart-card__header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .chart-card__title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--c-900); /* 16.25:1 on white ✓ */
+      margin-bottom: 0.125rem;
+    }
+
+    .chart-card__subtitle {
+      font-size: 0.8125rem;
+      color: var(--c-700); /* 5.20:1 on white ✓ */
+    }
+
+    .chart-card__legend {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--c-800); /* 10.99:1 ✓ */
+    }
+
+    .legend-swatch {
+      width: 0.75rem;
+      height: 0.75rem;
+      border-radius: 2px;
+      background: var(--c-900);
+      flex-shrink: 0;
+    }
+
+    /* Bars container */
+    .chart-body {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .chart-bars-area {
+      display: flex;
+      align-items: flex-end;
+      gap: 0.625rem;
+      height: 200px;
+      padding-bottom: 0;
+      border-bottom: 2px solid var(--c-300);
+      background-image:
+        repeating-linear-gradient(
+          to top,
+          transparent 0,
+          transparent calc(25% - 1px),
+          var(--c-100) calc(25% - 1px),
+          var(--c-100) 25%
+        );
+    }
+
+    .bar-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      height: 100%;
+    }
+
+    .bar {
+      width: 100%;
+      max-width: 52px;
+      background: var(--c-900); /* 900 on white: UI 3:1+ ✓ */
+      border-radius: 4px 4px 0 0;
+      transition: background 0.15s;
+    }
+
+    .bar:hover,
+    .bar:focus {
+      background: var(--c-700);
+      outline: none;
+    }
+
+    .bar:focus-visible {
+      outline: 3px solid var(--c-700);
+      outline-offset: 2px;
+    }
+
+    .chart-labels {
+      display: flex;
+      gap: 0.625rem;
+      padding-top: 0.5rem;
+    }
+
+    .chart-labels span {
+      flex: 1;
+      text-align: center;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      color: var(--c-700); /* 5.20:1 on white ✓ */
+      letter-spacing: 0.03em;
+    }
+
+    /* Visually hidden accessible table behind chart */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* ── Table ────────────────────────────────────────────────────────────── */
+    .table-card {
+      background: var(--white);
+      border-radius: var(--radius-card);
+      border: 1px solid var(--c-300);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+    }
+
+    .table-card__header {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--c-300);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .table-card__title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--c-900); /* 16.25:1 ✓ */
+    }
+
+    .table-card__caption {
+      font-size: 0.8125rem;
+      color: var(--c-700); /* 5.20:1 ✓ */
+    }
+
+    /* 900 on white: 16.25:1 | 800 on white: 10.99:1 | 700 on white: 5.20:1 */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead th {
+      padding: 0.625rem 1.5rem;
+      text-align: left;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--c-800); /* 10.99:1 on white ✓ */
+      background: var(--c-100);
+      border-bottom: 1px solid var(--c-300);
+    }
+
+    thead th:last-child { text-align: right; }
+
+    tbody tr {
+      border-bottom: 1px solid var(--c-100);
+      transition: background 0.1s;
+    }
+
+    tbody tr:last-child { border-bottom: none; }
+
+    tbody tr:hover { background: var(--c-100); }
+
+    tbody td {
+      padding: 0.875rem 1.5rem;
+      font-size: 0.875rem;
+      color: var(--c-900); /* 16.25:1 on white ✓ */
+      vertical-align: middle;
+    }
+
+    tbody td:last-child { text-align: right; }
+
+    .td-id {
+      font-family: "SF Mono", "Fira Code", "Cascadia Code", Consolas, monospace;
+      font-size: 0.8125rem;
+      color: var(--c-800); /* 10.99:1 ✓ */
+      font-weight: 600;
+    }
+
+    .td-user strong {
+      display: block;
+      font-weight: 600;
+      color: var(--c-900); /* 16.25:1 ✓ */
+    }
+
+    .td-user span {
+      font-size: 0.75rem;
+      color: var(--c-700); /* 5.20:1 ✓ */
+    }
+
+    .td-type {
+      color: var(--c-800); /* 10.99:1 ✓ */
+    }
+
+    .td-amount {
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      color: var(--c-900); /* 16.25:1 ✓ */
+    }
+
+    .td-date {
+      color: var(--c-700); /* 5.20:1 ✓ */
+      font-size: 0.8125rem;
+    }
+
+    /* Status badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3125rem;
+      padding: 0.25rem 0.625rem;
+      border-radius: 9999px;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    .badge-dot {
+      width: 0.375rem;
+      height: 0.375rem;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* white on 900: 16.25:1 ✓ */
+    .badge--completed {
+      background: var(--c-900);
+      color: var(--white);
+    }
+    .badge--completed .badge-dot { background: var(--c-300); }
+
+    /* white on 800: 10.99:1 ✓ */
+    .badge--processing {
+      background: var(--c-800);
+      color: var(--white);
+    }
+    .badge--processing .badge-dot { background: var(--c-300); }
+
+    /* white on 700: 5.20:1 ✓ */
+    .badge--pending {
+      background: var(--c-700);
+      color: var(--white);
+    }
+    .badge--pending .badge-dot { background: var(--c-300); }
+
+    /* ── Responsive ───────────────────────────────────────────────────────── */
+    @media (max-width: 680px) {
+      .page { padding: 1.25rem; }
+      .site-header { padding: 1rem 1.25rem; }
+      .stat-grid { grid-template-columns: 1fr 1fr; }
+      thead th:nth-child(3),
+      tbody td:nth-child(3) { display: none; }
+    }
+
+    @media (max-width: 400px) {
+      .stat-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- ── Header ─────────────────────────────────────────────────────────── -->
+  <header class="site-header" role="banner">
+    <div class="site-header__logo">
+      <div class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1" y="9" width="4" height="8" rx="1"/>
+          <rect x="7" y="5" width="4" height="12" rx="1"/>
+          <rect x="13" y="1" width="4" height="16" rx="1"/>
+        </svg>
+      </div>
+      <h1>Insights</h1>
+    </div>
+    <div class="site-header__meta" aria-label="Report period">
+      <strong>June 2026</strong>
+      <p>Updated Jun 14, 2026</p>
+    </div>
+  </header>
+
+  <!-- ── Main ───────────────────────────────────────────────────────────── -->
+  <main id="main-content" class="page">
+
+    <!-- ── Stat Tiles ─────────────────────────────────────────────────── -->
+    <section aria-labelledby="stats-heading">
+      <h2 id="stats-heading" class="section-label">Key Metrics</h2>
+
+      <div class="stat-grid">
+
+        <!-- Revenue -->
+        <article class="stat-tile" aria-label="Total Revenue">
+          <div class="stat-tile__icon" aria-hidden="true">
+            <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1Zm.75 10.25V12a.75.75 0 0 1-1.5 0v-.77A3.25 3.25 0 0 1 5 8.5a.75.75 0 0 1 1.5 0c0 .966.784 1.75 1.75 1.75h.25a1.25 1.25 0 0 0 0-2.5h-.5A2.75 2.75 0 0 1 8 2a2.75 2.75 0 0 1 0 5.5.25.25 0 0 0 0 .5h.5a2.75 2.75 0 0 1 .25 5.25Z"/>
+            </svg>
+          </div>
+          <p class="stat-tile__label">Total Revenue</p>
+          <p class="stat-tile__value" aria-label="84,250 dollars">$84,250</p>
+          <p class="stat-tile__change">
+            <span class="stat-tile__badge stat-tile__badge--up" aria-label="Up 12.4 percent">
+              ↑ 12.4%
+            </span>
+            vs last month
+          </p>
+        </article>
+
+        <!-- Active Users -->
+        <article class="stat-tile" aria-label="Active Users">
+          <div class="stat-tile__icon" aria-hidden="true">
+            <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-5 5.5a5 5 0 0 1 10 0 .5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5Z"/>
+            </svg>
+          </div>
+          <p class="stat-tile__label">Active Users</p>
+          <p class="stat-tile__value">14,892</p>
+          <p class="stat-tile__change">
+            <span class="stat-tile__badge stat-tile__badge--up" aria-label="Up 8.1 percent">
+              ↑ 8.1%
+            </span>
+            vs last month
+          </p>
+        </article>
+
+        <!-- Conversion Rate -->
+        <article class="stat-tile" aria-label="Conversion Rate">
+          <div class="stat-tile__icon" aria-hidden="true">
+            <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+              <path d="M11.354 4.646a.5.5 0 0 0-.707 0L4.293 11a.5.5 0 1 0 .707.707l6.354-6.354a.5.5 0 0 0 0-.707ZM5 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm9 5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/>
+            </svg>
+          </div>
+          <p class="stat-tile__label">Conversion Rate</p>
+          <p class="stat-tile__value">3.68%</p>
+          <p class="stat-tile__change">
+            <span class="stat-tile__badge stat-tile__badge--down" aria-label="Down 0.3 percent">
+              ↓ 0.3%
+            </span>
+            vs last month
+          </p>
+        </article>
+
+        <!-- Avg Session -->
+        <article class="stat-tile" aria-label="Average Session Duration">
+          <div class="stat-tile__icon" aria-hidden="true">
+            <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1Zm.5 4v3.25l2.25 2.25a.5.5 0 0 1-.707.707l-2.5-2.5A.5.5 0 0 1 7.5 8.5V5a.5.5 0 0 1 1 0Z"/>
+            </svg>
+          </div>
+          <p class="stat-tile__label">Avg. Session</p>
+          <p class="stat-tile__value">4m 22s</p>
+          <p class="stat-tile__change">
+            <span class="stat-tile__badge stat-tile__badge--up" aria-label="Up 5.7 percent">
+              ↑ 5.7%
+            </span>
+            vs last month
+          </p>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ── Bar Chart ─────────────────────────────────────────────────────── -->
+    <section aria-labelledby="chart-heading">
+      <div class="chart-card">
+        <div class="chart-card__header">
+          <div>
+            <h2 id="chart-heading" class="chart-card__title">Weekly Visitors</h2>
+            <p class="chart-card__subtitle">Unique sessions — past 7 days</p>
+          </div>
+          <div class="chart-card__legend" aria-hidden="true">
+            <span class="legend-swatch"></span>
+            Unique sessions
+          </div>
+        </div>
+
+        <!-- Screen-reader data table (accessible equivalent of the chart) -->
+        <table class="sr-only" aria-label="Weekly visitor data">
+          <caption>Unique sessions for each day over the past 7 days</caption>
+          <thead>
+            <tr>
+              <th scope="col">Day</th>
+              <th scope="col">Unique Sessions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Monday</td><td>1,820</td></tr>
+            <tr><td>Tuesday</td><td>2,450</td></tr>
+            <tr><td>Wednesday</td><td>3,100</td></tr>
+            <tr><td>Thursday</td><td>2,780</td></tr>
+            <tr><td>Friday</td><td>3,540</td></tr>
+            <tr><td>Saturday</td><td>2,200</td></tr>
+            <tr><td>Sunday</td><td>1,960</td></tr>
+          </tbody>
+        </table>
+
+        <!-- Visual bar chart (aria-hidden — data is in the sr-only table above) -->
+        <div class="chart-body" aria-hidden="true">
+          <div class="chart-bars-area">
+            <!-- Heights = value / max(3540) × 100% -->
+            <div class="bar-col"><div class="bar" style="height:51.4%;" title="Mon: 1,820"></div></div>
+            <div class="bar-col"><div class="bar" style="height:69.2%;" title="Tue: 2,450"></div></div>
+            <div class="bar-col"><div class="bar" style="height:87.6%;" title="Wed: 3,100"></div></div>
+            <div class="bar-col"><div class="bar" style="height:78.5%;" title="Thu: 2,780"></div></div>
+            <div class="bar-col"><div class="bar" style="height:100%;"  title="Fri: 3,540"></div></div>
+            <div class="bar-col"><div class="bar" style="height:62.1%;" title="Sat: 2,200"></div></div>
+            <div class="bar-col"><div class="bar" style="height:55.4%;" title="Sun: 1,960"></div></div>
+          </div>
+          <div class="chart-labels">
+            <span>Mon</span>
+            <span>Tue</span>
+            <span>Wed</span>
+            <span>Thu</span>
+            <span>Fri</span>
+            <span>Sat</span>
+            <span>Sun</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── Recent Activity Table ──────────────────────────────────────────── -->
+    <section aria-labelledby="activity-heading">
+      <div class="table-card">
+        <div class="table-card__header">
+          <h2 id="activity-heading" class="table-card__title">Recent Activity</h2>
+          <p class="table-card__caption">5 most recent transactions</p>
+        </div>
+
+        <table aria-labelledby="activity-heading">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">User</th>
+              <th scope="col">Type</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Status</th>
+              <th scope="col">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="td-id">#TXN-00481</td>
+              <td class="td-user">
+                <strong>Sarah M.</strong>
+                <span>sarah@example.com</span>
+              </td>
+              <td class="td-type">Subscription</td>
+              <td class="td-amount">$49.00</td>
+              <td><span class="badge badge--completed"><span class="badge-dot" aria-hidden="true"></span>Completed</span></td>
+              <td class="td-date">Jun 14, 2026</td>
+            </tr>
+            <tr>
+              <td class="td-id">#TXN-00480</td>
+              <td class="td-user">
+                <strong>James K.</strong>
+                <span>james@example.com</span>
+              </td>
+              <td class="td-type">One-time</td>
+              <td class="td-amount">$120.00</td>
+              <td><span class="badge badge--processing"><span class="badge-dot" aria-hidden="true"></span>Processing</span></td>
+              <td class="td-date">Jun 13, 2026</td>
+            </tr>
+            <tr>
+              <td class="td-id">#TXN-00479</td>
+              <td class="td-user">
+                <strong>Leila R.</strong>
+                <span>leila@example.com</span>
+              </td>
+              <td class="td-type">Subscription</td>
+              <td class="td-amount">$49.00</td>
+              <td><span class="badge badge--completed"><span class="badge-dot" aria-hidden="true"></span>Completed</span></td>
+              <td class="td-date">Jun 13, 2026</td>
+            </tr>
+            <tr>
+              <td class="td-id">#TXN-00478</td>
+              <td class="td-user">
+                <strong>Tomás V.</strong>
+                <span>tomas@example.com</span>
+              </td>
+              <td class="td-type">Upgrade</td>
+              <td class="td-amount">$199.00</td>
+              <td><span class="badge badge--pending"><span class="badge-dot" aria-hidden="true"></span>Pending</span></td>
+              <td class="td-date">Jun 12, 2026</td>
+            </tr>
+            <tr>
+              <td class="td-id">#TXN-00477</td>
+              <td class="td-user">
+                <strong>Aiko N.</strong>
+                <span>aiko@example.com</span>
+              </td>
+              <td class="td-type">One-time</td>
+              <td class="td-amount">$75.00</td>
+              <td><span class="badge badge--completed"><span class="badge-dot" aria-hidden="true"></span>Completed</span></td>
+              <td class="td-date">Jun 12, 2026</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>

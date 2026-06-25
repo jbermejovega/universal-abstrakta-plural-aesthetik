@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Norden — Considered essentials for everyday living</title>
+<style>
+  /*
+   * WCAG AA PAIRING MANIFEST — source: #1e3a5f · theme: white
+   * BODY TEXT (any size, >=4.5:1):
+   *   100 -> 900, 800, 700      |  700 -> white, 100
+   *   800 -> white, 100, 300   |  900 -> white, 100, 300, 600
+   * LARGE TEXT / DECORATIVE ONLY (3:1-4.5:1): 600 on 100/800/white
+   */
+  :root {
+    --color-100: #edf3f9;
+    --color-300: #b5cbe8;
+    --color-600: #548dc6;
+    --color-700: #396eb4;
+    --color-800: #1f3e5d;
+    --color-900: #112136;
+    /* accent — checked via check_contrast, not part of the monochrome palette:
+       #c23b3b on #fff = 5.27:1 | #c23b3b on #edf3f9 = 4.72:1 | #fff on #c23b3b = 5.27:1 */
+    --color-accent: #c23b3b;
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --space-1: 0.5rem;
+    --space-2: 1rem;
+    --space-3: 1.5rem;
+    --space-4: 2.5rem;
+    --space-5: 4rem;
+    --radius: 0.5rem;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    color: var(--color-900);
+    background: #ffffff;
+    line-height: 1.5;
+  }
+
+  img { max-width: 100%; display: block; }
+
+  /* Skip link — K4 */
+  .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    padding: var(--space-1) var(--space-2);
+    background: var(--color-900);
+    color: var(--color-100);
+    z-index: 100;
+    text-decoration: none;
+    border-radius: 0 0 var(--radius) 0;
+  }
+  .skip-link:focus { top: 0; }
+
+  a, button { font: inherit; }
+
+  /* Visible focus indicator everywhere — K5 */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible {
+    outline: 3px solid var(--color-700);
+    outline-offset: 2px;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  /* ---------- Header ---------- */
+  header.site-header {
+    border-bottom: 1px solid var(--color-300);
+    background: #ffffff;
+  }
+
+  .header-inner {
+    max-width: 75rem;
+    margin: 0 auto;
+    padding: var(--space-2) var(--space-3);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .logo {
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: var(--color-900);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+
+  nav.main-nav ul {
+    display: flex;
+    gap: var(--space-3);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
+  }
+
+  nav.main-nav a {
+    color: var(--color-800);
+    text-decoration: none;
+    font-weight: 600;
+    padding: var(--space-1) 0.25rem;
+    border-bottom: 2px solid transparent;
+  }
+
+  nav.main-nav a:hover { border-bottom-color: var(--color-700); }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .icon-button {
+    background: transparent;
+    border: 1px solid var(--color-300);
+    border-radius: var(--radius);
+    min-width: 2.5rem;
+    min-height: 2.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--color-900);
+  }
+  .icon-button:hover { background: var(--color-100); }
+
+  .cart-count {
+    font-size: 0.75rem;
+    font-weight: 700;
+    background: var(--color-700);
+    color: var(--color-100);
+    border-radius: 999px;
+    padding: 0 0.4rem;
+    margin-left: -0.6rem;
+    align-self: flex-start;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    background: var(--color-900);
+    color: var(--color-100);
+  }
+
+  .hero-inner {
+    max-width: 75rem;
+    margin: 0 auto;
+    padding: var(--space-5) var(--space-3);
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: var(--space-4);
+    align-items: center;
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.15;
+    margin: 0 0 var(--space-2);
+  }
+
+  .hero p {
+    font-size: 1.125rem;
+    color: var(--color-300);
+    max-width: 32rem;
+    margin: 0 0 var(--space-3);
+  }
+
+  .hero-figure {
+    background: var(--color-800);
+    border-radius: var(--radius);
+    aspect-ratio: 4 / 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-300);
+    font-size: 0.95rem;
+    text-align: center;
+    padding: var(--space-3);
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.85rem 1.5rem;
+    border-radius: var(--radius);
+    text-decoration: none;
+    font-weight: 700;
+    border: 2px solid transparent;
+    cursor: pointer;
+    min-height: 2.75rem;
+  }
+
+  .btn-primary {
+    background: var(--color-100);
+    color: var(--color-900);
+  }
+  .btn-primary:hover { background: #ffffff; }
+
+  .btn-outline {
+    background: transparent;
+    border-color: var(--color-300);
+    color: var(--color-100);
+  }
+  .btn-outline:hover { background: var(--color-800); }
+
+  .hero-ctas { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+
+  /* ---------- Sections ---------- */
+  main section {
+    max-width: 75rem;
+    margin: 0 auto;
+    padding: var(--space-5) var(--space-3);
+  }
+
+  .section-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .section-heading h2 {
+    font-size: 1.75rem;
+    margin: 0;
+    color: var(--color-900);
+  }
+
+  .section-heading a {
+    color: var(--color-700);
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .section-heading a:hover { text-decoration: underline; }
+
+  /* Category grid */
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    gap: var(--space-3);
+  }
+
+  .category-card {
+    position: relative;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--color-100);
+    color: var(--color-900);
+    text-decoration: none;
+    border: 1px solid var(--color-300);
+  }
+
+  .category-card .thumb {
+    background: var(--color-300);
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-800);
+    font-size: 0.85rem;
+  }
+
+  .category-card .label {
+    padding: var(--space-2);
+    font-weight: 700;
+  }
+
+  .category-card:hover { border-color: var(--color-700); }
+
+  /* Product grid */
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: var(--space-3);
+  }
+
+  .product-card {
+    border: 1px solid var(--color-300);
+    border-radius: var(--radius);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+  }
+
+  .product-card .thumb {
+    background: var(--color-100);
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-700);
+    font-size: 0.85rem;
+  }
+
+  .product-card .body {
+    padding: var(--space-2);
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    flex: 1;
+  }
+
+  .product-card h3 {
+    font-size: 1.05rem;
+    margin: 0;
+    color: var(--color-900);
+  }
+
+  .product-card .price {
+    font-weight: 700;
+    color: var(--color-800);
+  }
+
+  .product-card .badge {
+    align-self: flex-start;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    background: var(--color-800);
+    color: var(--color-100);
+    border-radius: var(--radius);
+    padding: 0.2rem 0.5rem;
+  }
+
+  .product-card .badge.badge-sale {
+    background: var(--color-accent);
+    color: #ffffff;
+  }
+
+  .price-row { display: flex; align-items: baseline; gap: 0.5rem; }
+  .price-was { text-decoration: line-through; color: var(--color-800); font-weight: 400; }
+  .price-sale { color: var(--color-accent); font-weight: 700; }
+
+  .product-card .add-btn {
+    margin-top: auto;
+    background: var(--color-900);
+    color: var(--color-100);
+    border: none;
+    border-radius: var(--radius);
+    padding: 0.65rem 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    min-height: 2.5rem;
+  }
+  .product-card .add-btn:hover { background: var(--color-800); }
+
+  /* Value props */
+  .value-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: var(--space-3);
+    background: var(--color-100);
+    border-radius: var(--radius);
+    padding: var(--space-4) var(--space-3);
+  }
+
+  .value-item h3 {
+    font-size: 1.05rem;
+    margin: 0 0 0.35rem;
+    color: var(--color-900);
+  }
+
+  .value-item p {
+    margin: 0;
+    color: var(--color-800);
+    font-size: 0.95rem;
+  }
+
+  /* Newsletter */
+  .newsletter {
+    background: var(--color-800);
+    color: var(--color-100);
+    border-radius: var(--radius);
+  }
+
+  .newsletter-inner {
+    padding: var(--space-4) var(--space-3);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .newsletter h2 { margin: 0 0 0.25rem; font-size: 1.5rem; }
+  .newsletter p { margin: 0; color: var(--color-300); }
+
+  .newsletter-form {
+    display: flex;
+    gap: var(--space-1);
+    flex-wrap: wrap;
+  }
+
+  .newsletter-form label { display: block; margin-bottom: 0.3rem; font-weight: 600; }
+
+  .newsletter-form input[type="email"] {
+    padding: 0.65rem 0.85rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--color-300);
+    min-width: 16rem;
+    font-size: 1rem;
+  }
+
+  .newsletter-form .btn-primary {
+    background: var(--color-100);
+    color: var(--color-900);
+    border: none;
+  }
+
+  .field-note {
+    font-size: 0.85rem;
+    color: var(--color-300);
+    margin-top: 0.3rem;
+  }
+
+  /* ---------- Footer ---------- */
+  footer.site-footer {
+    background: var(--color-900);
+    color: var(--color-300);
+    margin-top: var(--space-5);
+  }
+
+  .footer-inner {
+    max-width: 75rem;
+    margin: 0 auto;
+    padding: var(--space-4) var(--space-3);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    gap: var(--space-3);
+  }
+
+  .footer-inner h2 {
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-100);
+    margin: 0 0 var(--space-2);
+  }
+
+  .footer-inner ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .footer-inner a {
+    color: var(--color-300);
+    text-decoration: none;
+  }
+  .footer-inner a:hover { color: var(--color-100); text-decoration: underline; }
+
+  .footer-bottom {
+    border-top: 1px solid var(--color-800);
+    padding: var(--space-2) var(--space-3);
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--color-300);
+  }
+
+  @media (max-width: 56rem) {
+    .hero-inner { grid-template-columns: 1fr; }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .category-card, .product-card, .icon-button, nav.main-nav a, .add-btn {
+      transition: background-color 0.15s ease, border-color 0.15s ease;
+    }
+  }
+</style>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/" class="logo">Norden</a>
+
+    <nav class="main-nav" aria-label="Main">
+      <ul>
+        <li><a href="#new-arrivals">New arrivals</a></li>
+        <li><a href="#categories">Shop by category</a></li>
+        <li><a href="#featured">Best sellers</a></li>
+        <li><a href="#">Journal</a></li>
+        <li><a href="#">About</a></li>
+      </ul>
+    </nav>
+
+    <div class="header-actions">
+      <button type="button" class="icon-button" aria-label="Search products">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </button>
+      <button type="button" class="icon-button" aria-label="View account">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="12" cy="8" r="4"></circle>
+          <path d="M4 20c0-4 3.5-7 8-7s8 3 8 7"></path>
+        </svg>
+      </button>
+      <button type="button" class="icon-button" aria-label="View shopping cart, 3 items">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="19" cy="21" r="1"></circle>
+          <path d="M2 3h2l2.6 12.4a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 2-1.6L22 7H6"></path>
+        </svg>
+        <span class="cart-count" aria-hidden="true">3</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main-content" tabindex="-1">
+
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="hero-inner">
+      <div>
+        <h1 id="hero-heading">Considered essentials, built to last</h1>
+        <p>Thoughtfully designed home and lifestyle goods, made from responsibly sourced materials. Free shipping on every order over $50.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="#featured">Shop best sellers</a>
+          <a class="btn btn-outline" href="#new-arrivals">View new arrivals</a>
+        </div>
+      </div>
+      <div class="hero-figure" role="img" aria-label="Photograph of a minimalist living room shelf styled with ceramic vases and woven baskets">
+        Hero product photograph
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="categories-heading" id="categories">
+    <div class="section-heading">
+      <h2 id="categories-heading">Shop by category</h2>
+      <a href="#">View all categories</a>
+    </div>
+    <div class="category-grid">
+      <a class="category-card" href="#">
+        <div class="thumb" role="img" aria-label="Photograph of ceramic kitchenware">Kitchen</div>
+        <p class="label">Kitchen &amp; Dining</p>
+      </a>
+      <a class="category-card" href="#">
+        <div class="thumb" role="img" aria-label="Photograph of a linen bedding set">Bedroom</div>
+        <p class="label">Bedroom</p>
+      </a>
+      <a class="category-card" href="#">
+        <div class="thumb" role="img" aria-label="Photograph of a woven storage basket">Storage</div>
+        <p class="label">Storage &amp; Organization</p>
+      </a>
+      <a class="category-card" href="#">
+        <div class="thumb" role="img" aria-label="Photograph of a desk lamp">Lighting</div>
+        <p class="label">Lighting</p>
+      </a>
+    </div>
+  </section>
+
+  <section aria-labelledby="featured-heading" id="featured">
+    <div class="section-heading">
+      <h2 id="featured-heading">Best sellers</h2>
+      <a href="#">View all best sellers</a>
+    </div>
+    <div class="product-grid">
+
+      <article class="product-card">
+        <div class="thumb" role="img" aria-label="Photograph of a matte stoneware mug set in slate grey">Mug set photo</div>
+        <div class="body">
+          <span class="badge">Best seller</span>
+          <h3>Stoneware mug set, set of 4</h3>
+          <p class="price">$38.00</p>
+          <button type="button" class="add-btn">Add Stoneware mug set to cart</button>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="thumb" role="img" aria-label="Photograph of a folded organic cotton throw blanket">Throw blanket photo</div>
+        <div class="body">
+          <h3>Organic cotton throw blanket</h3>
+          <p class="price">$64.00</p>
+          <button type="button" class="add-btn">Add Organic cotton throw blanket to cart</button>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="thumb" role="img" aria-label="Photograph of a woven seagrass storage basket with handles">Storage basket photo</div>
+        <div class="body">
+          <span class="badge">New</span>
+          <h3>Seagrass storage basket, large</h3>
+          <p class="price">$42.00</p>
+          <button type="button" class="add-btn">Add Seagrass storage basket to cart</button>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="thumb" role="img" aria-label="Photograph of a brushed-steel pour-over coffee dripper">Coffee dripper photo</div>
+        <div class="body">
+          <span class="badge badge-sale">Sale</span>
+          <h3>Pour-over coffee dripper</h3>
+          <p class="price-row">
+            <span class="visually-hidden">Original price:</span>
+            <span class="price-was">$29.00</span>
+            <span class="visually-hidden">Sale price:</span>
+            <span class="price-sale">$21.00</span>
+          </p>
+          <button type="button" class="add-btn">Add Pour-over coffee dripper to cart</button>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section aria-labelledby="new-arrivals-heading" id="new-arrivals">
+    <div class="section-heading">
+      <h2 id="new-arrivals-heading">New arrivals</h2>
+      <a href="#">View all new arrivals</a>
+    </div>
+    <div class="product-grid">
+
+      <article class="product-card">
+        <div class="thumb" role="img" aria-label="Photograph of a hand-thrown ceramic vase in pale blue">Vase photo</div>
+        <div class="body">
+          <span class="badge">New</span>
+          <h3>Hand-thrown ceramic vase</h3>
+          <p class="price">$54.00</p>
+          <button type="button" class="add-btn">Add Hand-thrown ceramic vase to cart</button>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="thumb" role="img" aria-label="Photograph of an oak wood desk lamp with a linen shade">Desk lamp photo</div>
+        <div class="body">
+          <span class="badge">New</span>
+          <h3>Oak &amp; linen desk lamp</h3>
+          <p class="price">$89.00</p>
+          <button type="button" class="add-btn">Add Oak and linen desk lamp to cart</button>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="thumb" role="img" aria-label="Photograph of a set of nesting glass storage jars">Storage jars photo</div>
+        <div class="body">
+          <span class="badge">New</span>
+          <h3>Nesting glass storage jars, set of 3</h3>
+          <p class="price">$46.00</p>
+          <button type="button" class="add-btn">Add Nesting glass storage jars to cart</button>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="thumb" role="img" aria-label="Photograph of a recycled wool bath mat in charcoal">Bath mat photo</div>
+        <div class="body">
+          <span class="badge">New</span>
+          <h3>Recycled wool bath mat</h3>
+          <p class="price">$32.00</p>
+          <button type="button" class="add-btn">Add Recycled wool bath mat to cart</button>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section aria-labelledby="value-heading">
+    <h2 id="value-heading" class="visually-hidden">Why shop with Norden</h2>
+    <div class="value-grid">
+      <div class="value-item">
+        <h3>Free shipping over $50</h3>
+        <p>Delivered in 3–5 business days within the continental US.</p>
+      </div>
+      <div class="value-item">
+        <h3>30-day returns</h3>
+        <p>Not the right fit? Send it back for a full refund, no questions asked.</p>
+      </div>
+      <div class="value-item">
+        <h3>Responsibly sourced</h3>
+        <p>Every material is traced back to a certified, sustainable supplier.</p>
+      </div>
+      <div class="value-item">
+        <h3>Secure checkout</h3>
+        <p>Your payment details are encrypted and never stored on our servers.</p>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="newsletter-heading">
+    <div class="newsletter">
+      <div class="newsletter-inner">
+        <div>
+          <h2 id="newsletter-heading">Join the Norden list</h2>
+          <p>Get early access to new arrivals and seasonal sales. No spam, unsubscribe anytime.</p>
+        </div>
+        <form class="newsletter-form" novalidate>
+          <div>
+            <label for="newsletter-email">Email address</label>
+            <input
+              type="email"
+              id="newsletter-email"
+              name="email"
+              autocomplete="email"
+              required
+              aria-required="true"
+              placeholder="you@example.com"
+            />
+            <p class="field-note">We'll only use this to send you Norden updates.</p>
+          </div>
+          <button type="submit" class="btn btn-primary" style="align-self: flex-end;">Subscribe</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <nav aria-label="Shop">
+      <h2>Shop</h2>
+      <ul>
+        <li><a href="#">New arrivals</a></li>
+        <li><a href="#">Best sellers</a></li>
+        <li><a href="#">Kitchen &amp; Dining</a></li>
+        <li><a href="#">Bedroom</a></li>
+      </ul>
+    </nav>
+    <nav aria-label="Customer service">
+      <h2>Customer service</h2>
+      <ul>
+        <li><a href="#">Shipping &amp; returns</a></li>
+        <li><a href="#">Track an order</a></li>
+        <li><a href="#">Contact us</a></li>
+        <li><a href="#">FAQ</a></li>
+      </ul>
+    </nav>
+    <nav aria-label="Company">
+      <h2>Company</h2>
+      <ul>
+        <li><a href="#">Our story</a></li>
+        <li><a href="#">Sustainability</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Journal</a></li>
+      </ul>
+    </nav>
+    <nav aria-label="Legal">
+      <h2>Legal</h2>
+      <ul>
+        <li><a href="#">Privacy policy</a></li>
+        <li><a href="#">Terms of service</a></li>
+        <li><a href="#">Accessibility statement</a></li>
+      </ul>
+    </nav>
+  </div>
+  <p class="footer-bottom">© 2026 Norden. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

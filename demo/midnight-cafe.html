@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Midnight Café</title>
+  <style>
+    :root {
+      --black: #000000;
+      --shade-100: #151104;
+      --shade-300: #3c300b;
+      --shade-600: #786117;
+      --shade-700: #987a1d;
+      --shade-800: #dbb845;
+      --shade-900: #f1e2b4;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Georgia', serif;
+      background-color: var(--black);
+      color: var(--shade-900);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* Navigation */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 1rem 2rem;
+      background: linear-gradient(to bottom, var(--black) 0%, transparent 100%);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .nav__logo {
+      font-size: 1.5rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      color: var(--shade-800);
+    }
+
+    .nav__links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav__link {
+      color: var(--shade-700);
+      text-decoration: none;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+      transition: color 0.3s ease;
+    }
+
+    .nav__link:hover {
+      color: var(--shade-800);
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(ellipse at center, var(--shade-100) 0%, transparent 70%);
+      opacity: 0.5;
+    }
+
+    .hero__content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero__subtitle {
+      font-size: 0.875rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--shade-600);
+      margin-bottom: 1rem;
+    }
+
+    .hero__title {
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      font-weight: 400;
+      line-height: 1.1;
+      color: var(--shade-900);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero__tagline {
+      font-size: 1.125rem;
+      font-style: italic;
+      color: var(--shade-700);
+      max-width: 40ch;
+    }
+
+    .hero__cta {
+      margin-top: 3rem;
+      padding: 1rem 2.5rem;
+      background: transparent;
+      border: 1px solid var(--shade-700);
+      color: var(--shade-800);
+      font-family: inherit;
+      font-size: 0.875rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .hero__cta:hover {
+      background: var(--shade-700);
+      color: var(--black);
+      border-color: var(--shade-700);
+    }
+
+    /* Section Base */
+    .section {
+      padding: 6rem 2rem;
+    }
+
+    .section--dark {
+      background: var(--shade-100);
+    }
+
+    .section__header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section__title {
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      font-weight: 400;
+      color: var(--shade-900);
+      margin-bottom: 0.5rem;
+    }
+
+    .section__subtitle {
+      font-size: 0.875rem;
+      color: var(--shade-600);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* Menu Section */
+    .menu {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .menu__item {
+      padding: 2rem;
+      background: var(--black);
+      border: 1px solid var(--shade-300);
+      transition: border-color 0.3s ease;
+    }
+
+    .menu__item:hover {
+      border-color: var(--shade-700);
+    }
+
+    .menu__category {
+      font-size: 0.75rem;
+      color: var(--shade-600);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .menu__name {
+      font-size: 1.5rem;
+      color: var(--shade-800);
+      margin-bottom: 0.5rem;
+    }
+
+    .menu__description {
+      font-size: 0.9rem;
+      color: var(--shade-700);
+      line-height: 1.7;
+    }
+
+    .menu__price {
+      margin-top: 1rem;
+      font-size: 1.125rem;
+      color: var(--shade-900);
+    }
+
+    /* Atmosphere Section */
+    .atmosphere {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .atmosphere__quote {
+      font-size: clamp(1.25rem, 3vw, 1.75rem);
+      font-style: italic;
+      color: var(--shade-800);
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    .atmosphere__author {
+      font-size: 0.875rem;
+      color: var(--shade-600);
+      letter-spacing: 0.1em;
+    }
+
+    .atmosphere__features {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin-top: 4rem;
+      flex-wrap: wrap;
+    }
+
+    .atmosphere__feature {
+      text-align: center;
+    }
+
+    .atmosphere__icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      color: var(--shade-700);
+    }
+
+    .atmosphere__label {
+      font-size: 0.75rem;
+      color: var(--shade-600);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* Schedule Section */
+    .schedule {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .schedule__list {
+      list-style: none;
+    }
+
+    .schedule__item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--shade-300);
+    }
+
+    .schedule__item:last-child {
+      border-bottom: none;
+    }
+
+    .schedule__day {
+      font-size: 1rem;
+      color: var(--shade-900);
+    }
+
+    .schedule__time {
+      font-size: 0.875rem;
+      color: var(--shade-700);
+    }
+
+    .schedule__event {
+      font-style: italic;
+      color: var(--shade-800);
+    }
+
+    /* Footer */
+    .footer {
+      padding: 4rem 2rem;
+      text-align: center;
+      border-top: 1px solid var(--shade-300);
+    }
+
+    .footer__address {
+      font-size: 0.9rem;
+      color: var(--shade-700);
+      margin-bottom: 1rem;
+      line-height: 1.8;
+    }
+
+    .footer__contact {
+      font-size: 0.875rem;
+      color: var(--shade-600);
+    }
+
+    .footer__copyright {
+      margin-top: 2rem;
+      font-size: 0.75rem;
+      color: var(--shade-300);
+    }
+
+    /* Accessibility: Large text variants */
+    @media (min-width: 768px) {
+      .hero__title {
+        font-size: 4rem;
+      }
+
+      .menu__item {
+        padding: 2.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__logo">✦</div>
+    <ul class="nav__links">
+      <li><a href="#menu" class="nav__link">Menu</a></li>
+      <li><a href="#atmosphere" class="nav__link">Atmosphere</a></li>
+      <li><a href="#schedule" class="nav__link">Schedule</a></li>
+      <li><a href="#contact" class="nav__link">Contact</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero">
+    <div class="hero__content">
+      <p class="hero__subtitle">Est. 1952 · Jazz & Blues</p>
+      <h1 class="hero__title">The Midnight Café</h1>
+      <p class="hero__tagline">Where shadows dance to saxophone and the coffee never runs dry</p>
+      <button class="hero__cta">Reserve a Table</button>
+    </div>
+  </header>
+
+  <section id="menu" class="section">
+    <div class="section__header">
+      <h2 class="section__title">Tonight's Offerings</h2>
+      <p class="section__subtitle">Curated with care</p>
+    </div>
+    <div class="menu">
+      <article class="menu__item">
+        <p class="menu__category">Spirits</p>
+        <h3 class="menu__name">Midnight Old Fashioned</h3>
+        <p class="menu__description">Bourbon, black walnut bitters, a whisper of smoked rosemary, served over a single large cube.</p>
+        <p class="menu__price">$16</p>
+      </article>
+      <article class="menu__item">
+        <p class="menu__category">Wine</p>
+        <h3 class="menu__name">Velvet Reserve</h3>
+        <p class="menu__description">A smooth Tempranillo with notes of dark cherry, leather, and a hint of vanilla that lingers.</p>
+        <p class="menu__price">$14</p>
+      </article>
+      <article class="menu__item">
+        <p class="menu__category">Coffee</p>
+        <h3 class="menu__name">The Night Owl</h3>
+        <p class="menu__description">Double espresso meets amaretto, a touch of heavy cream, and chocolate bitters. Keep the night alive.</p>
+        <p class="menu__price">$9</p>
+      </article>
+      <article class="menu__item">
+        <p class="menu__category">Small Plates</p>
+        <h3 class="menu__name">Midnight Munchies</h3>
+        <p class="menu__description">Selection of aged cheeses, honeycomb, fig jam, and crackers. Share or keep to yourself.</p>
+        <p class="menu__price">$22</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="atmosphere" class="section section--dark">
+    <div class="section__header">
+      <h2 class="section__title">The Atmosphere</h2>
+      <p class="section__subtitle">More than a venue</p>
+    </div>
+    <div class="atmosphere">
+      <blockquote class="atmosphere__quote">
+        "Music is the universal language of mankind, and this place speaks it fluently, in the beautiful dialect of midnight."
+      </blockquote>
+      <p class="atmosphere__author">— A Regular</p>
+      <div class="atmosphere__features">
+        <div class="atmosphere__feature">
+          <p class="atmosphere__icon">🎷</p>
+          <p class="atmosphere__label">Live Jazz</p>
+        </div>
+        <div class="atmosphere__feature">
+          <p class="atmosphere__icon">🥃</p>
+          <p class="atmosphere__label">Craft Cocktails</p>
+        </div>
+        <div class="atmosphere__feature">
+          <p class="atmosphere__icon">☕</p>
+          <p class="atmosphere__label">Specialty Coffee</p>
+        </div>
+        <div class="atmosphere__feature">
+          <p class="atmosphere__icon">🎭</p>
+          <p class="atmosphere__label">Open Mic Nights</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="schedule" class="section">
+    <div class="section__header">
+      <h2 class="section__title">This Week's Rhythm</h2>
+      <p class="section__subtitle">Music starts at 8pm</p>
+    </div>
+    <div class="schedule">
+      <ul class="schedule__list">
+        <li class="schedule__item">
+          <span class="schedule__day">Monday</span>
+          <span class="schedule__event">Open Mic Night</span>
+          <span class="schedule__time">8pm – 11pm</span>
+        </li>
+        <li class="schedule__item">
+          <span class="schedule__day">Tuesday</span>
+          <span class="schedule__event">Smooth Jazz Trio</span>
+          <span class="schedule__time">8pm – 11pm</span>
+        </li>
+        <li class="schedule__item">
+          <span class="schedule__day">Wednesday</span>
+          <span class="schedule__event">Blues Session</span>
+          <span class="schedule__time">8pm – midnight</span>
+        </li>
+        <li class="schedule__item">
+          <span class="schedule__day">Thursday</span>
+          <span class="schedule__event">Vocal Jazz</span>
+          <span class="schedule__time">8pm – 11pm</span>
+        </li>
+        <li class="schedule__item">
+          <span class="schedule__day">Friday</span>
+          <span class="schedule__event">The Velvet Souls</span>
+          <span class="schedule__time">9pm – 1am</span>
+        </li>
+        <li class="schedule__item">
+          <span class="schedule__day">Saturday</span>
+          <span class="schedule__event">Late Night Blues</span>
+          <span class="schedule__time">9pm – 2am</span>
+        </li>
+        <li class="schedule__item">
+          <span class="schedule__day">Sunday</span>
+          <span class="schedule__event">Acoustic Afternoon</span>
+          <span class="schedule__time">4pm – 7pm</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <footer id="contact" class="footer">
+    <address class="footer__address">
+      742 Evergreen Terrace, District 7<br>
+      Open nightly from 6pm
+    </address>
+    <p class="footer__contact">
+      reservations@midnightcafe.com · (555) 234-5678
+    </p>
+    <p class="footer__copyright">
+      The Midnight Café · Est. 1952 · All rights reserved
+    </p>
+  </footer>
+</body>
+</html>

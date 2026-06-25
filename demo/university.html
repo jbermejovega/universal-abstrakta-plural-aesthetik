@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sierra Bay University — Excellence in Education Since 1887</title>
+<meta name="description" content="Sierra Bay University is a leading research institution dedicated to academic excellence, innovation, and community impact since 1887.">
+<style>
+/* ==========================================================================
+   WCAG AA PALETTE — source: #1a3a6b · theme: white
+   ==========================================================================
+ * BODY TEXT (any font size, ≥4.5:1):
+ *   shade-100 (#eef3fb) → 900, 800, 700
+ *   shade-300 (#b5cbed) → 900, 800
+ *   shade-600 (#598ad8) → 900
+ *   shade-700 (#306cc7) → white, 100
+ *   shade-800 (#1a3c71) → white, 100, 300
+ *   shade-900 (#0f213d) → white, 100, 300, 600
+ *
+ * LARGE TEXT ONLY (≥24px or ≥18.67px bold, 3:1–4.5:1):
+ *   shade-100 (#eef3fb) → 600
+ *   shade-300 (#b5cbed) → 700
+ *   shade-600 (#598ad8) → 100, 800, white
+ *   shade-700 (#306cc7) → 300, 900
+ *   shade-800 (#1a3c71) → 600
+ *   shade-900 (#0f213d) → 700
+ *
+ * ACCENT: #c9a84c (gold)
+ *   #c9a84c on #1a3c71 (800): 4.76:1 ✓ AA normal
+ *   #1a3c71 on #c9a84c: 4.76:1 ✓ AA normal
+ *   #c9a84c on white: 2.29:1 ✗ FAIL — use only on dark backgrounds
+ *   #c9a84c on #0f213d (900): 7.04:1 ✓ AA normal
+ */
+:root {
+  --c-100: #eef3fb;
+  --c-300: #b5cbed;
+  --c-600: #598ad8;
+  --c-700: #306cc7;
+  --c-800: #1a3c71;
+  --c-900: #0f213d;
+  --gold: #c9a84c;
+  --white: #ffffff;
+  --black: #000000;
+  --radius: 8px;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  color: var(--c-900);
+  background: var(--white);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+a { color: var(--c-700); text-decoration: none; transition: color 0.2s ease; }
+a:hover { color: var(--c-800); }
+
+/* --- Skip Link --- */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--c-700);
+  color: var(--white);
+  border-radius: 0 0 var(--radius) var(--radius);
+  z-index: 1000;
+  font-weight: 600;
+  font-size: 1rem;
+}
+.skip-link:focus {
+  top: 0;
+}
+
+/* --- Focus --- */
+:focus-visible {
+  outline: 3px solid var(--c-700);
+  outline-offset: 2px;
+}
+
+/* --- Container --- */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* --- Header / Nav --- */
+.site-header {
+  background: var(--c-800);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  gap: 1rem;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--white);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+}
+.logo:hover { color: var(--gold); }
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.logo-icon svg { width: 22px; height: 22px; fill: var(--c-800); }
+.nav-list {
+  display: flex;
+  list-style: none;
+  gap: 0.25rem;
+  align-items: center;
+}
+.nav-list a {
+  color: var(--c-300);
+  padding: 0.5rem 0.85rem;
+  border-radius: var(--radius);
+  font-size: 0.925rem;
+  font-weight: 500;
+  transition: color 0.2s, background 0.2s;
+}
+.nav-list a:hover,
+.nav-list a[aria-current="page"] {
+  color: var(--white);
+  background: rgba(255,255,255,0.1);
+}
+.nav-cta {
+  background: var(--gold) !important;
+  color: var(--c-800) !important;
+  font-weight: 600 !important;
+}
+.nav-cta:hover {
+  background: #dbb956 !important;
+}
+.mobile-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--white);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: var(--radius);
+}
+
+/* --- Hero --- */
+.hero {
+  background: linear-gradient(135deg, var(--c-900) 0%, var(--c-800) 100%);
+  color: var(--white);
+  padding: 6rem 0 5rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 80% 20%, rgba(201,168,76,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero .container { position: relative; z-index: 1; }
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+.hero-tag {
+  display: inline-block;
+  background: rgba(201,168,76,0.15);
+  color: var(--gold);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.4rem 1rem;
+  border-radius: 100px;
+  margin-bottom: 1.5rem;
+}
+.hero h1 {
+  font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.25rem;
+}
+.hero p {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: var(--c-300);
+  margin-bottom: 2rem;
+  max-width: 540px;
+}
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.9rem 2rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+.btn-primary {
+  background: var(--c-700);
+  color: var(--white);
+}
+.btn-primary:hover {
+  background: #3b7ad6;
+  color: var(--white);
+}
+.btn-outline {
+  background: transparent;
+  color: var(--white);
+  border: 2px solid rgba(255,255,255,0.3);
+}
+.btn-outline:hover {
+  border-color: var(--white);
+  color: var(--white);
+  background: rgba(255,255,255,0.08);
+}
+.hero-image {
+  background: var(--c-700);
+  border-radius: 12px;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.9;
+}
+.hero-image svg { width: 60%; height: 60%; }
+
+/* --- Stats --- */
+.stats {
+  background: var(--c-100);
+  padding: 4rem 0;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  text-align: center;
+}
+.stat-number {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: var(--c-700);
+  line-height: 1;
+  margin-bottom: 0.35rem;
+  letter-spacing: -0.02em;
+}
+.stat-label {
+  font-size: 0.95rem;
+  color: var(--c-800);
+  font-weight: 500;
+}
+
+/* --- Sections --- */
+.section { padding: 5rem 0; }
+.section-alt { background: var(--c-100); }
+.section-label {
+  display: inline-block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--c-700);
+  margin-bottom: 0.75rem;
+}
+.section-title {
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--c-900);
+  margin-bottom: 1rem;
+}
+.section-subtitle {
+  font-size: 1.1rem;
+  color: var(--c-800);
+  max-width: 640px;
+  line-height: 1.7;
+  margin-bottom: 3rem;
+}
+
+/* --- Programs --- */
+.programs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+.program-card {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(0,0,0,0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.program-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+.program-icon {
+  width: 48px;
+  height: 48px;
+  background: var(--c-100);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+}
+.program-icon svg { width: 24px; height: 24px; fill: var(--c-700); }
+.program-card h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--c-900);
+  margin-bottom: 0.6rem;
+}
+.program-card p {
+  font-size: 0.95rem;
+  color: var(--c-800);
+  line-height: 1.7;
+  margin-bottom: 1.25rem;
+}
+.program-link {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--c-700);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.program-link:hover { color: var(--c-800); }
+.program-link svg { width: 16px; height: 16px; fill: currentColor; }
+
+/* --- Dark Section (Campus Life) --- */
+.section-dark {
+  background: var(--c-800);
+  color: var(--white);
+}
+.section-dark .section-label { color: var(--gold); }
+.section-dark .section-title { color: var(--white); }
+.section-dark .section-subtitle { color: var(--c-300); }
+.campus-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+.campus-card {
+  background: rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 2rem;
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: background 0.2s;
+}
+.campus-card:hover { background: rgba(255,255,255,0.1); }
+.campus-card h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 0.6rem;
+}
+.campus-card p {
+  font-size: 0.95rem;
+  color: var(--c-300);
+  line-height: 1.7;
+}
+.campus-icon {
+  width: 44px;
+  height: 44px;
+  background: rgba(201,168,76,0.15);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+}
+.campus-icon svg { width: 22px; height: 22px; fill: var(--gold); }
+
+/* --- Testimonials --- */
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+.testimonial-card {
+  background: var(--c-100);
+  border-radius: 12px;
+  padding: 2rem 2rem 2.5rem;
+  position: relative;
+}
+.testimonial-card::before {
+  content: '\201C';
+  font-size: 4rem;
+  line-height: 1;
+  color: var(--c-300);
+  font-weight: 700;
+  display: block;
+  margin-bottom: -0.5rem;
+}
+.testimonial-card blockquote {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--c-900);
+  margin-bottom: 1.5rem;
+  font-style: italic;
+}
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.testimonial-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--c-700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-weight: 700;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+.testimonial-info strong {
+  display: block;
+  font-size: 0.95rem;
+  color: var(--c-900);
+}
+.testimonial-info span {
+  font-size: 0.85rem;
+  color: var(--c-800);
+}
+
+/* --- News / Events --- */
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+.news-card {
+  background: var(--white);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(0,0,0,0.05);
+  transition: transform 0.2s ease;
+}
+.news-card:hover { transform: translateY(-3px); }
+.news-image {
+  height: 180px;
+  background: var(--c-300);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.news-image svg { width: 40%; height: 40%; opacity: 0.4; fill: var(--c-600); }
+.news-tag {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: var(--gold);
+  color: var(--c-800);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.3rem 0.7rem;
+  border-radius: 4px;
+}
+.news-body {
+  padding: 1.5rem;
+}
+.news-date {
+  font-size: 0.85rem;
+  color: var(--c-700);
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+.news-body h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--c-900);
+  margin-bottom: 0.5rem;
+}
+.news-body p {
+  font-size: 0.9rem;
+  color: var(--c-800);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+.news-body a {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* --- CTA Section --- */
+.cta-section {
+  background: linear-gradient(135deg, var(--c-900) 0%, var(--c-800) 100%);
+  color: var(--white);
+  text-align: center;
+  padding: 5rem 0;
+  position: relative;
+  overflow: hidden;
+}
+.cta-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 20% 50%, rgba(201,168,76,0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+.cta-section .container { position: relative; z-index: 1; }
+.cta-section h2 {
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+}
+.cta-section p {
+  font-size: 1.1rem;
+  color: var(--c-300);
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+.cta-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.btn-gold {
+  background: var(--gold);
+  color: var(--c-800);
+}
+.btn-gold:hover {
+  background: #dbb956;
+  color: var(--c-800);
+}
+
+/* --- Footer --- */
+.site-footer {
+  background: var(--c-900);
+  color: var(--c-300);
+  padding: 4rem 0 2rem;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+.footer-brand .logo { margin-bottom: 1rem; }
+.footer-brand p {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  max-width: 320px;
+}
+.footer h4 {
+  color: var(--white);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 1.25rem;
+}
+.footer ul {
+  list-style: none;
+}
+.footer ul li { margin-bottom: 0.6rem; }
+.footer ul a {
+  color: var(--c-300);
+  font-size: 0.9rem;
+}
+.footer ul a:hover { color: var(--white); }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.85rem;
+}
+
+/* --- Responsive --- */
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr; }
+  .hero-image { display: none; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .programs-grid { grid-template-columns: 1fr 1fr; }
+  .campus-grid { grid-template-columns: 1fr 1fr; }
+  .testimonial-grid { grid-template-columns: 1fr; }
+  .news-grid { grid-template-columns: 1fr 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+}
+
+@media (max-width: 640px) {
+  .nav-list { display: none; }
+  .mobile-toggle { display: block; }
+  .nav-list.open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--c-800);
+    padding: 1rem;
+    gap: 0.5rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .nav-list.open a { display: block; padding: 0.75rem 1rem; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .programs-grid { grid-template-columns: 1fr; }
+  .campus-grid { grid-template-columns: 1fr; }
+  .news-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+  .hero { padding: 4rem 0 3rem; }
+  .section { padding: 3.5rem 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<header class="site-header" role="banner">
+  <div class="container header-inner">
+    <a href="#" class="logo" aria-label="Sierra Bay University home">
+      <span class="logo-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 7v2l10 5 10-5V7L12 2zM2 17v2l10 5 10-5v-2l-10 5-10-5z"/></svg>
+      </span>
+      Sierra Bay
+    </a>
+    <button class="mobile-toggle" aria-label="Toggle navigation menu" aria-expanded="false" onclick="this.classList.toggle('open'); document.getElementById('nav').classList.toggle('open'); this.setAttribute('aria-expanded', this.classList.contains('open'));">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <nav aria-label="Principal">
+      <ul class="nav-list" id="nav">
+        <li><a href="#" aria-current="page">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Academics</a></li>
+        <li><a href="#">Admissions</a></li>
+        <li><a href="#">Research</a></li>
+        <li><a href="#">Campus Life</a></li>
+        <li><a href="#" class="nav-cta">Apply Now</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+
+  <!-- Hero -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="container">
+      <div class="hero-grid">
+        <div>
+          <span class="hero-tag">Fall 2026 applications now open</span>
+          <h1 id="hero-title">Where bold ideas shape tomorrow</h1>
+          <p>Sierra Bay University is a top-ranked research institution where 12,000+ students from 90+ countries pursue discovery, creativity, and impact. Join a community built on academic rigor and a shared commitment to building a better world.</p>
+          <div class="hero-buttons">
+            <a href="#" class="btn btn-primary">Explore Programs</a>
+            <a href="#" class="btn btn-outline">Virtual Tour</a>
+          </div>
+        </div>
+        <div class="hero-image" aria-hidden="true" role="presentation">
+          <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="50" width="50" height="70" rx="2" fill="#eef3fb" opacity="0.3"/>
+            <rect x="35" y="20" width="20" height="30" rx="1" fill="#eef3fb" opacity="0.3"/>
+            <rect x="75" y="35" width="50" height="85" rx="2" fill="#eef3fb" opacity="0.4"/>
+            <rect x="130" y="45" width="50" height="75" rx="2" fill="#eef3fb" opacity="0.3"/>
+            <rect x="145" y="20" width="20" height="25" rx="1" fill="#eef3fb" opacity="0.3"/>
+            <circle cx="100" cy="108" r="5" fill="#c9a84c" opacity="0.6"/>
+            <circle cx="60" cy="112" r="4" fill="#c9a84c" opacity="0.5"/>
+            <circle cx="145" cy="110" r="4" fill="#c9a84c" opacity="0.5"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="stats" aria-label="University at a glance">
+    <div class="container">
+      <div class="stats-grid">
+        <div>
+          <div class="stat-number">12,400+</div>
+          <div class="stat-label">Students enrolled</div>
+        </div>
+        <div>
+          <div class="stat-number">90+</div>
+          <div class="stat-label">Countries represented</div>
+        </div>
+        <div>
+          <div class="stat-number">14:1</div>
+          <div class="stat-label">Student–faculty ratio</div>
+        </div>
+        <div>
+          <div class="stat-number">$184M</div>
+          <div class="stat-label">Annual research funding</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Programs -->
+  <section class="section" aria-labelledby="programs-title">
+    <div class="container">
+      <span class="section-label">Academic programs</span>
+      <h2 id="programs-title" class="section-title">Find your path</h2>
+      <p class="section-subtitle">With 140+ undergraduate and graduate programs across seven schools, you'll find a discipline that ignites your curiosity and prepares you for a meaningful career.</p>
+      <div class="programs-grid">
+        <article class="program-card">
+          <div class="program-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/></svg>
+          </div>
+          <h3>Engineering &amp; Computer Science</h3>
+          <p>Ranked in the top 20 nationally, our engineering school offers programs in AI, robotics, civil engineering, and sustainable design.</p>
+          <a href="#" class="program-link" aria-label="Learn more about Engineering and Computer Science">
+            Explore programs <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+          </a>
+        </article>
+        <article class="program-card">
+          <div class="program-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+          </div>
+          <h3>Business &amp; Economics</h3>
+          <p>Accredited by AACSB, our business school blends rigorous quantitative training with real-world experiential learning and global internships.</p>
+          <a href="#" class="program-link" aria-label="Learn more about Business and Economics">
+            Explore programs <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+          </a>
+        </article>
+        <article class="program-card">
+          <div class="program-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+          </div>
+          <h3>Global Studies &amp; Public Policy</h3>
+          <p>Prepare for a career in diplomacy, policy, and international development through immersive study-abroad experiences and policy labs.</p>
+          <a href="#" class="program-link" aria-label="Learn more about Global Studies and Public Policy">
+            Explore programs <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+          </a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Campus Life -->
+  <section class="section section-dark" aria-labelledby="campus-title">
+    <div class="container">
+      <span class="section-label">Campus life</span>
+      <h2 id="campus-title" class="section-title">More than a campus. A community.</h2>
+      <p class="section-subtitle">From cutting-edge labs to student-led organizations, Sierra Bay offers an environment where you can grow academically, socially, and personally.</p>
+      <div class="campus-grid">
+        <article class="campus-card">
+          <div class="campus-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/></svg>
+          </div>
+          <h3>Modern Residence Halls</h3>
+          <p>Six living-learning communities where first-year through graduate students connect, collaborate, and build lifelong friendships.</p>
+        </article>
+        <article class="campus-card">
+          <div class="campus-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4.5 6h15V4.5h-15V6zm0 4.5h15V9h-15v1.5zm0 4.5h15v-1.5h-15V15zM4.5 21h15v-1.5h-15V21z"/></svg>
+          </div>
+          <h3>200+ Student Organizations</h3>
+          <p>Whether you're into robotics, debate, dance, or volunteering, there's a place for you to lead, create, and belong.</p>
+        </article>
+        <article class="campus-card">
+          <div class="campus-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+          </div>
+          <h3>State-of-the-Art Facilities</h3>
+          <p>Our $90 million Innovation Center features AI labs, makerspaces, and collaborative research suites open to all students.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section" aria-labelledby="testimonials-title">
+    <div class="container">
+      <span class="section-label">Student voices</span>
+      <h2 id="testimonials-title" class="section-title">What our students say</h2>
+      <p class="section-subtitle">Hear from the people who make Sierra Bay the vibrant community it is.</p>
+      <div class="testimonial-grid">
+        <article class="testimonial-card">
+          <blockquote>
+            The mentorship I received from my professor during my sophomore year completely changed my trajectory. I went from being unsure about my major to publishing research in a peer-reviewed journal before graduation.
+          </blockquote>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar" aria-hidden="true">ME</div>
+            <div class="testimonial-info">
+              <strong>Maria Espinoza</strong>
+              <span>Computer Science, Class of 2025</span>
+            </div>
+          </div>
+        </article>
+        <article class="testimonial-card">
+          <blockquote>
+            Studying abroad in Singapore through Sierra Bay's global exchange program was transformative. I learned as much about the world as I did about myself, and I made connections I'll carry for life.
+          </blockquote>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar" aria-hidden="true">JC</div>
+            <div class="testimonial-info">
+              <strong>James Chen</strong>
+              <span>International Relations, Class of 2024</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- News -->
+  <section class="section section-alt" aria-labelledby="news-title">
+    <div class="container">
+      <span class="section-label">News &amp; events</span>
+      <h2 id="news-title" class="section-title">Stay informed</h2>
+      <p class="section-subtitle">The latest from Sierra Bay's campus, research labs, and community.</p>
+      <div class="news-grid">
+        <article class="news-card">
+          <div class="news-image" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 8h-4v4h-4v-4H6V9h4V5h4v4h4v2z"/></svg>
+            <span class="news-tag">Research</span>
+          </div>
+          <div class="news-body">
+            <div class="news-date">June 18, 2026</div>
+            <h3>SBU team awarded $4.2M for climate resilience project</h3>
+            <p>An interdisciplinary team of engineers and environmental scientists will develop nature-based solutions for coastal erosion.</p>
+            <a href="#" aria-label="Read more about SBU climate resilience grant">Read more</a>
+          </div>
+        </article>
+        <article class="news-card">
+          <div class="news-image" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 8h-4v4h-4v-4H6V9h4V5h4v4h4v2z"/></svg>
+            <span class="news-tag">Event</span>
+          </div>
+          <div class="news-body">
+            <div class="news-date">July 12–15, 2026</div>
+            <h3>Annual Innovation Summit returns with 60+ speakers</h3>
+            <p>Industry leaders, alumni, and faculty will gather for four days of talks, workshops, and networking across every discipline.</p>
+            <a href="#" aria-label="Read more about the Innovation Summit">Read more</a>
+          </div>
+        </article>
+        <article class="news-card">
+          <div class="news-image" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 8h-4v4h-4v-4H6V9h4V5h4v4h4v2z"/></svg>
+            <span class="news-tag">Admissions</span>
+          </div>
+          <div class="news-body">
+            <div class="news-date">June 10, 2026</div>
+            <h3>Early decision applications open for fall 2027</h3>
+            <p>Apply by November 1 for priority consideration, merit scholarship eligibility, and an expedited admissions decision.</p>
+            <a href="#" aria-label="Read more about early decision applications">Read more</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" aria-labelledby="cta-title">
+    <div class="container">
+      <h2 id="cta-title">Take the next step</h2>
+      <p>Your journey at Sierra Bay starts here. Apply today, schedule a visit, or connect with an admissions counselor.</p>
+      <div class="cta-buttons">
+        <a href="#" class="btn btn-gold">Apply Now</a>
+        <a href="#" class="btn btn-outline">Request Information</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="logo" aria-label="Sierra Bay University home">
+          <span class="logo-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 7v2l10 5 10-5V7L12 2zM2 17v2l10 5 10-5v-2l-10 5-10-5z"/></svg>
+          </span>
+          Sierra Bay
+        </a>
+        <p>Founded in 1887, Sierra Bay University is a private research university committed to academic excellence, diversity, and community impact.</p>
+      </div>
+      <div class="footer">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#">About SBU</a></li>
+          <li><a href="#">Admissions &amp; Aid</a></li>
+          <li><a href="#">Academic Calendar</a></li>
+          <li><a href="#">Campus Map</a></li>
+          <li><a href="#">Library</a></li>
+        </ul>
+      </div>
+      <div class="footer">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#">Current Students</a></li>
+          <li><a href="#">Faculty &amp; Staff</a></li>
+          <li><a href="#">Alumni</a></li>
+          <li><a href="#">Parents &amp; Families</a></li>
+          <li><a href="#">Careers at SBU</a></li>
+        </ul>
+      </div>
+      <div class="footer">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="tel:+18005550100">(800) 555-0100</a></li>
+          <li><a href="mailto:admissions@sierrabay.edu">admissions@sierrabay.edu</a></li>
+          <li>1 University Drive<br>Sierra Bay, CA 94123</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Sierra Bay University. All rights reserved.</span>
+      <span><a href="#">Privacy Policy</a> &middot; <a href="#">Accessibility</a> &middot; <a href="#">Non-Discrimination</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
