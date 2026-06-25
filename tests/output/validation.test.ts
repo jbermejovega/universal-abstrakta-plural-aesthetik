@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { generatePalette } from '../../src/index.js'
 import { buildCompatMatrix } from '../../src/output/tokens.js'
-import { validatePairings } from '../../src/output/validation.js'
+import { validatePairings, checkContrast } from '../../src/output/validation.js'
 
 const result = generatePalette('#1f7a54', 'white')
 const matrix = buildCompatMatrix(result)
@@ -114,5 +114,43 @@ describe('validatePairings', () => {
     const validBg = darkMatrix['700'].bodyText[0]!
     const report = validatePairings(darkResult, [{ foreground: '700', background: validBg }])
     expect(report.pairings[0].level).toBe('aa-normal')
+  })
+})
+
+describe('checkContrast', () => {
+  it('returns aa-normal for black text on white background', () => {
+    const result = checkContrast('#000000', '#ffffff')
+    expect(result.level).toBe('aa-normal')
+    expect(result.ratio).toBeGreaterThan(4.6)
+    expect(result.message).toContain('✓')
+  })
+
+  it('returns fail for two near-identical light colors', () => {
+    const result = checkContrast('#eeeeee', '#ffffff')
+    expect(result.level).toBe('fail')
+    expect(result.message).toContain('✗')
+  })
+
+  it('returns aa-large for a ratio between 3.1 and 4.6', () => {
+    const result = checkContrast('#8a8a8a', '#ffffff')
+    expect(result.level).toBe('aa-large')
+    expect(result.message).toContain('⚠')
+  })
+
+  it('normalizes hex without leading # and short form', () => {
+    const a = checkContrast('000', 'fff')
+    const b = checkContrast('#000000', '#ffffff')
+    expect(a.ratio).toBe(b.ratio)
+    expect(a.foreground).toBe('#000000')
+    expect(a.background).toBe('#ffffff')
+  })
+
+  it('throws for an invalid hex color', () => {
+    expect(() => checkContrast('not-a-color', '#ffffff')).toThrow()
+  })
+
+  it('is independent of any generated palette — accepts arbitrary accent colors', () => {
+    const accent = checkContrast('#ff5733', '#ffffff')
+    expect(['aa-normal', 'aa-large', 'fail']).toContain(accent.level)
   })
 })
