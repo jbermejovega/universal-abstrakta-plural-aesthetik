@@ -6,6 +6,31 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## [2.3.0] — 2026-06-25
+
+### Added
+
+- **`check_contrast` tool/function** — standalone WCAG 2.2 contrast check between any two hex colors, independent of any generated palette. For accent/status/brand colors that aren't part of the foundation scale and that `validate_pairings` can't check (it only knows shade keys and white/black).
+- **Library exports** — `validatePairings` and `checkContrast` are now exported from the package's entry point (`src/index.ts`), along with their types (`PairingLevel`, `PairingResult`, `ValidationReport`, `ContrastCheckResult`). Both were already pure, tested functions but weren't reachable without going through the MCP server.
+
+### Changed
+
+- `generate_palette`, the palette resource, and `validate_pairings`/`generate_css_tokens` descriptions now frame the 100–900 scale as a **foundation layer**, not the whole palette — clarifying that "monochromatic" describes the math, not a limit on the rest of the UI, and pointing to `check_contrast` for accent colors.
+- `generate_css_tokens` now returns an explicit verbatim-copy warning as the first content block, immediately before the CSS tokens — some models were stripping the inline WCAG comments when copying the output into a file, keeping only the hex values.
+- The WCAG manifest and the `plan-palette-usage` prompt's forbidden list now state explicitly that there is no "decorative" or "non-critical" text exemption from contrast requirements — a model was observed computing that a pairing failed and then using it anyway by inventing this exception.
+- `generate_css_tokens`' next-step instructions now ask the model to explicitly consider whether the design needs semantic accent colors (error/success/warning/sale) before defaulting to the foundation scale alone.
+
+### Fixed
+
+- `check_contrast`'s description now explicitly forbids using it as a substitute for `validate_pairings` + `generate_css_tokens` when checking foundation shades — an agent was observed routing around a `validate_pairings` format error this way, bypassing the session gate and the manifest entirely.
+
+### Docs
+
+- Moved the "As an MCP server" section out of README.md into its own [MCP.md](./MCP.md) — the README was getting long for a section most library-only consumers don't need; MCP.md is published alongside it so the link still resolves on the npm page.
+- Package no longer ships `dist/**/*.map` — source maps for the package's own TypeScript aren't useful to consumers and were ~36% of the unpacked package size.
+
+---
+
 ## [2.2.0] — 2026-06-21
 
 ### Added
