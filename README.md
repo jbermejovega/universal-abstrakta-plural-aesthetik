@@ -104,6 +104,29 @@ console.log(toCSSTokens(result))
 console.log(toCSSTokens(result, 'brand'))
 --brand-100: #d6f5e8;
 // ...
+
+// Validate a list of foreground/background shade pairs before you use them
+import { validatePairings } from 'accessible-color-palette'
+
+const report = validatePairings(result, [
+  { foreground: '700', background: 'white' },
+  { foreground: '100', background: '900' },
+])
+console.log(report.allPass)        // true
+console.log(report.pairings[0])    // { level: 'aa-normal', message: '✓ ...', ... }
+
+// Check contrast between any two arbitrary hex colors — e.g. a brand accent
+// that isn't part of the generated palette
+import { checkContrast } from 'accessible-color-palette'
+
+console.log(checkContrast('#ffffff', '#c75d3a'))
+{
+  foreground: '#ffffff',
+  background: '#c75d3a',
+  ratio: 4.15,
+  level: 'aa-large',
+  message: '⚠ #ffffff on #c75d3a: 4.15:1 — AA large text only (3:1–4.5:1) ...'
+}
 ```
 
 ### As an MCP server
@@ -329,6 +352,14 @@ The main entry point. Accepts a raw hex string with or without `#`, 3 or 6 chars
 ### `toCSSTokens(result: PaletteResult, prefix?: string): string`
 
 Generates CSS custom property declarations from a `PaletteResult`. Default prefix is `'color'`. Does not wrap in `:root {}` — the caller decides placement.
+
+### `validatePairings(result: PaletteResult, pairings: Array<{ foreground: string; background: string }>): ValidationReport`
+
+Checks a list of foreground/background shade pairs against `result`'s compatibility matrix. `foreground` must be a shade key (`100 | 300 | 600 | 700 | 800 | 900`); `background` can be a shade key, `'white'`, or `'black'`. Returns `{ summary, allPass, pairings }` — each pairing gets a `level` (`'aa-normal' | 'aa-large' | 'fail' | 'invalid'`) and a human-readable `message`. Same pure logic the MCP server's `validate_pairings` tool uses.
+
+### `checkContrast(foregroundHex: string, backgroundHex: string): ContrastCheckResult`
+
+Standalone WCAG 2.2 contrast check between any two hex colors — not tied to a generated palette. Use it for accent colors (brand colors, status colors) that aren't part of the monochrome scale. Returns `{ foreground, background, ratio, level, message }`.
 
 ---
 
