@@ -432,6 +432,21 @@ server.setRequestHandler(CallToolRequestSchema, (request) => {
       `Template: validate_pairings({ hex: "${hex}", theme: "${theme}", pairings: [`,
       '  { foreground: "700", background: "white" },  // ← replace with your actual pairs',
       ']})',
+      '',
+      'Before moving on, ask yourself this explicitly — most real interfaces need',
+      'an answer here even when nobody asked for one: does this design have any',
+      'state this foundation scale cannot express semantically — an error, a sale/',
+      'promo badge, a success toast, a low-stock warning? A single hue at varying',
+      'lightness is accessible but semantically silent; a green "error" reads as fine to',
+      'a user even when it is not. If the answer is yes, pick an accent hex and',
+      'validate it with check_contrast for every pairing it touches BEFORE writing',
+      'that component — do not default to skipping it just because nobody required',
+      'an accent explicitly.',
+      '',
+      'If you do add an accent color NOT in this palette, validate_pairings cannot',
+      'check it — it only knows shade keys and white/black. Call',
+      'check_contrast({ foreground: accentHex, background: ... }) for every pairing',
+      'involving that accent before using it in CSS.',
     ].join('\n')
 
     return {
