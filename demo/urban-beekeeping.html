@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hivewards Co-op — Urban Beekeeping for Every Rooftop</title>
+<meta name="description" content="Hivewards is an urban beekeeping cooperative helping city dwellers host hives, harvest honey, and protect local pollinators.">
+<style>
+/*
+ * WCAG AA PAIRING MANIFEST — source: #a8701a · theme: white
+ *
+ * BODY TEXT (any font size, ≥4.5:1):
+ *   shade-100 (#fbf1e2) → 900, 800, 700
+ *   shade-300 (#ecc384) → 900, 800
+ *   shade-600 (#bc7b1a) → 900
+ *   shade-700 (#946317) → white, 100
+ *   shade-800 (#53360b) → white, 100, 300
+ *   shade-900 (#2c1e07) → white, 100, 300, 600
+ *
+ * LARGE TEXT ONLY (≥24px or ≥18.67px bold, 3:1–4.5:1):
+ *   shade-100 (#fbf1e2) → 600
+ *   shade-300 (#ecc384) → 700
+ *   shade-600 (#bc7b1a) → 100, 800, white
+ *   shade-700 (#946317) → 300, 900
+ *   shade-800 (#53360b) → 600
+ *   shade-900 (#2c1e07) → 700
+ *
+ * ACCENT (#1b6f5c) — validated separately via check_contrast:
+ *   #1b6f5c on #ffffff → 6.04:1 (AA normal)
+ *   #ffffff on #1b6f5c → 6.04:1 (AA normal)
+ *   #1b6f5c on #fbf1e2 (honey-100) → 5.41:1 (AA normal)
+ *   #2c1e07 (honey-900) on #1b6f5c → 2.68:1 — FAILS, never pair these two
+ */
+:root {
+  --honey-100: #fbf1e2; /* text→900·800·700  lg→600 */
+  --honey-300: #ecc384; /* text→900·800  lg→700 */
+  --honey-600: #bc7b1a; /* text→900  lg→100·800·white */
+  --honey-700: #946317; /* text→white·100  lg→300·900 */
+  --honey-800: #53360b; /* text→white·100·300  lg→600 */
+  --honey-900: #2c1e07; /* text→white·100·300·600  lg→700 */
+  --accent: #1b6f5c;       /* text on white/honey-100, or white text on accent */
+  --accent-dark: #134f41;  /* hover/active state, darker than --accent */
+  --focus-ring: #0b3d33;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  font-size: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  color: var(--honey-900);
+  background: #ffffff;
+  line-height: 1.6;
+}
+
+img { max-width: 100%; display: block; }
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  padding: 0.5rem 1rem;
+  background: var(--honey-900);
+  color: #ffffff;
+  z-index: 100;
+  text-decoration: none;
+}
+.skip-link:focus {
+  top: 0;
+}
+
+a {
+  color: var(--accent);
+}
+a:hover {
+  color: var(--accent-dark);
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.container {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Header */
+.site-header {
+  background: var(--honey-900);
+  color: #ffffff;
+}
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+.site-header a {
+  color: #ffffff;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 700;
+  font-size: 1.25rem;
+  text-decoration: none;
+}
+.brand svg { flex-shrink: 0; }
+
+.main-nav ul {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+.main-nav a {
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.4rem 0.2rem;
+  min-height: 24px;
+  display: inline-flex;
+  align-items: center;
+}
+.main-nav a:hover {
+  text-decoration: underline;
+}
+
+/* Hero */
+.hero {
+  background: var(--honey-100);
+  padding: 4rem 0;
+}
+.hero .container {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+.hero h1 {
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  margin: 0 0 1rem;
+  color: var(--honey-900);
+}
+.hero p {
+  font-size: 1.15rem;
+  color: var(--honey-800);
+  max-width: 38ch;
+}
+.hero-art {
+  background: var(--honey-300);
+  border-radius: 1.5rem;
+  padding: 2.5rem;
+  text-align: center;
+}
+.hero-art svg { margin: 0 auto; }
+
+.cta-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.7rem 1.4rem;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  text-decoration: none;
+  border: 2px solid transparent;
+  cursor: pointer;
+  font-size: 1rem;
+}
+.btn-primary {
+  background: var(--accent);
+  color: #ffffff;
+}
+.btn-primary:hover {
+  background: var(--accent-dark);
+}
+.btn-secondary {
+  background: transparent;
+  border-color: var(--honey-900);
+  color: var(--honey-900);
+}
+.btn-secondary:hover {
+  background: var(--honey-900);
+  color: #ffffff;
+}
+
+/* Stats */
+.stats {
+  background: var(--honey-900);
+  color: #ffffff;
+  padding: 2.5rem 0;
+}
+.stats .container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 1.5rem;
+  text-align: center;
+}
+.stat-number {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--honey-300);
+  display: block;
+}
+.stat-label {
+  font-size: 0.95rem;
+  color: var(--honey-100);
+}
+
+/* Sections */
+section {
+  padding: 4rem 0;
+}
+.section-heading {
+  text-align: center;
+  margin: 0 auto 2.5rem;
+  max-width: 40rem;
+}
+.section-heading h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: var(--honey-900);
+}
+.section-heading p {
+  color: var(--honey-800);
+}
+
+.badge {
+  display: inline-block;
+  background: var(--honey-100);
+  color: var(--honey-700);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+}
+
+/* Program cards */
+.programs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1.75rem;
+}
+.program-card {
+  border: 1px solid var(--honey-300);
+  border-radius: 0.75rem;
+  padding: 1.75rem;
+  background: #ffffff;
+}
+.program-card .icon-wrap {
+  background: var(--honey-100);
+  color: var(--accent);
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+.program-card h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+  color: var(--honey-900);
+}
+.program-card p {
+  color: var(--honey-800);
+  margin: 0 0 1rem;
+}
+.program-card a {
+  font-weight: 700;
+  text-decoration: none;
+}
+.program-card a:hover {
+  text-decoration: underline;
+}
+
+/* How it works */
+.steps {
+  background: var(--honey-100);
+}
+.steps-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 1.5rem;
+  counter-reset: step;
+}
+.steps-list li {
+  counter-increment: step;
+  background: #ffffff;
+  border-radius: 0.75rem;
+  padding: 1.75rem;
+  position: relative;
+}
+.steps-list li::before {
+  content: counter(step);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: var(--honey-900);
+  color: #ffffff;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+.steps-list h3 {
+  margin: 0 0 0.4rem;
+  font-size: 1.1rem;
+  color: var(--honey-900);
+}
+.steps-list p {
+  margin: 0;
+  color: var(--honey-800);
+}
+
+/* Testimonials */
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1.75rem;
+}
+blockquote {
+  margin: 0;
+  border-left: 4px solid var(--accent);
+  padding: 0.25rem 0 0.25rem 1.25rem;
+  color: var(--honey-900);
+}
+blockquote p {
+  font-style: italic;
+}
+blockquote footer {
+  margin-top: 0.75rem;
+  font-style: normal;
+  font-weight: 700;
+  color: var(--honey-700);
+}
+
+/* FAQ */
+.faq-item {
+  border-bottom: 1px solid var(--honey-300);
+}
+.faq-item summary {
+  padding: 1.1rem 0;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--honey-900);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 24px;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after {
+  content: "+";
+  font-size: 1.4rem;
+  color: var(--accent);
+  flex-shrink: 0;
+  margin-left: 1rem;
+}
+.faq-item[open] summary::after {
+  content: "\2212";
+}
+.faq-item p {
+  padding-bottom: 1.1rem;
+  margin: 0;
+  color: var(--honey-800);
+}
+
+/* Contact / signup */
+.signup {
+  background: var(--honey-900);
+  color: #ffffff;
+}
+.signup .container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+.signup h2 {
+  font-size: 1.9rem;
+  margin-top: 0;
+}
+.signup p {
+  color: var(--honey-100);
+}
+.signup-form {
+  background: #ffffff;
+  color: var(--honey-900);
+  border-radius: 0.75rem;
+  padding: 1.75rem;
+}
+.form-row {
+  margin-bottom: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+label {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+.required-note {
+  font-size: 0.85rem;
+  color: var(--honey-700);
+  margin: -0.4rem 0 1rem;
+}
+input, select, textarea {
+  font: inherit;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--honey-700);
+  border-radius: 0.4rem;
+  min-height: 44px;
+}
+textarea { min-height: 6rem; resize: vertical; }
+input:invalid:not(:placeholder-shown) {
+  border-color: #9b2c2c;
+}
+.error-text {
+  color: #9b2c2c;
+  font-size: 0.85rem;
+  display: none;
+}
+input:invalid:not(:placeholder-shown) + .error-text {
+  display: block;
+}
+.form-status {
+  font-size: 0.9rem;
+  color: var(--honey-700);
+  margin-top: 0.5rem;
+}
+
+/* Footer */
+.site-footer {
+  background: var(--honey-900);
+  color: var(--honey-100);
+  padding: 2.5rem 0;
+}
+.site-footer .container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+.site-footer a {
+  color: var(--honey-100);
+}
+.site-footer nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 800px) {
+  .hero .container,
+  .signup .container {
+    grid-template-columns: 1fr;
+  }
+  .hero-art { order: -1; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .btn, .program-card, a {
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="#main-content">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+        <path d="M12 2L4 7v10l8 5 8-5V7l-8-5z" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M12 7v10M8 9.5h8M8 14.5h8" stroke="currentColor" stroke-width="1.4"/>
+      </svg>
+      Hivewards Co-op
+    </a>
+    <nav class="main-nav" aria-label="Main">
+      <ul>
+        <li><a href="#programs">Programs</a></li>
+        <li><a href="#how-it-works">How it works</a></li>
+        <li><a href="#testimonials">Stories</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#signup">Host a hive</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main-content" tabindex="-1">
+
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="container">
+      <div>
+        <span class="badge">Now placing hives in 14 neighborhoods</span>
+        <h1 id="hero-heading">Bring a working beehive to your rooftop, balcony, or community garden.</h1>
+        <p>Hivewards is a cooperative of beekeepers and city hosts. We supply the bees, the training, and the maintenance — you supply the space and get a share of the honey.</p>
+        <div class="cta-group">
+          <a class="btn btn-primary" href="#signup">Apply to host a hive</a>
+          <a class="btn btn-secondary" href="#how-it-works">See how it works</a>
+        </div>
+      </div>
+      <div class="hero-art">
+        <svg width="220" height="220" viewBox="0 0 220 220" role="img" aria-label="Illustration of a honeycomb hexagon grid with a bee resting in the center cell">
+          <g fill="none" stroke="#53360b" stroke-width="2">
+            <polygon points="110,30 150,55 150,105 110,130 70,105 70,55" />
+            <polygon points="50,55 90,80 90,130 50,155 10,130 10,80" />
+            <polygon points="170,55 210,80 210,130 170,155 130,130 130,80" />
+            <polygon points="110,130 150,155 150,205 110,230 70,205 70,155" />
+          </g>
+          <ellipse cx="110" cy="90" rx="16" ry="10" fill="#bc7b1a"/>
+          <ellipse cx="110" cy="90" rx="16" ry="10" fill="none" stroke="#2c1e07" stroke-width="2"/>
+          <circle cx="98" cy="90" r="3" fill="#2c1e07"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats" aria-label="Cooperative impact">
+    <div class="container">
+      <div>
+        <span class="stat-number">340</span>
+        <span class="stat-label">active hives citywide</span>
+      </div>
+      <div>
+        <span class="stat-number">6,200 lb</span>
+        <span class="stat-label">honey harvested last year</span>
+      </div>
+      <div>
+        <span class="stat-number">1.8M</span>
+        <span class="stat-label">bees under cooperative care</span>
+      </div>
+      <div>
+        <span class="stat-number">92%</span>
+        <span class="stat-label">hosts who renew each season</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="programs" aria-labelledby="programs-heading">
+    <div class="container">
+      <div class="section-heading">
+        <h2 id="programs-heading">Three ways to get involved</h2>
+        <p>Whether you have a rooftop, a backyard, or just a love of pollinators, there's a program for you.</p>
+      </div>
+      <div class="programs-grid">
+        <article class="program-card">
+          <div class="icon-wrap" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <h3>Host a Hive</h3>
+          <p>We install, inspect, and maintain a hive on your property. You receive 25% of the seasonal honey yield and a guided harvest day.</p>
+          <a href="#signup">Apply as a host →</a>
+        </article>
+        <article class="program-card">
+          <div class="icon-wrap" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <h3>Beekeeper Mentorship</h3>
+          <p>A 10-week hands-on course pairing you with a senior beekeeper. Learn hive inspection, swarm prevention, and honey extraction.</p>
+          <a href="#signup">Join the next cohort →</a>
+        </article>
+        <article class="program-card">
+          <div class="icon-wrap" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-4.35-7-10a5 5 0 0 1 10 0 5 5 0 0 1 10 0c0 5.65-7 10-7 10l-3 1.5z" stroke="currentColor" stroke-width="2"/></svg>
+          </div>
+          <h3>Pollinator Garden Grants</h3>
+          <p>Small grants and native-plant seed kits for community gardens that want to support our hives without hosting one directly.</p>
+          <a href="#signup">Request a grant →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="how-it-works" class="steps" aria-labelledby="how-heading">
+    <div class="container">
+      <div class="section-heading">
+        <h2 id="how-heading">How hosting works</h2>
+        <p>From application to your first jar of honey, here's the full timeline.</p>
+      </div>
+      <ol class="steps-list">
+        <li>
+          <h3>Apply &amp; site visit</h3>
+          <p>Submit the form below. A cooperative beekeeper visits within two weeks to confirm sun, water, and space requirements.</p>
+        </li>
+        <li>
+          <h3>Hive installation</h3>
+          <p>We deliver and install a starter colony, fully insured and labeled with cooperative contact information.</p>
+        </li>
+        <li>
+          <h3>Monthly inspections</h3>
+          <p>Our team visits monthly to check colony health. You're welcome to observe or learn hands-on.</p>
+        </li>
+        <li>
+          <h3>Harvest &amp; share</h3>
+          <p>Each harvest, you receive jars of honey from your own hive plus an impact report on local pollination.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="testimonials" aria-labelledby="testimonials-heading">
+    <div class="container">
+      <div class="section-heading">
+        <h2 id="testimonials-heading">From our hosts and beekeepers</h2>
+      </div>
+      <div class="testimonial-grid">
+        <blockquote>
+          <p>"My kids check the hive every morning before school. We've gone from being scared of bees to naming the queen."</p>
+          <footer>— Marisol R., rooftop host since 2024</footer>
+        </blockquote>
+        <blockquote>
+          <p>"The mentorship program gave me real hive-time, not just a manual. I now manage three hives of my own."</p>
+          <footer>— Devon K., cooperative beekeeper</footer>
+        </blockquote>
+        <blockquote>
+          <p>"Our community garden's tomato yield doubled the season after Hivewards placed a hive two blocks away."</p>
+          <footer>— Priya N., garden grant recipient</footer>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" aria-labelledby="faq-heading">
+    <div class="container">
+      <div class="section-heading">
+        <h2 id="faq-heading">Frequently asked questions</h2>
+      </div>
+      <div>
+        <details class="faq-item">
+          <summary>Is it safe to host a hive near children or pets?</summary>
+          <p>Yes. Honeybees are not aggressive away from the hive entrance, and we position hives away from high-traffic paths. We also provide a short safety orientation for every household.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What if I'm allergic to bee stings?</summary>
+          <p>We don't place hives in homes with a known severe allergy to bee stings among residents. Pollinator garden grants are a safe way to support bees without a hive on-site.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How much space does a hive need?</summary>
+          <p>A single hive needs about a 3x3 foot footprint with morning sun and a nearby water source. Rooftops, balconies, and garden corners all work.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is there a cost to host a hive?</summary>
+          <p>No upfront cost. Hosting is free in exchange for hive access during inspections and a share of the honey going to the cooperative.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section id="signup" class="signup" aria-labelledby="signup-heading">
+    <div class="container">
+      <div>
+        <h2 id="signup-heading">Ready to bring bees to your block?</h2>
+        <p>Tell us about your space and goals. A cooperative beekeeper will follow up within five business days to schedule a site visit.</p>
+      </div>
+      <form class="signup-form" novalidate>
+        <p class="required-note">Fields marked with an asterisk (*) are required.</p>
+
+        <div class="form-row">
+          <label for="full-name">Full name <span aria-hidden="true">*</span></label>
+          <input type="text" id="full-name" name="full-name" autocomplete="name" required aria-describedby="full-name-error">
+          <span id="full-name-error" class="error-text">Please enter your full name.</span>
+        </div>
+
+        <div class="form-row">
+          <label for="email">Email address <span aria-hidden="true">*</span></label>
+          <input type="email" id="email" name="email" autocomplete="email" required aria-describedby="email-error">
+          <span id="email-error" class="error-text">Please enter a valid email address.</span>
+        </div>
+
+        <div class="form-row">
+          <label for="program">I'm interested in <span aria-hidden="true">*</span></label>
+          <select id="program" name="program" required>
+            <option value="">Choose a program</option>
+            <option value="host">Hosting a hive</option>
+            <option value="mentorship">Beekeeper mentorship</option>
+            <option value="grant">Pollinator garden grant</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="space-details">Tell us about your space</label>
+          <textarea id="space-details" name="space-details" aria-describedby="space-hint"></textarea>
+          <span id="space-hint" class="form-status">Roof, balcony, garden, square footage, sun exposure — whatever you know.</span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit application</button>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div>
+      <p><strong>Hivewards Co-op</strong><br>Urban beekeeping, organized by neighbors.</p>
+    </div>
+    <nav aria-label="Footer">
+      <ul>
+        <li><a href="#programs">Programs</a></li>
+        <li><a href="#how-it-works">How it works</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#signup">Host a hive</a></li>
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>

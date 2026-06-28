@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Vanishing Profession: Lighthouse Keepers | Field Notes</title>
+<meta name="description" content="The history, daily routines, and quiet solitude of lighthouse keepers — the people who tended the lights before automation took over.">
+<style>
+/*
+ * WCAG AA PAIRING MANIFEST — source: #1b4965 · theme: white
+ *
+ * BODY TEXT (any font size, ≥4.5:1):
+ *   shade-100 (#ebf4fa) → 900, 800, 700
+ *   shade-300 (#a5cee7) → 900, 800
+ *   shade-600 (#3590cd) → 900
+ *   shade-700 (#2b739f) → white, 100
+ *   shade-800 (#17405c) → white, 100, 300
+ *   shade-900 (#0d2331) → white, 100, 300, 600
+ *
+ * LARGE TEXT ONLY (≥24px or ≥18.67px bold, 3:1–4.5:1):
+ *   These pairings are PROHIBITED for body text at any size.
+ *   No exception exists for "decorative", "secondary", or "non-critical" text —
+ *   WCAG 1.4.3 applies to all visible text regardless of its semantic importance.
+ *   shade-100 (#ebf4fa) → 600
+ *   shade-300 (#a5cee7) → 700
+ *   shade-600 (#3590cd) → 100, 800, white
+ *   shade-700 (#2b739f) → 300, 900
+ *   shade-800 (#17405c) → 600
+ *   shade-900 (#0d2331) → 700
+ *
+ * ACCENT (verified separately via check_contrast, not part of the foundation matrix):
+ *   #ffb703 (beam amber) on #0d2331 → 9.24:1 — safe for any size
+ *   #0d2331 on #ffb703               → 9.24:1 — safe for any size
+ *   #8a4d08 (dark amber) on #ffffff  → 6.68:1 — safe for any size
+ *   #b5650a on #ffffff               → 4.35:1 — LARGE TEXT ONLY, do not use for body copy
+ */
+:root {
+  --keeper-100: #ebf4fa; /* ✅ text→900·800·700  ⚠️ lg→600 */
+  --keeper-300: #a5cee7; /* ✅ text→900·800  ⚠️ lg→700 */
+  --keeper-600: #3590cd; /* ✅ text→900  ⚠️ lg→100·800·white */
+  --keeper-700: #2b739f; /* ✅ text→white·100  ⚠️ lg→300·900 */
+  --keeper-800: #17405c; /* ✅ text→white·100·300  ⚠️ lg→600 */
+  --keeper-900: #0d2331; /* ✅ text→white·100·300·600  ⚠️ lg→700 */
+  --beam-amber: #ffb703;      /* large text / on dark backgrounds only */
+  --beam-amber-dark: #8a4d08; /* body-text-safe amber on white */
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  color: var(--keeper-900);
+  background: #fff;
+  line-height: 1.6;
+}
+
+h1, h2, h3 { font-family: "Helvetica Neue", Arial, sans-serif; line-height: 1.2; }
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  padding: 0.5rem 1rem;
+  background: var(--keeper-900);
+  color: var(--keeper-100);
+  z-index: 100;
+  text-decoration: none;
+}
+.skip-link:focus { top: 0; }
+
+a {
+  color: var(--keeper-700);
+}
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--beam-amber-dark);
+  outline-offset: 2px;
+}
+
+header.site-header {
+  background: var(--keeper-900);
+  color: var(--keeper-100);
+  padding: 1rem clamp(1rem, 5vw, 3rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.brand {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--keeper-100);
+  text-decoration: none;
+}
+.brand:focus-visible { outline-color: var(--beam-amber); }
+
+nav.primary-nav ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+}
+nav.primary-nav a {
+  color: var(--keeper-100);
+  text-decoration: none;
+  padding: 0.4rem 0.2rem;
+  border-bottom: 2px solid transparent;
+}
+nav.primary-nav a:hover,
+nav.primary-nav a:focus-visible {
+  border-bottom-color: var(--beam-amber);
+}
+
+.hero {
+  background: linear-gradient(180deg, var(--keeper-900) 0%, var(--keeper-800) 100%);
+  color: var(--keeper-100);
+  padding: clamp(3rem, 10vw, 6rem) clamp(1rem, 5vw, 3rem);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero h1 {
+  font-size: clamp(2.2rem, 6vw, 3.6rem);
+  margin: 0 0 1rem;
+}
+.hero .accent-word {
+  color: var(--beam-amber);
+}
+.hero p.lede {
+  max-width: 42rem;
+  margin: 0 auto;
+  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+  color: var(--keeper-100);
+}
+.beam {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% -10%, rgba(255, 183, 3, 0.18), transparent 60%);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .beam { animation: sweep 8s ease-in-out infinite alternate; }
+}
+@keyframes sweep {
+  from { background-position: 0% 0%; }
+  to { background-position: 100% 0%; }
+}
+
+main { display: block; }
+
+section {
+  padding: clamp(2rem, 6vw, 4rem) clamp(1rem, 5vw, 3rem);
+  max-width: 64rem;
+  margin: 0 auto;
+}
+section + section { border-top: 1px solid var(--keeper-300); }
+
+h2 {
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  color: var(--keeper-900);
+  margin-top: 0;
+}
+h2 .kicker {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--beam-amber-dark);
+  margin-bottom: 0.4rem;
+}
+
+p { max-width: 38rem; }
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+.card {
+  border: 1px solid var(--keeper-300);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  background: var(--keeper-100);
+}
+.card h3 {
+  margin-top: 0;
+  color: var(--keeper-900);
+  font-size: 1.15rem;
+}
+.card p { margin-bottom: 0; color: var(--keeper-800); }
+
+.timeline {
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  border-left: 3px solid var(--keeper-300);
+}
+.timeline li {
+  position: relative;
+  padding: 0 0 1.75rem 1.75rem;
+}
+.timeline li::before {
+  content: "";
+  position: absolute;
+  left: -0.4375rem;
+  top: 0.25rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background: var(--beam-amber-dark);
+  border: 2px solid #fff;
+}
+.timeline time {
+  display: block;
+  font-weight: 700;
+  color: var(--keeper-700);
+  margin-bottom: 0.25rem;
+}
+
+.callout {
+  background: var(--keeper-900);
+  color: var(--keeper-100);
+  border-radius: 0.75rem;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  margin-top: 2rem;
+}
+.callout h3 { color: var(--beam-amber); margin-top: 0; }
+.callout p { color: var(--keeper-100); }
+
+.faq dt {
+  font-weight: 700;
+  color: var(--keeper-900);
+  margin-top: 1.25rem;
+}
+.faq dd {
+  margin-left: 0;
+  color: var(--keeper-800);
+}
+
+.btn {
+  display: inline-block;
+  background: var(--beam-amber);
+  color: var(--keeper-900);
+  font-weight: 700;
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  border: 2px solid transparent;
+  min-height: 2.75rem;
+  line-height: 1.25rem;
+}
+.btn:hover { background: var(--beam-amber-dark); color: var(--keeper-100); }
+
+footer.site-footer {
+  background: var(--keeper-900);
+  color: var(--keeper-100);
+  padding: 2rem clamp(1rem, 5vw, 3rem);
+  text-align: center;
+}
+footer.site-footer a { color: var(--keeper-100); text-decoration: underline; }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<header class="site-header">
+  <a class="brand" href="#main-content">Field Notes &middot; Lighthouses</a>
+  <nav class="primary-nav" aria-label="Main">
+    <ul>
+      <li><a href="#history">History</a></li>
+      <li><a href="#daily-life">Daily life</a></li>
+      <li><a href="#famous-keepers">Famous keepers</a></li>
+      <li><a href="#automation">Automation</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="beam" aria-hidden="true"></div>
+  <h1>The Vanishing Profession of the <span class="accent-word">Lighthouse Keeper</span></h1>
+  <p class="lede">For three centuries, men and women lived alone on rock outcrops and cliff edges with one job: keep the light burning so ships wouldn't die on the coastline. Here's what that life actually looked like.</p>
+</section>
+
+<main id="main-content" tabindex="-1">
+
+  <section id="history" aria-labelledby="history-heading">
+    <h2 id="history-heading"><span class="kicker">Origins</span>From bonfires to Fresnel lenses</h2>
+    <p>The earliest lighthouses were literal fires tended by hand on hilltops. The Pharos of Alexandria, built around 280 BCE, is the first structure widely credited as a purpose-built lighthouse — and it needed someone to keep feeding the flame, every night, for centuries.</p>
+    <p>By the 1820s, the French physicist Augustin-Jean Fresnel had solved the biggest problem in the trade: how to make a small flame visible from twenty miles away. His stepped lens design redirected nearly all of a lamp's light into a single, narrow beam, and it remained the dominant lighthouse technology for over 150 years.</p>
+    <ol class="timeline">
+      <li><time>280 BCE</time>The Pharos of Alexandria is completed, standing roughly 100 meters tall.</li>
+      <li><time>1698</time>Henry Winstanley opens the first Eddystone Lighthouse off Cornwall — it is destroyed by a storm five years later, with Winstanley inside it.</li>
+      <li><time>1822</time>Augustin-Jean Fresnel installs his first lens at the Cordouan Lighthouse in France.</li>
+      <li><time>1900</time>Three keepers vanish without explanation from the Flannan Isles Lighthouse in Scotland.</li>
+      <li><time>1998</time>The U.S. Coast Guard automates its last staffed lighthouse, ending two centuries of continuous human keeping.</li>
+    </ol>
+  </section>
+
+  <section id="daily-life" aria-labelledby="daily-life-heading">
+    <h2 id="daily-life-heading"><span class="kicker">The job itself</span>What keepers actually did all day</h2>
+    <p>Forget the romantic image of someone gazing at the sea. The job was mechanical, repetitive, and unforgiving of mistakes — closer to running a small, isolated factory than anything poetic.</p>
+    <div class="card-grid">
+      <div class="card">
+        <h3>Before sunset</h3>
+        <p>Trim the wick, clean the lens of soot and salt residue, and wind the clockwork mechanism that rotated the lens to produce the lighthouse's unique flash pattern.</p>
+      </div>
+      <div class="card">
+        <h3>Through the night</h3>
+        <p>Check the lamp every few hours without exception. A neglected flame could go out, and a single missed night could put ships on the rocks.</p>
+      </div>
+      <div class="card">
+        <h3>At dawn</h3>
+        <p>Extinguish the lamp, polish brass fittings, and log weather, ship sightings, and fuel consumption in the station's official journal.</p>
+      </div>
+      <div class="card">
+        <h3>Everything else</h3>
+        <p>Painting, repairs, gardening on isolated stations, and — on many postings — months of near-total isolation from any other human being.</p>
+      </div>
+    </div>
+    <div class="callout">
+      <h3>Isolation was the real hazard</h3>
+      <p>Some stations rotated keepers every few weeks. Others, like rock lighthouses built directly into the sea, kept staff isolated for months at a stretch, supplied only when weather allowed a boat to land. Mental health, not the sea itself, was often the biggest danger of the job.</p>
+    </div>
+  </section>
+
+  <section id="famous-keepers" aria-labelledby="famous-heading">
+    <h2 id="famous-heading"><span class="kicker">Notable names</span>Keepers worth remembering</h2>
+    <p><strong>Ida Lewis</strong> tended the Lime Rock Lighthouse in Rhode Island for 39 years and is credited with saving at least 18 lives, rowing out into storms herself. She became one of the most celebrated public figures of her era.</p>
+    <p><strong>Abbie Burgess</strong> kept the Matinicus Rock Light burning alone at age 17 for four weeks during a severe storm in 1856, while caring for her bedridden father and three younger siblings, after her father's supply trip was stranded by weather.</p>
+    <p><strong>Grace Darling</strong> rowed through a storm with her father in 1838 to rescue survivors of the wrecked SS Forfarshire near the Longstone Lighthouse, becoming a national hero in Victorian Britain almost overnight.</p>
+  </section>
+
+  <section id="automation" aria-labelledby="automation-heading">
+    <h2 id="automation-heading"><span class="kicker">The 20th century</span>Why the job disappeared</h2>
+    <p>Electric lamps, solar power, and automated timer mechanisms made round-the-clock human tending unnecessary. Satellite navigation finished the job: most ships now rely on GPS rather than visual beacons at all.</p>
+    <p>Today, lighthouses are mostly maintained remotely, visited periodically by technicians rather than lived in by families. A handful are preserved as museums, and a few rare postings — mostly ceremonial or in extremely remote regions — still exist, but the lighthouse keeper as a full-time, lived-in profession has essentially ended.</p>
+  </section>
+
+  <section id="faq" aria-labelledby="faq-heading">
+    <h2 id="faq-heading"><span class="kicker">Quick answers</span>Frequently asked questions</h2>
+    <dl class="faq">
+      <dt>Can you still become a lighthouse keeper today?</dt>
+      <dd>In most countries, no — the role has been automated. A few volunteer caretaker programs exist for historic sites, but they're not full-time paid keeping positions in the traditional sense.</dd>
+
+      <dt>What happened to the keepers of the Flannan Isles?</dt>
+      <dd>In December 1900, three keepers disappeared from the Flannan Isles Lighthouse off Scotland without a trace. No bodies were ever found, and the disappearance remains officially unsolved.</dd>
+
+      <dt>Did keepers usually work alone?</dt>
+      <dd>It depended on the station. Many lighthouses had a head keeper and one or two assistants who rotated shifts, while smaller or more remote stations were sometimes tended by a single person or a family.</dd>
+    </dl>
+    <p>
+      <a class="btn" href="https://www.uslhs.org/" target="_blank" rel="noopener noreferrer">
+        Explore real lighthouse archives
+        <span class="visually-hidden"> (opens in a new tab)</span>
+      </a>
+    </p>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>Field Notes is an independent project documenting overlooked trades and professions.</p>
+  <p><a href="#main-content">Back to top</a></p>
+</footer>
+
+</body>
+</html>

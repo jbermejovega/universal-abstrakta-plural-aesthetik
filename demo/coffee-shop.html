@@ -1,0 +1,1106 @@
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Café Bruma - Café de especialidad y cocina lenta</title>
+  <style>
+    /*
+     * WCAG AA PAIRING MANIFEST — source: #6f4e37 · theme: white
+     *
+     * BODY TEXT (any font size, ≥4.5:1):
+     *   shade-100 (#f7f2ee) → 900, 800, 700
+     *   shade-300 (#dbc5b6) → 900, 800
+     *   shade-600 (#b07f57) → 900
+     *   shade-700 (#8e6446) → white, 100
+     *   shade-800 (#4e3725) → white, 100, 300
+     *   shade-900 (#2b1e15) → white, 100, 300, 600
+     *
+     * LARGE TEXT ONLY (≥24px or ≥18.67px bold, 3:1–4.5:1):
+     *   shade-100 (#f7f2ee) → 600
+     *   shade-300 (#dbc5b6) → 700
+     *   shade-600 (#b07f57) → 100, 800, white
+     *   shade-700 (#8e6446) → 300, 900
+     *   shade-800 (#4e3725) → 600
+     *   shade-900 (#2b1e15) → 700
+     */
+
+    :root {
+      --coffee-100: #f7f2ee; /* ✅ text→900·800·700  ⚠️ lg→600 */
+      --coffee-300: #dbc5b6; /* ✅ text→900·800  ⚠️ lg→700 */
+      --coffee-600: #b07f57; /* ✅ text→900  ⚠️ lg→100·800·white */
+      --coffee-700: #8e6446; /* ✅ text→white·100  ⚠️ lg→300·900 */
+      --coffee-800: #4e3725; /* ✅ text→white·100·300  ⚠️ lg→600 */
+      --coffee-900: #2b1e15; /* ✅ text→white·100·300·600  ⚠️ lg→700 */
+      --accent-primary: #8b4513;
+      --accent-secondary: #d4a64a;
+      --accent-tertiary: #4e6b4a;
+      --color-bg: #fffdf9;
+      --color-surface: #ffffff;
+      --color-surface-alt: #f8efe7;
+      --color-text: #2b1e15;
+      --color-muted: #4e3725;
+      --color-border: #dbc5b6;
+      --color-focus: #8b4513;
+      --color-success: #4e6b4a;
+      --color-warn: #d4a64a;
+      --color-error: #8b4513;
+      --shadow-strong: 0 18px 48px #dbc5b633;
+      --shadow-soft: 0 10px 24px #4e37251a;
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --radius-sm: 14px;
+      --content-width: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--color-text);
+      background:
+        radial-gradient(circle at top left, #fff6eb 0, transparent 28%),
+        radial-gradient(circle at top right, #ead7c0 0, transparent 24%),
+        linear-gradient(180deg, #fffdf9 0%, #f7f2ee 100%);
+      font-family: Georgia, "Times New Roman", Palatino, serif;
+      line-height: 1.6;
+      text-rendering: optimizeLegibility;
+    }
+
+    a { color: inherit; }
+    img, svg { display: block; max-width: 100%; }
+
+    .skip-link {
+      position: absolute;
+      left: 1rem;
+      top: 0;
+      transform: translateY(-140%);
+      background: var(--coffee-900);
+      color: var(--coffee-100);
+      padding: 0.85rem 1rem;
+      border-radius: 999px;
+      text-decoration: none;
+      z-index: 10;
+    }
+
+    .skip-link:focus { transform: translateY(1rem); }
+
+    :focus-visible {
+      outline: 3px solid var(--color-focus);
+      outline-offset: 3px;
+    }
+
+    .shell {
+      width: min(var(--content-width), calc(100% - 2rem));
+      margin: 0 auto;
+    }
+
+    .masthead {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+      background: #fffdf9e6;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .masthead__inner {
+      width: min(var(--content-width), calc(100% - 2rem));
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem 0;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.9rem;
+      text-decoration: none;
+    }
+
+    .brand__mark {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      background: linear-gradient(145deg, var(--accent-primary), var(--coffee-700));
+      color: var(--coffee-100);
+      display: grid;
+      place-items: center;
+      box-shadow: var(--shadow-soft);
+      font-size: 1.35rem;
+      font-weight: 700;
+    }
+
+    .brand__copy { display: grid; gap: 0.1rem; }
+    .brand__name {
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--coffee-900);
+    }
+    .brand__tagline { font-size: 0.95rem; color: var(--color-muted); }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      justify-content: flex-end;
+    }
+
+    .nav a {
+      text-decoration: none;
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--coffee-800);
+      padding: 0.7rem 1rem;
+      border-radius: 999px;
+    }
+
+    .nav a:hover,
+    .nav a:focus-visible {
+      background: var(--coffee-100);
+      color: var(--coffee-900);
+    }
+
+    main {
+      display: grid;
+      gap: 5rem;
+      padding: 2rem 0 4rem;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      background: linear-gradient(135deg, #2b1e15 0%, #4e3725 36%, #8e6446 100%);
+      color: var(--coffee-100);
+      box-shadow: var(--shadow-strong);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 18% 18%, #d4a64a44 0, transparent 22%),
+        radial-gradient(circle at 85% 12%, #f7f2ee22 0, transparent 16%),
+        radial-gradient(circle at 82% 78%, #8b451322 0, transparent 18%);
+      pointer-events: none;
+    }
+
+    .hero__grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+      gap: 2rem;
+      padding: clamp(1.5rem, 4vw, 3rem);
+      align-items: stretch;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.55rem 0.85rem;
+      border-radius: 999px;
+      background: #f7f2ee1a;
+      color: var(--coffee-100);
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      width: fit-content;
+      margin-bottom: 1.25rem;
+    }
+
+    .eyebrow__dot {
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 999px;
+      background: var(--accent-secondary);
+      box-shadow: 0 0 0 0.3rem #d4a64a22;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(2.8rem, 7vw, 5.8rem);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      max-width: 11ch;
+    }
+
+    .hero p {
+      max-width: 56ch;
+      margin: 1.4rem 0 0;
+      font-size: clamp(1.08rem, 1.7vw, 1.35rem);
+      color: var(--coffee-300);
+    }
+
+    .hero__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      margin-top: 2rem;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      min-height: 3.3rem;
+      padding: 0.85rem 1.25rem;
+      border-radius: 999px;
+      font: inherit;
+      font-weight: 700;
+      text-decoration: none;
+      border: 1px solid transparent;
+      transition: transform 160ms ease, background-color 160ms ease, border-color 160ms ease;
+    }
+
+    .button--primary {
+      background: var(--accent-secondary);
+      color: var(--coffee-900);
+      border-color: var(--accent-secondary);
+    }
+
+    .button--secondary {
+      background: transparent;
+      color: var(--coffee-100);
+      border-color: #f7f2ee66;
+    }
+
+    .button:hover,
+    .button:focus-visible { transform: translateY(-2px); }
+
+    .hero__aside {
+      display: grid;
+      gap: 1rem;
+      align-content: start;
+      background: #f7f2ee12;
+      border: 1px solid #dbc5b633;
+      border-radius: var(--radius-lg);
+      padding: 1.2rem;
+      min-height: 100%;
+    }
+
+    .hero__card {
+      background: #fffdf9f2;
+      color: var(--coffee-900);
+      border-radius: var(--radius-md);
+      padding: 1.1rem;
+      border: 1px solid var(--color-border);
+    }
+
+    .hero__card strong {
+      display: block;
+      font-size: 1.05rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .hero__metric { display: grid; gap: 0.25rem; }
+    .hero__metric span { color: var(--color-muted); font-size: 0.95rem; }
+    .hero__metric b { font-size: 1.3rem; color: var(--coffee-900); }
+
+    .section { display: grid; gap: 1.5rem; }
+    .section__heading { display: grid; gap: 0.4rem; max-width: 54rem; }
+    .section__kicker {
+      margin: 0;
+      color: var(--accent-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-size: 0.86rem;
+      font-weight: 700;
+    }
+
+    .section h2 {
+      margin: 0;
+      color: var(--coffee-900);
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.05;
+    }
+
+    .section__lede {
+      margin: 0;
+      max-width: 65ch;
+      color: var(--color-muted);
+      font-size: 1.07rem;
+    }
+
+    .experience { display: grid; gap: 1.25rem; }
+    .experience__grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1.1rem;
+    }
+
+    .experience__feature,
+    .experience__panel,
+    .menu-card,
+    .story,
+    .info-card,
+    .hours,
+    .visit {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .experience__feature {
+      grid-column: span 7;
+      padding: 1.5rem;
+      background: linear-gradient(180deg, #fffdf9 0%, #f8efe7 100%);
+    }
+
+    .experience__feature h3,
+    .experience__panel h3,
+    .menu-card h3,
+    .story h3,
+    .info-card h3,
+    .visit h3 {
+      margin: 0 0 0.5rem;
+      color: var(--coffee-900);
+      font-size: 1.35rem;
+    }
+
+    .experience__feature p,
+    .experience__panel p,
+    .story p,
+    .info-card p,
+    .visit p,
+    .menu-card p {
+      margin: 0;
+      color: var(--color-muted);
+    }
+
+    .experience__feature-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.9rem;
+      margin-top: 1.25rem;
+      padding: 0;
+      list-style: none;
+    }
+
+    .experience__feature-list li {
+      display: flex;
+      gap: 0.8rem;
+      align-items: flex-start;
+      padding: 0.9rem;
+      border-radius: var(--radius-sm);
+      background: #fff;
+      border: 1px solid var(--color-border);
+    }
+
+    .experience__feature-list strong {
+      color: var(--coffee-900);
+      display: block;
+    }
+
+    .experience__panel {
+      grid-column: span 5;
+      padding: 1.5rem;
+      background: linear-gradient(180deg, #2b1e15 0%, #4e3725 100%);
+      color: var(--coffee-100);
+      border-color: #2b1e15;
+    }
+
+    .experience__panel h3,
+    .experience__panel p { color: var(--coffee-100); }
+
+    .brew-list {
+      margin: 1.3rem 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    .brew-list li {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: baseline;
+      padding-bottom: 0.9rem;
+      border-bottom: 1px solid #f7f2ee2d;
+    }
+
+    .brew-list li:last-child { padding-bottom: 0; border-bottom: 0; }
+    .brew-list span { color: var(--coffee-300); font-size: 0.95rem; }
+
+    .menu { display: grid; gap: 1.3rem; }
+    .menu__grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .menu-card {
+      grid-column: span 4;
+      padding: 1.25rem;
+      display: grid;
+      gap: 0.9rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .menu-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto auto 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+    }
+
+    .menu-card__top {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: baseline;
+      padding-top: 0.4rem;
+    }
+
+    .menu-card__price {
+      margin: 0;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--accent-primary);
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.42rem 0.72rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      border: 1px solid transparent;
+    }
+
+    .pill--primary {
+      background: #8b45131a;
+      color: var(--accent-primary);
+      border-color: #8b45133d;
+    }
+
+    .pill--secondary {
+      background: #d4a64a1d;
+      color: #6c4b09;
+      border-color: #d4a64a55;
+    }
+
+    .pill--success {
+      background: #4e6b4a1f;
+      color: var(--color-success);
+      border-color: #4e6b4a55;
+    }
+
+    .story {
+      padding: clamp(1.4rem, 3vw, 2rem);
+      display: grid;
+      grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+      gap: 1.5rem;
+      align-items: start;
+      background: linear-gradient(135deg, #fff 0%, #f8efe7 100%);
+    }
+
+    .story__aside {
+      background: #2b1e15;
+      color: var(--coffee-100);
+      border-radius: var(--radius-md);
+      padding: 1.2rem;
+    }
+
+    .story__aside h3,
+    .story__aside p,
+    .story__aside li { color: var(--coffee-100); }
+
+    .story__list {
+      margin: 1rem 0 0;
+      padding-left: 1.1rem;
+      display: grid;
+      gap: 0.6rem;
+    }
+
+    .story__body { display: grid; gap: 1rem; }
+
+    .story__quote {
+      margin: 0;
+      padding: 1rem 1.1rem;
+      border-left: 4px solid var(--accent-secondary);
+      background: #fffdf9;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      color: var(--coffee-800);
+      font-size: 1.05rem;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .info-card {
+      padding: 1.25rem;
+      grid-column: span 4;
+      display: grid;
+      gap: 0.7rem;
+    }
+
+    .info-card__icon {
+      width: 2.6rem;
+      height: 2.6rem;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: #8b45131a;
+      color: var(--accent-primary);
+      flex: none;
+    }
+
+    .info-card__icon svg {
+      width: 1.2rem;
+      height: 1.2rem;
+      fill: currentColor;
+    }
+
+    .info-card a {
+      color: var(--accent-primary);
+      font-weight: 700;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 0.15em;
+    }
+
+    .hours {
+      padding: 1.4rem;
+    }
+
+    .hours__layout {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .hours__panel {
+      border-radius: var(--radius-md);
+      background: linear-gradient(145deg, #4e3725, #2b1e15);
+      color: var(--coffee-100);
+      padding: 1.25rem;
+    }
+
+    .hours__panel h3,
+    .hours__panel p { color: var(--coffee-100); }
+
+    .hours__table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius-md);
+      background: #fff;
+    }
+
+    .hours__table caption {
+      text-align: left;
+      padding: 0 0 0.75rem;
+      color: var(--color-muted);
+      font-size: 0.95rem;
+    }
+
+    .hours__table td,
+    .hours__table th {
+      padding: 1rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .hours__table th {
+      color: var(--coffee-900);
+      background: var(--coffee-100);
+      font-size: 0.95rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .hours__table tr:last-child td { border-bottom: 0; }
+
+    .hours__table .is-highlight td {
+      background: #d4a64a1a;
+      color: var(--coffee-900);
+      font-weight: 700;
+    }
+
+    .visit {
+      padding: clamp(1.4rem, 3vw, 2rem);
+      display: grid;
+      gap: 1.2rem;
+      background: linear-gradient(135deg, #2b1e15 0%, #4e3725 100%);
+      color: var(--coffee-100);
+    }
+
+    .visit h2,
+    .visit .section__lede,
+    .visit h3,
+    .visit p,
+    .visit a { color: var(--coffee-100); }
+
+    .visit__grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .visit__card {
+      grid-column: span 4;
+      background: #fffdf915;
+      border: 1px solid #dbc5b62b;
+      border-radius: var(--radius-md);
+      padding: 1.15rem;
+    }
+
+    .visit__card strong {
+      color: var(--coffee-100);
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .visit__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      margin-top: 0.5rem;
+    }
+
+    .visit__actions .button--primary {
+      background: var(--accent-secondary);
+      color: var(--coffee-900);
+    }
+
+    .visit__actions .button--secondary {
+      border-color: #f7f2ee70;
+    }
+
+    .footer {
+      border-top: 1px solid var(--color-border);
+      padding: 2rem 0 3rem;
+      color: var(--color-muted);
+    }
+
+    .footer__inner {
+      width: min(var(--content-width), calc(100% - 2rem));
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer a {
+      color: var(--accent-primary);
+      font-weight: 700;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 0.15em;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    @media (max-width: 980px) {
+      .hero__grid,
+      .story,
+      .hours__layout { grid-template-columns: 1fr; }
+      .experience__feature,
+      .experience__panel,
+      .menu-card,
+      .info-card,
+      .visit__card { grid-column: auto; }
+      .menu-card { grid-column: span 6; }
+      .info-card,
+      .visit__card { grid-column: span 6; }
+    }
+
+    @media (max-width: 720px) {
+      .masthead__inner,
+      .footer__inner { width: min(var(--content-width), calc(100% - 1.25rem)); }
+      .masthead__inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .nav { justify-content: flex-start; }
+      .hero__grid { padding: 1.25rem; }
+      .experience__feature-list,
+      .info-grid,
+      .visit__grid,
+      .menu__grid,
+      .experience__grid { grid-template-columns: 1fr; }
+      .menu-card,
+      .info-card,
+      .visit__card { grid-column: auto; }
+      .hero h1 { max-width: none; }
+      .hero__actions,
+      .visit__actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Saltar al contenido principal</a>
+
+  <header class="masthead">
+    <div class="masthead__inner">
+      <a class="brand" href="#top" aria-label="Café Bruma, inicio">
+        <span class="brand__mark" aria-hidden="true">☕</span>
+        <span class="brand__copy">
+          <span class="brand__name">Café Bruma</span>
+          <span class="brand__tagline">Café de especialidad y cocina lenta</span>
+        </span>
+      </a>
+
+      <nav class="nav" aria-label="Navegación principal">
+        <a href="#experiencia">Experiencia</a>
+        <a href="#menu">Menú</a>
+        <a href="#historia">Historia</a>
+        <a href="#visita">Visita</a>
+        <a href="#horarios">Horarios</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="shell hero__grid">
+        <div>
+          <div class="eyebrow"><span class="eyebrow__dot" aria-hidden="true"></span>Tostado diario, barra abierta</div>
+          <h1 id="hero-title">El café entra en pausa y vuelve mejor.</h1>
+          <p>
+            Una cafetería de barrio con obsesión por el detalle: espresso claro, bollería tibia,
+            estaciones tranquilas para trabajar y un equipo que sabe leer la mesa antes de servir.
+          </p>
+          <div class="hero__actions">
+            <a class="button button--primary" href="#menu">Explorar menú</a>
+            <a class="button button--secondary" href="#visita">Reservar mesa</a>
+          </div>
+        </div>
+
+        <aside class="hero__aside" aria-label="Resumen rápido">
+          <div class="hero__card">
+            <strong>Hoy en barra</strong>
+            <div class="hero__metric">
+              <b>5 orígenes</b>
+              <span>Filtrados y espresso rotan según el día.</span>
+            </div>
+          </div>
+          <div class="hero__card">
+            <strong>Ambiente</strong>
+            <div class="hero__metric">
+              <b>Silencio útil</b>
+              <span>Ideal para leer, conversar o trabajar sin ruido agresivo.</span>
+            </div>
+          </div>
+          <div class="hero__card">
+            <strong>Se sirve mejor</strong>
+            <div class="hero__metric">
+              <b>10:00 - 12:30</b>
+              <span>Ventana perfecta para desayunos y primera ronda lenta.</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="experiencia" class="section shell experience" aria-labelledby="experiencia-title">
+      <div class="section__heading">
+        <p class="section__kicker">Experiencia</p>
+        <h2 id="experiencia-title">Diseñado para funcionar en la vida real, no solo en una foto.</h2>
+        <p class="section__lede">
+          La propuesta mezcla hospitalidad cálida con decisiones concretas: circulación clara, contraste fuerte,
+          acciones visibles y señales que no dependen del color para entenderse.
+        </p>
+      </div>
+
+      <div class="experience__grid">
+        <article class="experience__feature">
+          <h3>Lo que hace que la visita sea fácil</h3>
+          <p>
+            Cada zona resuelve una tarea distinta: pedir rápido, sentarse a trabajar, elegir pastelería o salir con un café para llevar.
+            La jerarquía visual ayuda a decidir en segundos sin perder la atmósfera.
+          </p>
+          <ul class="experience__feature-list">
+            <li>
+              <span class="info-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2a7 7 0 0 0-7 7c0 4.2 7 13 7 13s7-8.8 7-13a7 7 0 0 0-7-7Zm0 9.1A2.1 2.1 0 1 1 12 7a2.1 2.1 0 0 1 0 4.2Z"/></svg>
+              </span>
+              <span><strong>Ubicación fácil de encontrar</strong>Gran Vía 42, con entrada visible y recorrido corto hasta la barra.</span>
+            </li>
+            <li>
+              <span class="info-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm1 5v6.2l4 2.4-1 1.7-5-3V7Z"/></svg>
+              </span>
+              <span><strong>Ritmo consistente</strong>Pedidos rápidos antes de las 12, mesas tranquilas por la tarde.</span>
+            </li>
+          </ul>
+        </article>
+
+        <aside class="experience__panel">
+          <h3>La barra hoy</h3>
+          <p>Rotación corta, técnica precisa y una carta pensada para repetir sin aburrirse.</p>
+          <ul class="brew-list" aria-label="Especiales de la casa">
+            <li><strong>V60 Nube</strong><span>Origen Etiopía · notas de jazmín</span></li>
+            <li><strong>Flat white de avellana</strong><span>Textura sedosa · dulce leve</span></li>
+            <li><strong>Cold brew cítrico</strong><span>12 horas · final limpio</span></li>
+            <li><strong>Pan brioche caliente</strong><span>Manteca, sal y azúcar moreno</span></li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section id="menu" class="section shell menu" aria-labelledby="menu-title">
+      <div class="section__heading">
+        <p class="section__kicker">Menú</p>
+        <h2 id="menu-title">Carta corta, clara y sin relleno.</h2>
+        <p class="section__lede">
+          Precios visibles, descripciones breves y categorías que permiten decidir rápido. Los platos marcados con acento son los más pedidos.
+        </p>
+      </div>
+
+      <div class="menu__grid">
+        <article class="menu-card">
+          <div class="menu-card__top">
+            <h3>Espresso de casa</h3>
+            <p class="menu-card__price">2,40 €</p>
+          </div>
+          <p>Intenso, redondo y con crema estable. Ideal para un arranque limpio.</p>
+          <div class="pill-row">
+            <span class="pill pill--primary">Más pedido</span>
+            <span class="pill pill--secondary">Sin azúcar añadido</span>
+          </div>
+        </article>
+
+        <article class="menu-card">
+          <div class="menu-card__top">
+            <h3>Cappuccino</h3>
+            <p class="menu-card__price">3,20 €</p>
+          </div>
+          <p>Leche sedosa, espuma compacta y cacao al final. Siempre equilibrado.</p>
+          <div class="pill-row">
+            <span class="pill pill--primary">Favorito</span>
+          </div>
+        </article>
+
+        <article class="menu-card">
+          <div class="menu-card__top">
+            <h3>Cold brew</h3>
+            <p class="menu-card__price">3,90 €</p>
+          </div>
+          <p>Macera 12 horas para entregar una bebida suave, fresca y con final largo.</p>
+          <div class="pill-row">
+            <span class="pill pill--success">Nuevo lote</span>
+          </div>
+        </article>
+
+        <article class="menu-card">
+          <div class="menu-card__top">
+            <h3>Pour over</h3>
+            <p class="menu-card__price">4,10 €</p>
+          </div>
+          <p>Una extracción precisa para notar fruta, acidez limpia y cuerpo medio.</p>
+          <div class="pill-row">
+            <span class="pill pill--secondary">Origen único</span>
+          </div>
+        </article>
+
+        <article class="menu-card">
+          <div class="menu-card__top">
+            <h3>Latte vainilla</h3>
+            <p class="menu-card__price">3,70 €</p>
+          </div>
+          <p>Crema aterciopelada con vainilla natural y perfil dulce moderado.</p>
+          <div class="pill-row">
+            <span class="pill pill--primary">Para tarde lenta</span>
+          </div>
+        </article>
+
+        <article class="menu-card">
+          <div class="menu-card__top">
+            <h3>Affogato</h3>
+            <p class="menu-card__price">4,60 €</p>
+          </div>
+          <p>Helado de vainilla y espresso caliente. Postre y café en una sola decisión.</p>
+          <div class="pill-row">
+            <span class="pill pill--secondary">Temporada</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="historia" class="section shell" aria-labelledby="historia-title">
+      <div class="section__heading">
+        <p class="section__kicker">Historia</p>
+        <h2 id="historia-title">Un café de barrio con oficio editorial.</h2>
+        <p class="section__lede">
+          Bruma nace de una idea simple: si el café es bueno, el lugar no necesita gritar. La identidad está en la calma, el gesto y la consistencia.
+        </p>
+      </div>
+
+      <article class="story">
+        <div class="story__aside">
+          <h3>Qué cuidamos</h3>
+          <ul class="story__list">
+            <li>Origen trazable y rotación pequeña.</li>
+            <li>Tostado local varias veces por semana.</li>
+            <li>Mesas cómodas y circulación amplia.</li>
+            <li>Señales claras para pedir, esperar y retirar.</li>
+          </ul>
+        </div>
+
+        <div class="story__body">
+          <h3>Cómo se siente</h3>
+          <p>
+            El espacio está pensado para que el cuerpo descanse: luz cálida, superficies claras, madera oscura y acentos dorados que dan energía sin competir con la lectura.
+          </p>
+          <p class="story__quote">
+            “Queríamos una cafetería que funcionara igual de bien a las 8 de la mañana, durante una reunión informal o para una pausa corta entre recados.”
+          </p>
+          <p>
+            El resultado no depende de modas: es una carta legible, una interfaz visual amable y un ambiente que invita a quedarse sin obligar a quedarse.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section id="visita" class="section shell visit" aria-labelledby="visita-title">
+      <div class="section__heading">
+        <p class="section__kicker">Visita</p>
+        <h2 id="visita-title">Todo lo necesario para llegar, pedir y sentarse sin fricción.</h2>
+        <p class="section__lede">
+          La información de contacto aparece en bloques claros y de alto contraste. Nada depende del color para entenderse: hay texto, forma y jerarquía.
+        </p>
+      </div>
+
+      <div class="visit__grid">
+        <article class="visit__card">
+          <strong>Dirección</strong>
+          <p>Calle Gran Vía 42<br>28013 Madrid, España</p>
+        </article>
+
+        <article class="visit__card">
+          <strong>Contacto</strong>
+          <p><a href="tel:+34900123456">+34 900 123 456</a><br><a href="mailto:hola@cafebruma.es">hola@cafebruma.es</a></p>
+        </article>
+
+        <article class="visit__card">
+          <strong>Pedido rápido</strong>
+          <p>Podés reservar mesa o consultar disponibilidad por teléfono antes de venir.</p>
+        </article>
+      </div>
+
+      <div class="visit__actions">
+        <a class="button button--primary" href="tel:+34900123456">Llamar ahora</a>
+        <a class="button button--secondary" href="mailto:hola@cafebruma.es">Escribir un correo</a>
+      </div>
+    </section>
+
+    <section id="horarios" class="section shell hours" aria-labelledby="horarios-title">
+      <div class="section__heading">
+        <p class="section__kicker">Horarios</p>
+        <h2 id="horarios-title">Horario visible, estable y fácil de escanear.</h2>
+        <p class="section__lede">
+          El bloque combina una nota breve con una tabla real, así la información se entiende tanto leyendo de corrido como haciendo una búsqueda rápida.
+        </p>
+      </div>
+
+      <div class="hours__layout">
+        <aside class="hours__panel">
+          <h3>Recomendación</h3>
+          <p>Si buscás menos espera, vení entre semana antes de las 10:30. Si querés brunch y conversación larga, sábados al mediodía.</p>
+          <div class="pill-row" style="margin-top: 1rem;">
+            <span class="pill pill--secondary">Acceso accesible</span>
+            <span class="pill pill--success">Wi‑Fi estable</span>
+          </div>
+        </aside>
+
+        <table class="hours__table">
+          <caption>Horario semanal de Café Bruma</caption>
+          <thead>
+            <tr>
+              <th scope="col">Día</th>
+              <th scope="col">Horario</th>
+              <th scope="col">Servicio</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Lunes a viernes</td>
+              <td>7:30 - 20:30</td>
+              <td>Desayuno, almuerzo y take away</td>
+            </tr>
+            <tr class="is-highlight">
+              <td>Sábados</td>
+              <td>8:30 - 21:30</td>
+              <td>Brunch, repostería y café filtrado</td>
+            </tr>
+            <tr>
+              <td>Domingos</td>
+              <td>9:00 - 18:30</td>
+              <td>Carta reducida y servicio pausado</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <p>© 2026 Café Bruma. Hecho para una pausa que sí vale la pena.</p>
+      <p><a href="#top">Volver arriba</a></p>
+    </div>
+  </footer>
+
+  <div class="sr-only" aria-live="polite">Café Bruma, página de presentación y visita.</div>
+</body>
+</html>

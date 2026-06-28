@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cooper's Hill Cheese Rolling — The World's Most Reckless Race</title>
+<meta name="description" content="Everything you need to know about competitive cheese rolling: history, rules, injuries, and how to enter the chase down Cooper's Hill." />
+<style>
+/*
+ * WCAG AA PAIRING MANIFEST — source: #f2c300 · theme: white
+ *
+ * BODY TEXT (any font size, >=4.5:1):
+ *   shade-100 (#fff3bf) -> 900, 800, 700
+ *   shade-300 (#f2c400) -> 900, 800
+ *   shade-600 (#a58600) -> 900
+ *   shade-700 (#846b00) -> white, 100
+ *   shade-800 (#493b00) -> white, 100, 300
+ *   shade-900 (#251f00) -> white, 100, 300, 600
+ *
+ * LARGE TEXT ONLY (>=24px or >=18.67px bold, 3:1-4.5:1):
+ *   These pairings are PROHIBITED for body text at any size.
+ *   shade-100 (#fff3bf) -> 600
+ *   shade-300 (#f2c400) -> 700
+ *   shade-600 (#a58600) -> 100, 800, white
+ *   shade-700 (#846b00) -> 300, 900
+ *   shade-800 (#493b00) -> 600
+ *   shade-900 (#251f00) -> 700
+ *
+ * ACCENT COLORS (validated via check_contrast, not part of the foundation scale):
+ *   #1b6e4a (hill green) on white      -> 6.22:1 AA normal
+ *   white on #1b6e4a                   -> 6.22:1 AA normal
+ *   #1b6e4a on #fff3bf (cheese-100)     -> 5.58:1 AA normal
+ *   #c62828 (danger red) on white       -> 5.62:1 AA normal
+ *   white on #c62828                    -> 5.62:1 AA normal
+ *   #c62828 on #fff3bf (cheese-100)      -> 5.04:1 AA normal
+ */
+:root {
+  --cheese-100: #fff3bf; /* text->900·800·700  lg->600 */
+  --cheese-300: #f2c400; /* text->900·800  lg->700 */
+  --cheese-600: #a58600; /* text->900  lg->100·800·white */
+  --cheese-700: #846b00; /* text->white·100  lg->300·900 */
+  --cheese-800: #493b00; /* text->white·100·300  lg->600 */
+  --cheese-900: #251f00; /* text->white·100·300·600  lg->700 */
+
+  --hill-green: #1b6e4a;
+  --hill-green-dark: #134e34;
+  --danger-red: #c62828;
+  --danger-red-dark: #8e1f1f;
+
+  --focus-ring: #0b57d0;
+
+  --font-display: "Georgia", "Iowan Old Style", serif;
+  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  --radius: 0.75rem;
+  --max-width: 72rem;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--cheese-900);
+  background: #fffdf5;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+img { max-width: 100%; display: block; }
+
+/* ---------- Skip link ---------- */
+.skip-link {
+  position: absolute;
+  top: -3rem;
+  left: 0.5rem;
+  background: var(--cheese-900);
+  color: white;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0 0 var(--radius) var(--radius);
+  z-index: 200;
+  text-decoration: none;
+  font-weight: 600;
+}
+.skip-link:focus-visible {
+  top: 0;
+}
+
+/* ---------- Focus visibility ---------- */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+summary:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ---------- Header ---------- */
+.site-header {
+  background: var(--cheese-900);
+  color: white;
+}
+.header-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--cheese-100);
+  text-decoration: none;
+}
+.brand:hover, .brand:focus-visible { color: var(--cheese-300); }
+.brand-mark {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--cheese-100), var(--cheese-600) 75%);
+  flex-shrink: 0;
+}
+.main-nav ul {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+.main-nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.4rem 0.2rem;
+  border-bottom: 2px solid transparent;
+}
+.main-nav a:hover { border-bottom-color: var(--cheese-300); }
+.main-nav a:focus-visible { outline-offset: 4px; }
+
+/* ---------- Hero ---------- */
+.hero {
+  background: linear-gradient(180deg, var(--cheese-300) 0%, var(--cheese-100) 100%);
+  padding: 3.5rem 1.5rem;
+  border-bottom: 4px solid var(--cheese-900);
+}
+.hero-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+@media (max-width: 720px) {
+  .hero-inner { grid-template-columns: 1fr; }
+}
+.eyebrow {
+  display: inline-block;
+  background: var(--hill-green);
+  color: white;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  margin-bottom: 1rem;
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  line-height: 1.1;
+  margin: 0 0 1rem;
+  color: var(--cheese-900);
+}
+.hero p.lede {
+  font-size: 1.15rem;
+  color: var(--cheese-800);
+  max-width: 38ch;
+  margin: 0 0 1.75rem;
+}
+.cta-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 0.85rem 1.5rem;
+  border-radius: var(--radius);
+  border: 2px solid transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  min-height: 2.75rem;
+}
+.btn-primary {
+  background: var(--hill-green);
+  color: white;
+}
+.btn-primary:hover { background: var(--hill-green-dark); }
+.btn-secondary {
+  background: transparent;
+  color: var(--cheese-900);
+  border-color: var(--cheese-900);
+}
+.btn-secondary:hover { background: var(--cheese-900); color: white; }
+
+.hero-card {
+  background: white;
+  border: 3px solid var(--cheese-900);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: 8px 8px 0 var(--cheese-700);
+}
+.hero-card h2 {
+  margin-top: 0;
+  font-size: 1.1rem;
+  color: var(--cheese-900);
+}
+.fact-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.85rem;
+}
+.fact-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px dashed var(--cheese-600);
+  padding-bottom: 0.6rem;
+  font-size: 0.95rem;
+}
+.fact-list li:last-child { border-bottom: none; padding-bottom: 0; }
+.fact-list dt, .fact-list dd { margin: 0; }
+.fact-label { color: var(--cheese-700); font-weight: 600; }
+.fact-value { font-weight: 700; color: var(--cheese-900); text-align: right; }
+
+/* ---------- Sections ---------- */
+main { display: block; }
+.section {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem;
+}
+.section h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  color: var(--cheese-900);
+  margin-top: 0;
+}
+.section-intro {
+  max-width: 60ch;
+  color: var(--cheese-800);
+  font-size: 1.05rem;
+}
+
+/* Rules section */
+.rules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+.rule-card {
+  background: var(--cheese-100);
+  border: 2px solid var(--cheese-700);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+}
+.rule-card .rule-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: var(--cheese-900);
+  color: white;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+.rule-card h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+  color: var(--cheese-900);
+}
+.rule-card p { margin: 0; color: var(--cheese-800); font-size: 0.95rem; }
+
+/* Danger / injury section uses accent red with icon + text, never color alone */
+.danger-section {
+  background: var(--cheese-900);
+  color: white;
+}
+.danger-section .section-intro { color: var(--cheese-100); }
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+.stat-card {
+  background: #fff;
+  color: var(--cheese-900);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  border-left: 6px solid var(--danger-red);
+}
+.stat-card .stat-icon {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.stat-card .stat-number {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--danger-red-dark);
+  display: block;
+}
+.stat-card .stat-label {
+  font-weight: 600;
+  color: var(--cheese-800);
+}
+.stat-card .stat-note {
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+  color: var(--cheese-700);
+}
+
+/* Timeline */
+.timeline {
+  margin-top: 2rem;
+  border-left: 3px solid var(--cheese-700);
+  padding-left: 1.5rem;
+  display: grid;
+  gap: 1.75rem;
+}
+.timeline-item h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1.05rem;
+  color: var(--cheese-900);
+}
+.timeline-year {
+  display: inline-block;
+  background: var(--hill-green);
+  color: white;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  margin-bottom: 0.4rem;
+}
+.timeline-item p { margin: 0; color: var(--cheese-800); }
+
+/* Entry form */
+.entry-section {
+  background: var(--cheese-100);
+}
+.entry-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  margin-top: 2rem;
+  align-items: start;
+}
+@media (max-width: 720px) {
+  .entry-grid { grid-template-columns: 1fr; }
+}
+.checklist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.85rem;
+}
+.checklist li {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  color: var(--cheese-800);
+}
+.checklist .check-icon {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: var(--hill-green);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+form.signup {
+  background: white;
+  border: 2px solid var(--cheese-700);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+}
+form.signup h3 {
+  margin-top: 0;
+  color: var(--cheese-900);
+}
+.form-field { margin-bottom: 1.25rem; }
+.form-field label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  color: var(--cheese-900);
+}
+.form-field input {
+  width: 100%;
+  padding: 0.7rem 0.85rem;
+  border: 2px solid var(--cheese-700);
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  min-height: 2.75rem;
+}
+.form-field input:focus-visible {
+  border-color: var(--focus-ring);
+}
+.form-hint {
+  font-size: 0.85rem;
+  color: var(--cheese-700);
+  margin-top: 0.35rem;
+}
+.required-note {
+  font-size: 0.85rem;
+  color: var(--cheese-700);
+  margin: 0 0 1.25rem;
+}
+.form-error {
+  color: var(--danger-red-dark);
+  font-size: 0.9rem;
+  margin-top: 0.35rem;
+  display: none;
+  font-weight: 600;
+}
+.form-field.has-error input {
+  border-color: var(--danger-red-dark);
+}
+.form-field.has-error .form-error { display: block; }
+.form-status {
+  margin-top: 1rem;
+  font-weight: 600;
+}
+
+/* FAQ */
+details.faq-item {
+  border: 2px solid var(--cheese-700);
+  border-radius: var(--radius);
+  padding: 0.25rem 1.25rem;
+  margin-bottom: 1rem;
+  background: white;
+}
+details.faq-item summary {
+  cursor: pointer;
+  font-weight: 700;
+  padding: 1rem 0;
+  color: var(--cheese-900);
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+details.faq-item summary::-webkit-details-marker { display: none; }
+details.faq-item summary .chevron {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+  color: var(--hill-green);
+  font-size: 1.1rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  details.faq-item summary .chevron { transition: none; }
+}
+details.faq-item[open] summary .chevron { transform: rotate(180deg); }
+details.faq-item p {
+  margin: 0 0 1rem;
+  color: var(--cheese-800);
+}
+
+/* Footer */
+footer.site-footer {
+  background: var(--cheese-900);
+  color: var(--cheese-100);
+  padding: 2.5rem 1.5rem;
+}
+.footer-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+.footer-inner nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.25rem;
+  padding: 0;
+  margin: 0;
+  flex-wrap: wrap;
+}
+.footer-inner a { color: var(--cheese-100); }
+.footer-inner a:hover { color: var(--cheese-300); }
+.footer-note { font-size: 0.85rem; color: var(--cheese-600); max-width: 38ch; }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="#main-content">
+      <span class="brand-mark" aria-hidden="true"></span>
+      Cooper's Hill Cheese Rolling
+    </a>
+    <nav class="main-nav" aria-label="Main">
+      <ul>
+        <li><a href="#what-is-it">What is it</a></li>
+        <li><a href="#rules">Rules</a></li>
+        <li><a href="#injuries">Injury report</a></li>
+        <li><a href="#history">History</a></li>
+        <li><a href="#enter">Enter the race</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main-content" tabindex="-1">
+
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <span class="eyebrow">Real sport. Really exists.</span>
+        <h1>Chase a wheel of cheese down a near-vertical hill. Try not to die.</h1>
+        <p class="lede">
+          Every spring, dozens of competitors hurl themselves down Cooper's Hill in
+          Gloucestershire, England, chasing an 8-pound wheel of double Gloucester
+          cheese that can hit 70 mph. Whoever crosses the finish line first &mdash;
+          on their feet or otherwise &mdash; takes the cheese home.
+        </p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#enter">Get race alerts</a>
+          <a class="btn btn-secondary" href="#what-is-it">How does this exist?</a>
+        </div>
+      </div>
+      <div class="hero-card" aria-labelledby="quickfacts-heading">
+        <h2 id="quickfacts-heading">Quick facts</h2>
+        <dl class="fact-list">
+          <li>
+            <dt class="fact-label">Hill gradient</dt>
+            <dd class="fact-value">1-in-2 (in places, nearly vertical)</dd>
+          </li>
+          <li>
+            <dt class="fact-label">Cheese top speed</dt>
+            <dd class="fact-value">~70 mph (113 km/h)</dd>
+          </li>
+          <li>
+            <dt class="fact-label">First recorded race</dt>
+            <dd class="fact-value">Pre-1826 (origins unclear)</dd>
+          </li>
+          <li>
+            <dt class="fact-label">Entry fee</dt>
+            <dd class="fact-value">&pound;0 &mdash; just show up</dd>
+          </li>
+          <li>
+            <dt class="fact-label">Official organizer</dt>
+            <dd class="fact-value">None since 2010</dd>
+          </li>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="what-is-it">
+    <h2>So&hellip; people chase cheese down a cliff?</h2>
+    <p class="section-intro">
+      Essentially, yes. Cooper's Hill Cheese-Rolling and Wake is held annually near
+      Brockworth, Gloucestershire, on the late May bank holiday. A round of Double
+      Gloucester cheese is released from the top of the hill, competitors take off
+      a second later, and gravity does the rest. Most racers don't run so much as
+      tumble, roll, and bounce their way to the bottom &mdash; the cheese almost
+      never gets caught.
+    </p>
+    <p class="section-intro">
+      Since 2010 the event has had no official organizer due to safety and crowd
+      concerns, yet it happens every year anyway, run entirely by volunteers and
+      tradition. That informality is part of the appeal: no qualifying times, no
+      sponsorships, no velvet rope. You queue up, you go.
+    </p>
+  </section>
+
+  <section class="section" id="rules" style="background: var(--cheese-100); border-radius: var(--radius);">
+    <h2>The (very few) rules</h2>
+    <p class="section-intro">
+      Cheese rolling has survived for two centuries with almost no formal
+      rulebook. Here's the entirety of it.
+    </p>
+    <div class="rules-grid">
+      <div class="rule-card">
+        <span class="rule-number">1</span>
+        <h3>First past the post wins</h3>
+        <p>Cross the bottom of the hill before anyone else, on two feet or several
+        more uncontrolled tumbles &mdash; it still counts.</p>
+      </div>
+      <div class="rule-card">
+        <span class="rule-number">2</span>
+        <h3>You don't have to catch the cheese</h3>
+        <p>Nobody catches a 70 mph cheese wheel. Winning the race wins you the
+        cheese regardless.</p>
+      </div>
+      <div class="rule-card">
+        <span class="rule-number">3</span>
+        <h3>Catchers break your fall, not your race</h3>
+        <p>A line of rugby-player volunteers waits at the bottom to physically stop
+        runners from careening into the crowd.</p>
+      </div>
+      <div class="rule-card">
+        <span class="rule-number">4</span>
+        <h3>No age minimum, no real entry process</h3>
+        <p>Anyone willing to take the risk can take their place at the top of the
+        hill. Helmets and pads are optional, not required.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section danger-section" id="injuries">
+    <h2>The injury report (this is the dangerous part)</h2>
+    <p class="section-intro">
+      This isn't a novelty 5K. People genuinely get hurt, which is exactly why no
+      official body wants to insure the event anymore.
+    </p>
+    <div class="stat-grid">
+      <div class="stat-card">
+        <span class="stat-icon" aria-hidden="true">&#129002;</span>
+        <span class="stat-number">20+</span>
+        <span class="stat-label">Injuries in a single year (2013)</span>
+        <p class="stat-note">Sprains, fractures, and concussions from one race
+        alone, per St John Ambulance volunteers on site.</p>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon" aria-hidden="true">&#127183;</span>
+        <span class="stat-number">1-in-2</span>
+        <span class="stat-label">Hill gradient at its steepest</span>
+        <p class="stat-note">Roughly twice as steep as a standard wheelchair
+        access ramp limit &mdash; in the opposite direction, at speed.</p>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon" aria-hidden="true">&#128683;</span>
+        <span class="stat-number">2010</span>
+        <span class="stat-label">Year official organizing stopped</span>
+        <p class="stat-note">Liability and crowd-safety concerns ended formal
+        sponsorship; the race continues unofficially regardless.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="history">
+    <h2>A very short, very weird history</h2>
+    <p class="section-intro">
+      Nobody agrees on how this started. Theories range from a pagan fertility
+      rite to a way of asserting grazing rights on the hill. What we do know comes
+      from these milestones.
+    </p>
+    <div class="timeline">
+      <div class="timeline-item">
+        <span class="timeline-year">Pre-1826</span>
+        <h3>Earliest known mention</h3>
+        <p>Local records reference the custom without explaining its origin,
+        suggesting it was already an established tradition by then.</p>
+      </div>
+      <div class="timeline-item">
+        <span class="timeline-year">1941</span>
+        <h3>Wartime pause</h3>
+        <p>The race was suspended during the Second World War, one of the few
+        interruptions in its long, informal history.</p>
+      </div>
+      <div class="timeline-item">
+        <span class="timeline-year">1998-2003</span>
+        <h3>International attention</h3>
+        <p>Television coverage turns a local custom into a global curiosity,
+        drawing competitors from outside the UK for the first time.</p>
+      </div>
+      <div class="timeline-item">
+        <span class="timeline-year">2010</span>
+        <h3>Official races end</h3>
+        <p>Crowd numbers reaching an estimated 15,000 make insurance and safety
+        management untenable for organizers, who step back entirely.</p>
+      </div>
+      <div class="timeline-item">
+        <span class="timeline-year">Today</span>
+        <h3>The unofficial races continue</h3>
+        <p>Locals and volunteers keep the tradition alive every late May, cheese
+        wheel and all, with no governing body required.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section entry-section" id="enter">
+    <h2>Thinking about racing next year?</h2>
+    <p class="section-intro">
+      We can't talk you out of it, but we can make sure you show up prepared.
+      Here's what regulars actually bring, and a way to get notified before the
+      next race date is announced.
+    </p>
+    <div class="entry-grid">
+      <div>
+        <h3 style="color: var(--cheese-900); margin-top: 0;">What veteran racers pack</h3>
+        <ul class="checklist">
+          <li><span class="check-icon" aria-hidden="true">&#10003;</span> Clothes you don't mind shredding &mdash; the hill is rough pasture, not a track</li>
+          <li><span class="check-icon" aria-hidden="true">&#10003;</span> Trainers with real grip, never smooth-soled shoes</li>
+          <li><span class="check-icon" aria-hidden="true">&#10003;</span> A friend at the bottom of the hill to find you afterward</li>
+          <li><span class="check-icon" aria-hidden="true">&#10003;</span> Realistic expectations &mdash; most racers finish the descent rolling, not running</li>
+          <li><span class="check-icon" aria-hidden="true">&#10003;</span> Travel insurance that doesn't exclude "voluntary hazardous activity"</li>
+        </ul>
+      </div>
+      <form class="signup" novalidate>
+        <h3>Get next year's race date</h3>
+        <p class="required-note">Fields marked <span aria-hidden="true">*</span> are required.</p>
+        <div class="form-field">
+          <label for="signup-email">Email address <span aria-hidden="true">*</span></label>
+          <input
+            type="email"
+            id="signup-email"
+            name="email"
+            required
+            autocomplete="email"
+            aria-describedby="email-hint email-error"
+            aria-invalid="false"
+          />
+          <p id="email-hint" class="form-hint">We'll only email you about race dates. No spam, no cheese puns&mdash;okay, maybe some.</p>
+          <p id="email-error" class="form-error" role="alert">Please enter a valid email address.</p>
+        </div>
+        <div class="form-field">
+          <label for="signup-name">Name (optional)</label>
+          <input type="text" id="signup-name" name="name" autocomplete="name" />
+        </div>
+        <button type="submit" class="btn btn-primary">Notify me</button>
+        <p class="form-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <h2>Frequently asked, rarely believed</h2>
+    <details class="faq-item">
+      <summary>Wait, is this actually a real, sanctioned sport?
+        <span class="chevron" aria-hidden="true">&#9662;</span>
+      </summary>
+      <p>It's real and it happens every year, but there's been no official
+      organizing committee since 2010. It runs entirely on local tradition and
+      volunteer goodwill &mdash; which is also why there's no global governing
+      body, ranking system, or prize money.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Has anyone ever actually caught the cheese?
+        <span class="chevron" aria-hidden="true">&#9662;</span>
+      </summary>
+      <p>Extremely rarely, and usually only because the cheese hit an obstacle and
+      slowed down first. At full speed it's simply too fast to grab safely, which
+      is exactly why catching it was never a requirement to win.</p>
+    </details>
+    <details class="faq-item">
+      <summary>What happens to the cheese if nobody catches it?
+        <span class="chevron" aria-hidden="true">&#9662;</span>
+      </summary>
+      <p>Volunteers (or the crowd's safety nets) eventually stop it, and it's
+      handed to whoever crossed the finish line first &mdash; cheese condition
+      notwithstanding.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Are there other cheese-rolling events besides Cooper's Hill?
+        <span class="chevron" aria-hidden="true">&#9662;</span>
+      </summary>
+      <p>Yes &mdash; smaller, tamer cheese-rolling customs exist elsewhere in the
+      UK and have even been adapted abroad as charity fun runs, usually on far
+      less terrifying slopes.</p>
+    </details>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <nav aria-label="Footer">
+      <ul>
+        <li><a href="#what-is-it">What is it</a></li>
+        <li><a href="#rules">Rules</a></li>
+        <li><a href="#injuries">Injury report</a></li>
+        <li><a href="#enter">Enter the race</a></li>
+      </ul>
+    </nav>
+    <p class="footer-note">
+      This page is an independent fan tribute and is not affiliated with any
+      official Cooper's Hill organizing body &mdash; mostly because one no
+      longer exists.
+    </p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var form = document.querySelector("form.signup");
+  if (!form) return;
+  var emailField = document.getElementById("signup-email");
+  var emailGroup = emailField.closest(".form-field");
+  var status = form.querySelector(".form-status");
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    var isValid = emailField.checkValidity();
+
+    emailGroup.classList.toggle("has-error", !isValid);
+    emailField.setAttribute("aria-invalid", String(!isValid));
+
+    if (!isValid) {
+      status.textContent = "";
+      emailField.focus();
+      return;
+    }
+
+    status.textContent = "Thanks! We'll email you the moment next year's date is confirmed.";
+    form.reset();
+    emailGroup.classList.remove("has-error");
+    emailField.setAttribute("aria-invalid", "false");
+  });
+})();
+</script>
+
+</body>
+</html>

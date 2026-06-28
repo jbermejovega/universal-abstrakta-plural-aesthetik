@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glow of the Deep — Bioluminescent Sea Creatures</title>
+<style>
+  /*
+   * WCAG AA PAIRING MANIFEST — source: #0d2b3e · theme: black
+   *
+   * BODY TEXT (any font size, ≥4.5:1):
+   *   shade-100 (#06121b) → 900, 800, 700
+   *   shade-300 (#10354d) → 900, 800
+   *   shade-600 (#22679a) → 900
+   *   shade-700 (#2884bf) → black, 100
+   *   shade-800 (#8ec0e6) → black, 100, 300
+   *   shade-900 (#cee5f4) → black, 100, 300, 600
+   *
+   * LARGE TEXT ONLY (≥24px or ≥18.67px bold, 3:1–4.5:1):
+   *   shade-100 (#06121b) → 600
+   *   shade-300 (#10354d) → 700
+   *   shade-600 (#22679a) → 100, 800, black
+   *   shade-700 (#2884bf) → 300, 900
+   *   shade-800 (#8ec0e6) → 600
+   *   shade-900 (#cee5f4) → 700
+   *
+   * ACCENTS (checked individually via check_contrast, not part of the foundation matrix):
+   *   #2de8c8 (cyan glow)    on #06121b → 12.15:1 AA-normal
+   *   #2de8c8 (cyan glow)    on #10354d → 8.23:1  AA-normal
+   *   #ff5fa8 (magenta glow) on #06121b → 6.72:1  AA-normal
+   */
+  :root {
+    --color-100: #06121b;
+    --color-300: #10354d;
+    --color-600: #22679a;
+    --color-700: #2884bf;
+    --color-800: #8ec0e6;
+    --color-900: #cee5f4;
+    --accent-cyan: #2de8c8;
+    --accent-magenta: #ff5fa8;
+    --focus-ring: #ffe066;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-100);
+    color: var(--color-900);
+    font-family: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+    line-height: 1.6;
+  }
+
+  a { color: var(--accent-cyan); }
+  a:hover, a:focus-visible { color: var(--color-900); }
+
+  :focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 3px;
+  }
+
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    background: var(--accent-cyan);
+    color: var(--color-100);
+    padding: 0.75rem 1.25rem;
+    font-weight: 700;
+    z-index: 100;
+    border-radius: 0 0 8px 0;
+  }
+  .skip-link:focus {
+    left: 0;
+  }
+
+  header {
+    background: linear-gradient(180deg, var(--color-100) 0%, var(--color-300) 100%);
+    border-bottom: 1px solid var(--color-300);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .nav-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: var(--color-900);
+    text-decoration: none;
+  }
+  .brand:hover, .brand:focus-visible { color: var(--accent-cyan); }
+
+  .brand-glow {
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, var(--accent-cyan), var(--color-600) 70%);
+    box-shadow: 0 0 12px var(--accent-cyan);
+    flex-shrink: 0;
+  }
+
+  nav ul {
+    display: flex;
+    list-style: none;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
+  }
+
+  nav a {
+    text-decoration: none;
+    color: var(--color-800);
+    font-weight: 600;
+    padding: 0.4rem 0.2rem;
+    border-bottom: 2px solid transparent;
+  }
+  nav a:hover, nav a:focus-visible {
+    color: var(--accent-cyan);
+    border-bottom-color: var(--accent-cyan);
+  }
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 5rem 1.5rem 6rem;
+    text-align: center;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(45,232,200,0.18), transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(255,95,168,0.16), transparent 45%),
+      var(--color-100);
+  }
+
+  .hero h1 {
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    margin: 0 0 1rem;
+    color: var(--color-900);
+  }
+
+  .hero h1 .glow-word {
+    color: var(--accent-cyan);
+    text-shadow: 0 0 18px rgba(45,232,200,0.6);
+  }
+
+  .hero p {
+    max-width: 640px;
+    margin: 0 auto 2rem;
+    font-size: 1.15rem;
+    color: var(--color-800);
+  }
+
+  .cta-row {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.85rem 1.7rem;
+    border-radius: 999px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn:hover, .btn:focus-visible { transform: translateY(-2px); }
+
+  .btn-primary {
+    background: var(--accent-cyan);
+    color: var(--color-100);
+    box-shadow: 0 0 20px rgba(45,232,200,0.4);
+  }
+  .btn-primary:hover, .btn-primary:focus-visible {
+    box-shadow: 0 0 28px rgba(45,232,200,0.65);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--accent-magenta);
+    border: 2px solid var(--accent-magenta);
+  }
+  .btn-secondary:hover, .btn-secondary:focus-visible {
+    background: rgba(255,95,168,0.12);
+  }
+
+  main { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+
+  section { padding: 4.5rem 0; border-top: 1px solid var(--color-300); }
+  section:first-of-type { border-top: none; }
+
+  h2 {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    color: var(--color-900);
+    margin-bottom: 0.5rem;
+  }
+
+  .section-kicker {
+    color: var(--accent-magenta);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    margin-bottom: 0.6rem;
+    display: block;
+  }
+
+  .section-intro {
+    color: var(--color-800);
+    max-width: 700px;
+    margin-bottom: 2.5rem;
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.75rem;
+  }
+
+  .card {
+    background: var(--color-300);
+    border: 1px solid var(--color-600);
+    border-radius: 14px;
+    padding: 1.75rem;
+  }
+
+  .card .icon {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-100);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+  }
+
+  .card.cyan .icon { box-shadow: inset 0 0 0 2px var(--accent-cyan); }
+  .card.magenta .icon { box-shadow: inset 0 0 0 2px var(--accent-magenta); }
+
+  .card h3 { margin: 0 0 0.6rem; color: var(--color-900); font-size: 1.15rem; }
+  .card p { margin: 0; color: var(--color-800); font-size: 0.97rem; }
+
+  .creature-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .creature {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 1.25rem;
+    align-items: start;
+    background: var(--color-100);
+    border: 1px solid var(--color-300);
+    border-radius: 12px;
+    padding: 1.25rem;
+  }
+
+  .creature-glow {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    align-self: center;
+    flex-shrink: 0;
+  }
+  .creature-glow.jelly { background: radial-gradient(circle at 35% 30%, var(--accent-cyan), transparent 70%), var(--color-300); box-shadow: 0 0 22px rgba(45,232,200,0.5); }
+  .creature-glow.anglerfish { background: radial-gradient(circle at 65% 35%, var(--accent-magenta), transparent 70%), var(--color-300); box-shadow: 0 0 22px rgba(255,95,168,0.5); }
+  .creature-glow.comb { background: radial-gradient(circle at 50% 50%, var(--color-800), transparent 70%), var(--color-300); box-shadow: 0 0 22px rgba(142,192,230,0.5); }
+  .creature-glow.firefly-squid { background: radial-gradient(circle at 40% 60%, var(--accent-cyan), var(--accent-magenta) 80%, transparent 95%), var(--color-300); box-shadow: 0 0 22px rgba(45,232,200,0.4); }
+
+  .creature h3 { margin: 0 0 0.4rem; color: var(--color-900); }
+  .creature p { margin: 0; color: var(--color-800); }
+  .creature .tag {
+    display: inline-block;
+    margin-top: 0.6rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    background: var(--color-300);
+    color: var(--accent-cyan);
+  }
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.5rem;
+    text-align: center;
+  }
+  .stat {
+    background: var(--color-300);
+    border-radius: 14px;
+    padding: 2rem 1rem;
+  }
+  .stat .num {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--accent-cyan);
+    display: block;
+  }
+  .stat .label {
+    color: var(--color-900);
+    font-size: 0.95rem;
+  }
+
+  .faq details {
+    background: var(--color-100);
+    border: 1px solid var(--color-300);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 0.9rem;
+  }
+  .faq summary {
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--color-900);
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .faq summary::before {
+    content: "+";
+    color: var(--accent-magenta);
+    font-size: 1.2rem;
+    font-weight: 800;
+    flex-shrink: 0;
+    width: 1.2rem;
+    text-align: center;
+  }
+  .faq details[open] summary::before { content: "−"; }
+  .faq p { color: var(--color-800); margin: 0.75rem 0 0.2rem 1.8rem; }
+
+  .newsletter {
+    background: linear-gradient(135deg, var(--color-300), var(--color-100));
+    border-radius: 18px;
+    padding: 3rem 2rem;
+    text-align: center;
+    border: 1px solid var(--color-600);
+  }
+  .newsletter h2 { margin-bottom: 0.6rem; }
+  .newsletter p { color: var(--color-800); margin-bottom: 1.75rem; }
+
+  form.subscribe {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .field-group { flex: 1; min-width: 220px; text-align: left; }
+
+  label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    color: var(--color-900);
+  }
+
+  input[type="email"] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    border: 2px solid var(--color-600);
+    background: var(--color-100);
+    color: var(--color-900);
+    font-size: 1rem;
+  }
+  input[type="email"]::placeholder { color: var(--color-800); opacity: 0.8; }
+  input[type="email"]:focus-visible {
+    border-color: var(--accent-cyan);
+  }
+
+  .hint { color: var(--color-800); font-size: 0.85rem; margin-top: 1rem; }
+
+  footer {
+    border-top: 1px solid var(--color-300);
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    color: var(--color-800);
+    font-size: 0.9rem;
+  }
+  footer a { color: var(--accent-cyan); }
+
+  @media (max-width: 600px) {
+    .creature { grid-template-columns: 1fr; text-align: left; }
+    .creature-glow { margin: 0 auto; }
+  }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<header>
+  <div class="nav-wrap">
+    <a href="#main-content" class="brand">
+      <span class="brand-glow" aria-hidden="true"></span>
+      Glow of the Deep
+    </a>
+    <nav aria-label="Primary">
+      <ul>
+        <li><a href="#creatures">Creatures</a></li>
+        <li><a href="#science">The Science</a></li>
+        <li><a href="#stats">Numbers</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#subscribe">Subscribe</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main-content">
+
+  <section class="hero" aria-labelledby="hero-heading">
+    <h1 id="hero-heading">Light born in the <span class="glow-word">deepest dark</span></h1>
+    <p>Below 1,000 meters, sunlight never arrives — yet the ocean is far from black. Over 75% of deep-sea animals make their own light. Welcome to the strange, glowing world of bioluminescence.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#creatures">Meet the creatures</a>
+      <a class="btn btn-secondary" href="#science">How the glow works</a>
+    </div>
+  </section>
+
+  <section id="science" aria-labelledby="science-heading">
+    <span class="section-kicker">The Chemistry</span>
+    <h2 id="science-heading">How animals make their own light</h2>
+    <p class="section-intro">Bioluminescence isn't magic — it's a chemical reaction. Most deep-sea organisms rely on a molecule called luciferin, an enzyme called luciferase, and oxygen. When they react, energy is released as light instead of heat.</p>
+    <div class="card-grid">
+      <div class="card cyan">
+        <div class="icon" aria-hidden="true">⚗️</div>
+        <h3>The reaction</h3>
+        <p>Luciferin reacts with oxygen, catalyzed by luciferase, releasing photons rather than heat — making it the most energy-efficient light on Earth.</p>
+      </div>
+      <div class="card magenta">
+        <div class="icon" aria-hidden="true">🎯</div>
+        <h3>Why glow at all</h3>
+        <p>Light is used to hunt, hide, confuse predators, and find mates in a world with no other visibility whatsoever.</p>
+      </div>
+      <div class="card cyan">
+        <div class="icon" aria-hidden="true">🧬</div>
+        <h3>Independent evolution</h3>
+        <p>Bioluminescence evolved separately at least 40 times across unrelated species — a striking case of convergent evolution.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="creatures" aria-labelledby="creatures-heading">
+    <span class="section-kicker">Field Guide</span>
+    <h2 id="creatures-heading">Four glowing legends of the deep</h2>
+    <p class="section-intro">From dangling lures to flashing decoys, every species has its own way of using light to survive.</p>
+    <ul class="creature-list">
+      <li class="creature">
+        <div class="creature-glow jelly" aria-hidden="true"></div>
+        <div>
+          <h3>Crystal Jellyfish</h3>
+          <p>Its glowing protein, GFP, became one of the most important tools in modern biology — used to light up cells under a microscope.</p>
+          <span class="tag">Defense &amp; Research</span>
+        </div>
+      </li>
+      <li class="creature">
+        <div class="creature-glow anglerfish" aria-hidden="true"></div>
+        <div>
+          <h3>Anglerfish</h3>
+          <p>Dangles a glowing lure powered by bioluminescent bacteria to draw curious prey straight into its jaws.</p>
+          <span class="tag">Predation</span>
+        </div>
+      </li>
+      <li class="creature">
+        <div class="creature-glow comb" aria-hidden="true"></div>
+        <div>
+          <h3>Comb Jelly</h3>
+          <p>Rows of cilia ripple with rainbow light as they swim — technically not bioluminescence, but a dazzling optical trick called iridescence paired with a true inner glow.</p>
+          <span class="tag">Display</span>
+        </div>
+      </li>
+      <li class="creature">
+        <div class="creature-glow firefly-squid" aria-hidden="true"></div>
+        <div>
+          <h3>Firefly Squid</h3>
+          <p>Covered in thousands of light organs, it produces a dazzling blue glow used for courtship — and turns entire bays electric blue during spawning season.</p>
+          <span class="tag">Courtship</span>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <section id="stats" aria-labelledby="stats-heading">
+    <span class="section-kicker">By The Numbers</span>
+    <h2 id="stats-heading">The deep ocean in glowing figures</h2>
+    <div class="stats-row">
+      <div class="stat">
+        <span class="num">75%+</span>
+        <span class="label">of deep-sea animals are bioluminescent</span>
+      </div>
+      <div class="stat">
+        <span class="num">40+</span>
+        <span class="label">separate evolutionary origins of glow</span>
+      </div>
+      <div class="stat">
+        <span class="num">1,000m</span>
+        <span class="label">depth where sunlight disappears entirely</span>
+      </div>
+      <div class="stat">
+        <span class="num">90%</span>
+        <span class="label">of the ocean's volume lives in permanent dark</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="faq" aria-labelledby="faq-heading">
+    <span class="section-kicker">Curious Minds Ask</span>
+    <h2 id="faq-heading">Frequently asked questions</h2>
+    <details>
+      <summary>Is bioluminescence the same as fluorescence?</summary>
+      <p>No. Bioluminescence is light generated internally through a chemical reaction. Fluorescence is light absorbed from an external source (like sunlight or a blacklight) and re-emitted at a different wavelength.</p>
+    </details>
+    <details>
+      <summary>Can humans see deep-sea bioluminescence in person?</summary>
+      <p>Rarely with the naked eye at extreme depths, but surface phenomena like glowing plankton in shallow bays are visible to swimmers and kayakers at night in select locations worldwide.</p>
+    </details>
+    <details>
+      <summary>Why is most deep-sea bioluminescence blue or green?</summary>
+      <p>Blue and green wavelengths travel furthest through seawater, so most species evolved to produce and detect light in that range for maximum visibility.</p>
+    </details>
+    <details>
+      <summary>Has bioluminescence helped scientific research?</summary>
+      <p>Enormously. The green fluorescent protein from crystal jellyfish enabled scientists to visualize gene expression and cell processes, work that won a Nobel Prize in Chemistry in 2008.</p>
+    </details>
+  </section>
+
+  <section id="subscribe">
+    <div class="newsletter">
+      <h2>Get a glowing creature in your inbox</h2>
+      <p>One short dispatch a month — a single deep-sea species, illustrated and explained. No spam, ever.</p>
+      <form class="subscribe">
+        <div class="field-group">
+          <label for="email">Email address</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Subscribe</button>
+      </form>
+      <p class="hint">By subscribing you agree to receive one monthly email. Unsubscribe anytime.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>Glow of the Deep — an independent field guide to bioluminescent life. Built for curiosity, not profit.</p>
+  <p><a href="#main-content">Back to top</a></p>
+</footer>
+
+</body>
+</html>

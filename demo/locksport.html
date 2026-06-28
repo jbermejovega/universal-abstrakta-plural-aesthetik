@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Locksport: The Sport of Picking Locks for Fun | A Beginner's Guide</title>
+<meta name="description" content="An introduction to locksport, the hobby and competitive sport of picking locks ethically — history, gear, competitions, and how to get started." />
+<style>
+/*
+ * WCAG AA PAIRING MANIFEST — source: #5b4636 · theme: white
+ *
+ * BODY TEXT (any font size, ≥4.5:1):
+ *   shade-100 (#f5f2ef) → 900, 800, 700
+ *   shade-300 (#d6c6ba) → 900, 800
+ *   shade-600 (#a18468) → 900
+ *   shade-700 (#866750) → white, 100
+ *   shade-800 (#483a2d) → white, 100, 300
+ *   shade-900 (#281f18) → white, 100, 300, 600
+ *
+ * LARGE TEXT ONLY (≥24px or ≥18.67px bold, 3:1–4.5:1):
+ *   These pairings are PROHIBITED for body text at any size.
+ *   No exception exists for "decorative", "secondary", or "non-critical" text —
+ *   WCAG 1.4.3 applies to all visible text regardless of its semantic importance.
+ *   shade-100 (#f5f2ef) → 600
+ *   shade-300 (#d6c6ba) → 700
+ *   shade-600 (#a18468) → 100, 800, white
+ *   shade-700 (#866750) → 300, 900
+ *   shade-800 (#483a2d) → 600
+ *   shade-900 (#281f18) → 700
+ *
+ * ACCENT (verified independently via check_contrast, not part of foundation scale):
+ *   #1f6f78 (teal-accent)       → white: 5.83:1 · #f5f2ef (100): 5.23:1   (body text safe)
+ *   #3fb5c2 (teal-accent-light) → #281f18 (900): 6.62:1                  (body text safe on dark)
+ */
+:root {
+  --brass-100: #f5f2ef; /* ✅ text→900·800·700  ⚠️ lg→600 */
+  --brass-300: #d6c6ba; /* ✅ text→900·800  ⚠️ lg→700 */
+  --brass-600: #a18468; /* ✅ text→900  ⚠️ lg→100·800·white */
+  --brass-700: #866750; /* ✅ text→white·100  ⚠️ lg→300·900 */
+  --brass-800: #483a2d; /* ✅ text→white·100·300  ⚠️ lg→600 */
+  --brass-900: #281f18; /* ✅ text→white·100·300·600  ⚠️ lg→700 */
+  --teal-accent: #1f6f78;
+  --teal-accent-light: #3fb5c2;
+
+  --font-sans: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-serif: Georgia, "Times New Roman", serif;
+  --max-width: 72rem;
+  --radius: 0.5rem;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: auto; }
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--brass-900);
+  background: #ffffff;
+  line-height: 1.6;
+  font-size: 1.0625rem;
+}
+
+img { max-width: 100%; display: block; }
+
+/* ---------- Skip link ---------- */
+.skip-link {
+  position: absolute;
+  top: -3rem;
+  left: 0;
+  padding: 0.75rem 1.25rem;
+  background: var(--brass-900);
+  color: #ffffff;
+  z-index: 1000;
+  border-radius: 0 0 var(--radius) 0;
+  text-decoration: none;
+  font-weight: 600;
+}
+.skip-link:focus {
+  top: 0;
+}
+
+/* ---------- Focus visibility ---------- */
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--teal-accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ---------- Layout helpers ---------- */
+.wrap {
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Header / nav ---------- */
+header.site-header {
+  background: var(--brass-900);
+  color: var(--brass-100);
+  border-bottom: 4px solid var(--teal-accent);
+}
+.site-header .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-block: 1.25rem;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--brass-100);
+  text-decoration: none;
+}
+.brand svg { flex-shrink: 0; }
+.brand:hover,
+.brand:focus-visible { color: var(--teal-accent-light); }
+
+nav.main-nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.75rem;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+nav.main-nav a {
+  color: var(--brass-100);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.4rem 0.2rem;
+  border-bottom: 2px solid transparent;
+}
+nav.main-nav a:hover {
+  border-bottom-color: var(--teal-accent-light);
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  background: linear-gradient(135deg, var(--brass-800), var(--brass-900));
+  color: var(--brass-100);
+  padding-block: 4.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero .wrap {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 3rem;
+  align-items: center;
+}
+.hero h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  line-height: 1.15;
+  margin: 0 0 1.1rem;
+}
+.hero .lede {
+  font-size: 1.2rem;
+  color: var(--brass-300);
+  max-width: 38ch;
+  margin: 0 0 1.75rem;
+}
+.eyebrow {
+  display: inline-block;
+  color: var(--teal-accent-light);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  margin-bottom: 0.85rem;
+}
+.cta-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+.btn {
+  display: inline-block;
+  padding: 0.85rem 1.6rem;
+  border-radius: var(--radius);
+  font-weight: 700;
+  text-decoration: none;
+  min-height: 24px;
+  border: 2px solid transparent;
+}
+.btn-primary {
+  background: var(--teal-accent-light);
+  color: var(--brass-900);
+}
+.btn-primary:hover { background: #5fc6d1; }
+.btn-secondary {
+  background: transparent;
+  color: var(--brass-100);
+  border-color: var(--brass-100);
+}
+.btn-secondary:hover { border-color: var(--teal-accent-light); color: var(--teal-accent-light); }
+
+.hero-art {
+  background: var(--brass-100);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  color: var(--brass-900);
+}
+.hero-art figcaption {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  color: var(--brass-800);
+}
+
+/* ---------- Sections ---------- */
+main section {
+  padding-block: 4rem;
+}
+main section.alt {
+  background: var(--brass-100);
+}
+h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  color: var(--brass-900);
+  margin-top: 0;
+}
+.section-intro {
+  max-width: 60ch;
+  color: var(--brass-800);
+  font-size: 1.1rem;
+}
+
+/* ---------- Cards grid ---------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+.card {
+  background: #ffffff;
+  border: 1px solid var(--brass-300);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+main section.alt .card { background: #ffffff; }
+.card h3 {
+  font-size: 1.15rem;
+  margin-top: 0;
+  color: var(--brass-900);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.card p { color: var(--brass-800); margin-bottom: 0; }
+.card .tag {
+  display: inline-block;
+  margin-top: 0.9rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--teal-accent);
+  background: var(--brass-100);
+  border: 1px solid var(--teal-accent);
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+}
+
+/* ---------- Timeline ---------- */
+.timeline {
+  list-style: none;
+  margin: 2.5rem 0 0;
+  padding: 0;
+  border-left: 3px solid var(--teal-accent);
+}
+.timeline li {
+  position: relative;
+  padding: 0 0 2rem 1.75rem;
+}
+.timeline li::before {
+  content: "";
+  position: absolute;
+  left: -0.5rem;
+  top: 0.3rem;
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 50%;
+  background: var(--teal-accent);
+  border: 2px solid #ffffff;
+}
+.timeline time {
+  display: block;
+  font-weight: 700;
+  color: var(--teal-accent);
+  margin-bottom: 0.25rem;
+}
+.timeline p { margin: 0; color: var(--brass-800); }
+
+/* ---------- Gear table ---------- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 2.5rem;
+}
+caption {
+  text-align: left;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--brass-900);
+}
+th, td {
+  text-align: left;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--brass-300);
+}
+th {
+  background: var(--brass-800);
+  color: #ffffff;
+}
+tbody tr:nth-child(odd) { background: var(--brass-100); }
+
+/* ---------- FAQ ---------- */
+.faq-list { margin-top: 2.5rem; }
+details {
+  border: 1px solid var(--brass-300);
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+  padding: 0;
+  overflow: hidden;
+}
+summary {
+  cursor: pointer;
+  padding: 1.1rem 1.5rem;
+  font-weight: 700;
+  color: var(--brass-900);
+  background: var(--brass-100);
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+summary::-webkit-details-marker { display: none; }
+summary .chevron {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  summary .chevron { transition: none; }
+}
+details[open] summary .chevron { transform: rotate(180deg); }
+details p {
+  padding: 1.1rem 1.5rem;
+  margin: 0;
+  color: var(--brass-800);
+}
+
+/* ---------- Code / etiquette block ---------- */
+.code-block {
+  background: var(--brass-900);
+  color: var(--brass-100);
+  border-radius: var(--radius);
+  padding: 1.75rem 2rem;
+  margin-top: 2.5rem;
+}
+.code-block h3 { color: var(--teal-accent-light); margin-top: 0; }
+.code-block ul { margin: 0; padding-left: 1.25rem; }
+.code-block li { margin-bottom: 0.6rem; color: var(--brass-300); }
+.code-block strong { color: #ffffff; }
+
+/* ---------- Newsletter / CTA ---------- */
+.cta-band {
+  background: var(--teal-accent);
+  color: #ffffff;
+  padding-block: 3.5rem;
+}
+.cta-band .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+.cta-band h2 { color: #ffffff; }
+.cta-band p { color: #ffffff; max-width: 40ch; }
+.cta-form {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.cta-form label { display: block; }
+.cta-form input[type="email"] {
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  border: 2px solid #ffffff;
+  min-width: 16rem;
+  font-size: 1rem;
+}
+.cta-form .btn-primary {
+  background: var(--brass-900);
+  color: #ffffff;
+}
+.cta-form .btn-primary:hover { background: var(--brass-800); }
+
+/* ---------- Footer ---------- */
+footer.site-footer {
+  background: var(--brass-900);
+  color: var(--brass-300);
+  padding-block: 3rem;
+}
+footer.site-footer a { color: var(--teal-accent-light); }
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: 2rem;
+}
+.footer-grid h2 {
+  font-size: 1rem;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.footer-grid ul { list-style: none; padding: 0; margin: 0; }
+.footer-grid li { margin-bottom: 0.6rem; }
+.footer-bottom {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--brass-800);
+  font-size: 0.9rem;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 880px) {
+  .hero .wrap { grid-template-columns: 1fr; }
+  nav.main-nav ul { gap: 1rem; }
+  .site-header .wrap { flex-direction: column; align-items: flex-start; }
+}
+
+@media (max-width: 480px) {
+  .cta-form { flex-direction: column; align-items: stretch; }
+  .cta-form input[type="email"] { min-width: 0; }
+}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="#main-content">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+        <rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" stroke-width="2"/>
+        <path d="M8 11V7a4 4 0 1 1 8 0v4" stroke="currentColor" stroke-width="2"/>
+        <circle cx="12" cy="16" r="1.5" fill="currentColor"/>
+      </svg>
+      <span>Locksport Weekly</span>
+    </a>
+    <nav class="main-nav" aria-label="Main">
+      <ul>
+        <li><a href="#what-is-locksport">What It Is</a></li>
+        <li><a href="#history">History</a></li>
+        <li><a href="#gear">Gear</a></li>
+        <li><a href="#etiquette">Ethics</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main-content" tabindex="-1">
+
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <span class="eyebrow">A hobby hiding in plain sight</span>
+        <h1>The quiet, click-by-click sport of picking locks you already own</h1>
+        <p class="lede">Locksport is the hobby and competitive sport of defeating locks non-destructively — for the puzzle, the craft, and the surprisingly social community behind it. No crime involved. Just tension wrenches, picks, and patience.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#what-is-locksport">Start learning</a>
+          <a class="btn btn-secondary" href="#gear">See starter gear</a>
+        </div>
+      </div>
+      <figure class="hero-art">
+        <svg viewBox="0 0 320 220" role="img" aria-labelledby="hero-svg-title" width="100%">
+          <title id="hero-svg-title">Illustration of a padlock with a tension wrench and hook pick inserted in the keyway, alongside a practice lock cut in cross-section showing five pin stacks at varying heights</title>
+          <rect x="40" y="40" width="120" height="140" rx="14" fill="#866750"/>
+          <path d="M55 40 V0 a45 45 0 0 1 90 0 V40" stroke="#483a2d" stroke-width="14" fill="none"/>
+          <rect x="85" y="95" width="50" height="60" rx="6" fill="#281f18"/>
+          <circle cx="110" cy="125" r="6" fill="#f5f2ef"/>
+          <rect x="180" y="60" width="120" height="110" rx="10" fill="#f5f2ef" stroke="#866750" stroke-width="2"/>
+          <g stroke="#1f6f78" stroke-width="4" stroke-linecap="round">
+            <line x1="200" y1="150" x2="200" y2="90"/>
+            <line x1="215" y1="150" x2="215" y2="100"/>
+            <line x1="230" y1="150" x2="230" y2="80"/>
+            <line x1="245" y1="150" x2="245" y2="105"/>
+            <line x1="260" y1="150" x2="260" y2="95"/>
+          </g>
+          <line x1="190" y1="150" x2="280" y2="150" stroke="#483a2d" stroke-width="3"/>
+        </svg>
+        <figcaption>A standard pin-tumbler padlock next to a cross-section practice lock showing five pin stacks — the kind of cutaway trainers most locksport newcomers start with.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="what-is-locksport" aria-labelledby="what-is-heading">
+    <div class="wrap">
+      <h2 id="what-is-heading">What is locksport, exactly?</h2>
+      <p class="section-intro">Locksport is the practice of picking, decoding, or otherwise bypassing locks as a recreational and competitive skill — distinct from lockpicking used in crime or even from a locksmith's trade. Practitioners only work on locks they own or have explicit permission to manipulate, and most never touch a lock that's actually securing something.</p>
+
+      <div class="grid">
+        <article class="card">
+          <h3>🔓 Single-Pin Picking (SPP)</h3>
+          <p>The classic discipline: manipulating each pin individually with a hook pick and tension wrench until every pin sets at the shear line.</p>
+          <span class="tag">Beginner friendly</span>
+        </article>
+        <article class="card">
+          <h3>⚡ Speed Picking</h3>
+          <p>Timed competitions where pickers race to open standardized locks, often under 30 seconds for common padlocks.</p>
+          <span class="tag">Competitive</span>
+        </article>
+        <article class="card">
+          <h3>🧩 Decoding & Impressioning</h3>
+          <p>Determining a key's exact cuts without picking — by feel, by photograph, or by filing a blank against the lock itself.</p>
+          <span class="tag">Advanced</span>
+        </article>
+        <article class="card">
+          <h3>🛡️ Locksport Security Research</h3>
+          <p>Hobbyists who reverse-engineer lock designs and publish findings so manufacturers can fix weaknesses before bad actors exploit them.</p>
+          <span class="tag">Responsible disclosure</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="history" class="alt" aria-labelledby="history-heading">
+    <div class="wrap">
+      <h2 id="history-heading">From locksmith guilds to open competitions</h2>
+      <p class="section-intro">Lock manipulation is centuries old, but locksport as an organized hobby is a recent, distinctly community-driven phenomenon.</p>
+
+      <ol class="timeline">
+        <li>
+          <time>1853</time>
+          <p>American locksmith Alfred Charles Hobbs picks the supposedly "unpickable" Bramah lock at London's Great Exhibition in under an hour, sparking public fascination with lock security.</p>
+        </li>
+        <li>
+          <time>1997</time>
+          <p>The Open Organisation Of Lockpickers (TOOOL) forms in the Netherlands, establishing an ethical code that still anchors the hobby: never pick a lock you don't own or have permission to test.</p>
+        </li>
+        <li>
+          <time>2000s</time>
+          <p>TOOOL chapters spread internationally and begin hosting public "lockpick villages" at security and hacker conferences, teaching beginners hands-on.</p>
+        </li>
+        <li>
+          <time>2010s</time>
+          <p>Online communities and YouTube channels turn locksport into a global hobby, with standardized practice locks and informal speed-picking leaderboards.</p>
+        </li>
+        <li>
+          <time>Today</time>
+          <p>Locksport conventions run dedicated competitive brackets, manufacturers sponsor "pick-resistant" challenge locks, and the hobby is taught openly at maker spaces and conferences worldwide.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="gear" aria-labelledby="gear-heading">
+    <div class="wrap">
+      <h2 id="gear-heading">What's actually in a beginner's kit</h2>
+      <p class="section-intro">You don't need much to start: a cutaway practice lock, a small set of picks, and a tension wrench. Here's a realistic starter list.</p>
+
+      <table>
+        <caption>Beginner locksport starter kit</caption>
+        <thead>
+          <tr>
+            <th scope="col">Item</th>
+            <th scope="col">Purpose</th>
+            <th scope="col">Typical cost</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Cutaway practice padlock</td>
+            <td>See the pins move while you pick, so you learn what "feel" actually means</td>
+            <td>$15–25</td>
+          </tr>
+          <tr>
+            <td>Tension wrench (set of 3–5)</td>
+            <td>Applies rotational pressure to the lock cylinder while picking</td>
+            <td>$5–10</td>
+          </tr>
+          <tr>
+            <td>Hook picks (short, medium, long)</td>
+            <td>Lifts individual pins to the shear line</td>
+            <td>$10–20</td>
+          </tr>
+          <tr>
+            <td>Standard pin-tumbler padlocks</td>
+            <td>Real-world practice once cutaway basics click</td>
+            <td>$8–15 each</td>
+          </tr>
+          <tr>
+            <td>Pick case / mat</td>
+            <td>Keeps thin tools organized and protected</td>
+            <td>$10–20</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="etiquette" class="alt" aria-labelledby="etiquette-heading">
+    <div class="wrap">
+      <h2 id="etiquette-heading">The ethics that hold the hobby together</h2>
+      <p class="section-intro">Locksport communities work because everyone agrees to the same boundary: this is a skill practiced on your own property, never used to bypass security that isn't yours.</p>
+
+      <div class="code-block">
+        <h3>The locksport code, in five lines</h3>
+        <ul>
+          <li><strong>Own it or have permission.</strong> Never pick a lock that's actively securing someone else's property.</li>
+          <li><strong>Disclose responsibly.</strong> If you find a real flaw in a commercial lock, report it to the manufacturer before going public.</li>
+          <li><strong>Teach openly.</strong> Most clubs run free beginner workshops — the hobby grows through teaching, not gatekeeping.</li>
+          <li><strong>Check local law.</strong> Possession rules for picks vary widely by country and state; know yours before you carry a kit.</li>
+          <li><strong>Credit your sources.</strong> Locksport built its knowledge base in public forums and conferences — cite where techniques came from.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band" aria-labelledby="newsletter-heading">
+    <div class="wrap">
+      <div>
+        <h2 id="newsletter-heading">Get one pick-of-the-week email</h2>
+        <p>A single technique, lock teardown, or competition recap — once a week, no spam.</p>
+      </div>
+      <form class="cta-form" action="#" method="get">
+        <div>
+          <label for="newsletter-email" class="visually-hidden">Email address</label>
+          <input
+            id="newsletter-email"
+            name="email"
+            type="email"
+            placeholder="you@example.com"
+            autocomplete="email"
+            required
+            aria-describedby="newsletter-hint"
+          />
+          <p id="newsletter-hint" class="visually-hidden">We'll send one email per week. Unsubscribe anytime.</p>
+        </div>
+        <button class="btn btn-primary" type="submit">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <section id="faq" aria-labelledby="faq-heading">
+    <div class="wrap">
+      <h2 id="faq-heading">Frequently asked questions</h2>
+
+      <div class="faq-list">
+        <details>
+          <summary>
+            Is locksport legal?
+            <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </summary>
+          <p>Practicing on locks you own is legal almost everywhere. Carrying pick tools in public is regulated differently by jurisdiction — some places require you to demonstrate the tools are for a lock you own, others restrict possession without a locksmith license. Always check local statutes before carrying a kit outside your home.</p>
+        </details>
+        <details>
+          <summary>
+            Do I need to be good with my hands or mechanically inclined?
+            <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </summary>
+          <p>No prior mechanical skill is required. Most beginners open their first cutaway lock within an hour of instruction — the hobby rewards patience and a light touch far more than dexterity.</p>
+        </details>
+        <details>
+          <summary>
+            Can locksport make me better at home security?
+            <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </summary>
+          <p>Yes — understanding how locks fail teaches you what to actually look for when buying one. Many practitioners end up recommending higher-security pin configurations or supplementary hardware after seeing how quickly basic padlocks can be defeated.</p>
+        </details>
+        <details>
+          <summary>
+            Where can I find a local locksport community?
+            <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </summary>
+          <p>Look for a local TOOOL chapter, a "lockpick village" at the nearest hacker or security conference, or a maker space that hosts beginner nights. Many groups welcome newcomers with loaner tools, so you don't need to buy a kit before trying it once.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h2>Locksport Weekly</h2>
+        <p>An independent newsletter about the hobby and sport of ethical lock picking.</p>
+      </div>
+      <nav aria-label="Footer">
+        <h2>Explore</h2>
+        <ul>
+          <li><a href="#what-is-locksport">What It Is</a></li>
+          <li><a href="#history">History</a></li>
+          <li><a href="#gear">Gear</a></li>
+          <li><a href="#etiquette">Ethics</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Resources">
+        <h2>Resources</h2>
+        <ul>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#newsletter-heading">Newsletter</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <p>This site is an educational example page. Always pick locks you own or have explicit permission to test.</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

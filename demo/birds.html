@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Plumea — A field guide to birds worth knowing</title>
+<meta name="description" content="Plumea is a field guide celebrating birds: species spotlights, spotting tips, and a newsletter for curious birdwatchers." />
+<style>
+/*
+ * WCAG AA PAIRING MANIFEST — source: #1c6e8c · theme: white
+ *
+ * BODY TEXT (any font size, ≥4.5:1):
+ *   shade-100 (#e8f5fa) → 900, 800, 700
+ *   shade-300 (#95d3ea) → 900, 800
+ *   shade-600 (#2994bd) → 900
+ *   shade-700 (#1e7697) → white, 100
+ *   shade-800 (#124254) → white, 100, 300
+ *   shade-900 (#09252f) → white, 100, 300, 600
+ *
+ * LARGE TEXT ONLY (≥24px or ≥18.67px bold, 3:1–4.5:1):
+ *   shade-100 (#e8f5fa) → 600
+ *   shade-300 (#95d3ea) → 700
+ *   shade-600 (#2994bd) → 100, 800, white
+ *   shade-700 (#1e7697) → 300, 900
+ *   shade-800 (#124254) → 600
+ *   shade-900 (#09252f) → 700
+ *
+ * ACCENT (amber, validated separately with check_contrast — not part of the
+ * foundation matrix above):
+ *   #9a4f00 on white          → 6.01:1  AA normal (body text)
+ *   #9a4f00 on --bird-100     → 5.40:1  AA normal (body text)
+ *   #ffffff on #a85700        → 5.21:1  AA normal (button text)
+ *   #ffb74a on --bird-900     → 9.20:1  AA normal (text on dark footer)
+ */
+:root {
+  --bird-100: #e8f5fa; /* ✅ text→900·800·700  ⚠️ lg→600 */
+  --bird-300: #95d3ea; /* ✅ text→900·800  ⚠️ lg→700 */
+  --bird-600: #2994bd; /* ✅ text→900  ⚠️ lg→100·800·white */
+  --bird-700: #1e7697; /* ✅ text→white·100  ⚠️ lg→300·900 */
+  --bird-800: #124254; /* ✅ text→white·100·300  ⚠️ lg→600 */
+  --bird-900: #09252f; /* ✅ text→white·100·300·600  ⚠️ lg→700 */
+
+  --accent-text: #9a4f00;  /* text on white / bird-100 */
+  --accent-bg: #a85700;    /* button background, paired with white text */
+  --accent-light: #ffb74a; /* text on bird-900 (dark footer/hero) */
+
+  --font-sans: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-serif: Georgia, "Times New Roman", serif;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--bird-900);
+  background: #ffffff;
+  line-height: 1.6;
+}
+
+img, svg { max-width: 100%; display: block; }
+
+a {
+  color: var(--bird-700);
+  text-decoration-thickness: 2px;
+}
+
+a:hover { text-decoration-thickness: 3px; }
+
+:focus-visible {
+  outline: 3px solid var(--bird-900);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Dark sections need a light-on-dark focus ring: bird-900 fails 3:1 contrast
+   against bird-800/900 backgrounds, so these sections override with white. */
+.hero :focus-visible,
+.stats-band :focus-visible,
+.newsletter :focus-visible,
+.site-footer :focus-visible {
+  outline-color: #ffffff;
+}
+
+.skip-link {
+  position: absolute;
+  top: -48px;
+  left: 0;
+  padding: 0.75rem 1.25rem;
+  background: var(--bird-900);
+  color: #ffffff;
+  z-index: 100;
+  font-weight: 600;
+}
+
+.skip-link:focus-visible {
+  top: 0;
+}
+
+.container {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Header */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: #ffffff;
+  border-bottom: 1px solid var(--bird-300);
+}
+
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-block: 1rem;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--bird-900);
+  text-decoration: none;
+}
+
+.logo:hover { text-decoration: none; }
+
+.logo svg { width: 2rem; height: 2rem; }
+
+.main-nav ul {
+  display: flex;
+  gap: 1.75rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
+.main-nav a {
+  color: var(--bird-800);
+  font-weight: 600;
+  text-decoration: none;
+  padding: 0.4rem 0.1rem;
+  border-bottom: 2px solid transparent;
+}
+
+.main-nav a:hover,
+.main-nav a:focus-visible {
+  border-bottom-color: var(--accent-bg);
+}
+
+/* Hero */
+
+.hero {
+  background: linear-gradient(160deg, var(--bird-900) 0%, var(--bird-800) 100%);
+  color: #ffffff;
+  padding: 5rem 0 6rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.hero .container {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+@media (max-width: 56rem) {
+  .hero .container { grid-template-columns: 1fr; }
+}
+
+.hero-eyebrow {
+  display: inline-block;
+  color: var(--accent-light);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.hero h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(2.25rem, 5vw, 3.25rem);
+  line-height: 1.15;
+  margin: 0 0 1.25rem;
+  color: #ffffff;
+}
+
+.hero p {
+  font-size: 1.15rem;
+  color: var(--bird-300);
+  max-width: 34rem;
+  margin: 0 0 2rem;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.6rem;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+  border: 2px solid transparent;
+  cursor: pointer;
+  min-height: 2.75rem;
+}
+
+.btn-accent {
+  background: var(--accent-bg);
+  color: #ffffff;
+}
+
+.btn-accent:hover { background: #8c4900; }
+
+.btn-outline {
+  background: transparent;
+  border-color: var(--bird-300);
+  color: #ffffff;
+}
+
+.btn-outline:hover { background: rgba(255, 255, 255, 0.08); }
+
+.hero-art {
+  display: flex;
+  justify-content: center;
+}
+
+.hero-art svg { width: 100%; max-width: 22rem; }
+
+/* Section scaffolding */
+
+section { padding: 5rem 0; }
+
+.section-light { background: #ffffff; }
+.section-tint { background: var(--bird-100); }
+
+.section-heading {
+  max-width: 38rem;
+  margin: 0 0 3rem;
+}
+
+.section-heading .eyebrow {
+  display: block;
+  color: var(--accent-text);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  margin-bottom: 0.6rem;
+}
+
+.section-heading h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  margin: 0 0 0.75rem;
+  color: var(--bird-900);
+}
+
+.section-heading p {
+  color: var(--bird-800);
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+/* Species grid */
+
+.species-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15.5rem, 1fr));
+  gap: 1.75rem;
+}
+
+.species-card {
+  background: #ffffff;
+  border: 1px solid var(--bird-300);
+  border-radius: 0.75rem;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.species-icon {
+  width: 3rem;
+  height: 3rem;
+  color: var(--bird-700);
+}
+
+.species-card h3 {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  margin: 0;
+  color: var(--bird-900);
+}
+
+.species-card .latin {
+  font-style: italic;
+  color: var(--bird-700);
+  font-size: 0.9rem;
+  margin: -0.4rem 0 0;
+}
+
+.species-card p {
+  color: var(--bird-800);
+  margin: 0;
+  font-size: 0.97rem;
+}
+
+.species-card .tag-list {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0.4rem 0 0;
+  padding: 0;
+}
+
+.species-card .tag-list li {
+  background: var(--bird-100);
+  color: var(--bird-800);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+}
+
+/* Spotting tips */
+
+.tips-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1.75rem;
+}
+
+.tips-list li {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.tip-number {
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--bird-800);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-family: var(--font-serif);
+}
+
+.tips-list h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1.1rem;
+  color: var(--bird-900);
+}
+
+.tips-list p {
+  margin: 0;
+  color: var(--bird-800);
+  font-size: 0.97rem;
+}
+
+/* Stats band */
+
+.stats-band {
+  background: var(--bird-700);
+  color: #ffffff;
+  padding: 3.5rem 0;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 2rem;
+  text-align: center;
+}
+
+.stats-grid dt {
+  font-family: var(--font-serif);
+  font-size: 2.25rem;
+  font-weight: 700;
+}
+
+.stats-grid dd {
+  margin: 0.35rem 0 0;
+  color: var(--bird-100);
+  font-size: 0.95rem;
+}
+
+/* Newsletter */
+
+.newsletter {
+  background: var(--bird-900);
+  color: #ffffff;
+}
+
+.newsletter-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+@media (max-width: 56rem) {
+  .newsletter-card { grid-template-columns: 1fr; }
+}
+
+.newsletter h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.8rem, 3.5vw, 2.3rem);
+  margin: 0 0 0.75rem;
+}
+
+.newsletter p {
+  color: var(--bird-300);
+  margin: 0;
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.signup-form .field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.signup-form label {
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.signup-form .hint {
+  color: var(--bird-300);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.signup-form input[type="email"] {
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  border: 2px solid var(--bird-700);
+  background: #ffffff;
+  color: var(--bird-900);
+  font-size: 1rem;
+  min-height: 2.75rem;
+}
+
+.signup-form input[type="email"]:focus-visible {
+  outline: 3px solid var(--bird-900);
+  outline-offset: 2px;
+}
+
+.form-row {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.form-row .field { flex: 1 1 14rem; }
+
+.signup-form .btn-accent {
+  align-self: flex-start;
+}
+
+/* Footer */
+
+.site-footer {
+  background: var(--bird-900);
+  color: var(--bird-300);
+  padding: 3rem 0 2.5rem;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 2.5rem;
+}
+
+@media (max-width: 48rem) {
+  .footer-grid { grid-template-columns: 1fr; }
+}
+
+.footer-grid h2,
+.footer-grid h3 {
+  color: #ffffff;
+  font-size: 1rem;
+  margin: 0 0 0.9rem;
+}
+
+.footer-grid ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.footer-grid a {
+  color: var(--accent-light);
+}
+
+.footer-bottom {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--bird-800);
+  font-size: 0.85rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="logo" href="#main-content">
+      <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+        <path d="M6 28c4-10 14-18 26-16-2 2-3 4-3 6 6 0 11 4 13 8-5-1-9 0-12 3 1 4-1 8-5 10 2 1 4 1 6 1-4 4-10 5-15 3 1 2 3 3 5 4-9 1-17-5-18-14-3 0-5-2-6-5 3 1 6 1 9 0z" fill="#1e7697"/>
+        <circle cx="29" cy="17" r="1.6" fill="#09252f"/>
+      </svg>
+      Plumea
+    </a>
+    <nav class="main-nav" aria-label="Main">
+      <ul>
+        <li><a href="#species">Species</a></li>
+        <li><a href="#tips">Spotting tips</a></li>
+        <li><a href="#numbers">In numbers</a></li>
+        <li><a href="#newsletter">Join</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main-content" tabindex="-1">
+
+  <section class="hero">
+    <div class="container">
+      <div>
+        <span class="hero-eyebrow">Field notes for birdwatchers</span>
+        <h1>Look up. There's a story in every flight path.</h1>
+        <p>Plumea is a small field guide for people who want to recognize birdsong, read flight patterns, and tell a kestrel from a sparrowhawk at a glance.</p>
+        <div class="hero-actions">
+          <a class="btn btn-accent" href="#species">Browse species</a>
+          <a class="btn btn-outline" href="#newsletter">Get weekly notes</a>
+        </div>
+      </div>
+      <div class="hero-art">
+        <svg viewBox="0 0 200 160" aria-hidden="true" focusable="false">
+          <path d="M10 110c30-50 70-80 110-70-10 8-14 18-12 28 25-4 48 8 58 26-18-6-34-4-46 8 6 16-2 32-20 38 8 4 18 4 26 0-12 14-32 18-48 10 4 8 12 14 20 18-34 4-66-16-74-50-10 2-18-4-22-12 8 2 16 0 22-6-7-4-12-10-14-18-4 6-8 12-12 18-4-4-2-12 4-18-6-2-10 0-14 6 2-12 10-22 22-28z" fill="#2994bd" opacity="0.9"/>
+          <circle cx="118" cy="48" r="4" fill="#09252f"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section id="species" class="section-light">
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow">Species spotlight</span>
+        <h2>Four birds worth knowing</h2>
+        <p>A starting point for new birdwatchers — common, striking, and easy to confirm once you know what to listen and look for.</p>
+      </div>
+
+      <ul class="species-grid" style="list-style:none; padding:0; margin:0;">
+        <li class="species-card">
+          <svg class="species-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M2 14c2-5 7-9 13-8-1 1-1 2-1 3 3 0 6 2 7 4-3-1-5 0-6 2 1 2 0 4-2 5 1 1 2 1 3 1-2 2-5 2-7 1 1 1 1 2 2 2-4 1-9-2-9-7-1 0-2-1-2-2 1 0 2 0 2-1z" fill="currentColor"/>
+          </svg>
+          <h3>European Robin</h3>
+          <p class="latin">Erithacus rubecula</p>
+          <p>Bold and territorial, with a clear, melancholy song heard even in winter when most other birds stay quiet.</p>
+          <ul class="tag-list">
+            <li>Garden bird</li>
+            <li>Sings year-round</li>
+          </ul>
+        </li>
+
+        <li class="species-card">
+          <svg class="species-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M3 13c3-4 8-7 13-6-1 1-1 2 0 3 3 0 5 2 6 4-2-1-4 0-5 1 1 2 0 4-2 4 1 1 2 1 3 1-2 1-4 1-6 0 0 1 1 2 1 2-4 0-7-2-8-6-1 0-2 0-2-1 0-1 0-1 0-2z" fill="currentColor"/>
+          </svg>
+          <h3>Common Kingfisher</h3>
+          <p class="latin">Alcedo atthis</p>
+          <p>A flash of electric blue along still water. Watch for a low, fast flight line just above the surface, then a perfect dive.</p>
+          <ul class="tag-list">
+            <li>Riverside</li>
+            <li>Fast diver</li>
+          </ul>
+        </li>
+
+        <li class="species-card">
+          <svg class="species-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="11" r="6" fill="currentColor"/>
+            <circle cx="9.5" cy="10" r="1.4" fill="#ffffff"/>
+            <circle cx="14.5" cy="10" r="1.4" fill="#ffffff"/>
+            <path d="M12 17l-2 4h4z" fill="currentColor"/>
+          </svg>
+          <h3>Tawny Owl</h3>
+          <p class="latin">Strix aluco</p>
+          <p>Rarely seen, often heard. The familiar "twit-twoo" is actually two birds calling back and forth, not one.</p>
+          <ul class="tag-list">
+            <li>Nocturnal</li>
+            <li>Woodland</li>
+          </ul>
+        </li>
+
+        <li class="species-card">
+          <svg class="species-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M4 12c2-3 6-5 10-4-3 1-5 3-5 5 2-1 4-1 6 0-4 1-7 3-8 6-1-3-2-5-3-7z" fill="currentColor"/>
+          </svg>
+          <h3>Ruby-throated Hummingbird</h3>
+          <p class="latin">Archilochus colubris</p>
+          <p>Beats its wings up to 50 times per second and is the only bird that can fly backwards with full control.</p>
+          <ul class="tag-list">
+            <li>Migratory</li>
+            <li>Nectar feeder</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="tips" class="section-tint">
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow">Getting started</span>
+        <h2>Five habits of a decent birdwatcher</h2>
+        <p>None of this requires expensive gear. Most of it is just learning to slow down and pay attention.</p>
+      </div>
+
+      <ol class="tips-list" style="list-style:none; padding:0;">
+        <li>
+          <span class="tip-number" aria-hidden="true">1</span>
+          <div>
+            <h3>Listen before you look</h3>
+            <p>Most birds are heard long before they're seen. Learn five common calls before chasing silhouettes.</p>
+          </div>
+        </li>
+        <li>
+          <span class="tip-number" aria-hidden="true">2</span>
+          <div>
+            <h3>Note size, shape, then color</h3>
+            <p>Color fades in bad light, but silhouette and proportions stay consistent. Start there.</p>
+          </div>
+        </li>
+        <li>
+          <span class="tip-number" aria-hidden="true">3</span>
+          <div>
+            <h3>Watch the edges</h3>
+            <p>Tree lines, hedgerows, and shorelines concentrate more species than open fields or water.</p>
+          </div>
+        </li>
+        <li>
+          <span class="tip-number" aria-hidden="true">4</span>
+          <div>
+            <h3>Go out at dawn</h3>
+            <p>Activity peaks in the first two hours of daylight, when birds feed after a long, fasting night.</p>
+          </div>
+        </li>
+        <li>
+          <span class="tip-number" aria-hidden="true">5</span>
+          <div>
+            <h3>Keep a simple log</h3>
+            <p>Date, place, and species. A year from now the pattern of what visits when will surprise you.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="numbers" class="stats-band">
+    <div class="container">
+      <h2 class="visually-hidden">Birds in numbers</h2>
+      <dl class="stats-grid">
+        <div>
+          <dt>~10,900</dt>
+          <dd>Bird species recognized worldwide</dd>
+        </div>
+        <div>
+          <dt>50 km/h</dt>
+          <dd>Average cruising speed of a peregrine falcon in level flight</dd>
+        </div>
+        <div>
+          <dt>4 g</dt>
+          <dd>Weight of a bee hummingbird, the smallest bird alive</dd>
+        </div>
+        <div>
+          <dt>11,000 km</dt>
+          <dd>Round-trip migration of an Arctic tern between poles</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <section id="newsletter" class="newsletter">
+    <div class="container newsletter-card">
+      <div>
+        <h2>One bird, one story, every Sunday</h2>
+        <p>A short weekly note on a single species — how to identify it, where to find it, and why it matters. No spam, unsubscribe anytime.</p>
+      </div>
+
+      <form class="signup-form" novalidate>
+        <div class="form-row">
+          <div class="field">
+            <label for="newsletter-email">Email address</label>
+            <input
+              id="newsletter-email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              required
+              aria-describedby="email-hint"
+            />
+          </div>
+          <button class="btn btn-accent" type="submit">Subscribe</button>
+        </div>
+        <p id="email-hint" class="hint">We send one email per week. You can unsubscribe from any issue.</p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h2>Plumea</h2>
+        <p>A field guide built for people who'd rather watch a kestrel hover than scroll past one.</p>
+      </div>
+      <div>
+        <h3>Explore</h3>
+        <ul>
+          <li><a href="#species">Species spotlight</a></li>
+          <li><a href="#tips">Spotting tips</a></li>
+          <li><a href="#numbers">Birds in numbers</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Connect</h3>
+        <ul>
+          <li><a href="#newsletter">Weekly newsletter</a></li>
+          <li><a href="mailto:hello@plumea.example">Contact us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Plumea Field Guide.</p>
+      <p>Built with an accessible, WCAG AA-checked color palette.</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

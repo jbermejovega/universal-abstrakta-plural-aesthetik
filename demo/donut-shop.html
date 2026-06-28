@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Glazed & Grateful — Handmade Donuts, Baked Daily</title>
+<meta name="description" content="Glazed & Grateful is a neighborhood donut shop serving fresh handmade donuts, coffee, and pastries every morning." />
+<style>
+  /*
+   * WCAG AA PAIRING MANIFEST — source: #c2185b · theme: white
+   *
+   * BODY TEXT (any font size, ≥4.5:1):
+   *   shade-100 (#fdeef4) → 900, 800, 700
+   *   shade-300 (#f6b8d0) → 900, 800
+   *   shade-600 (#ea4e8d) → 900
+   *   shade-700 (#d21a62) → white, 100
+   *   shade-800 (#770e39) → white, 100, 300
+   *   shade-900 (#43081f) → white, 100, 300, 600
+   *
+   * LARGE TEXT ONLY (≥24px or ≥18.67px bold, 3:1–4.5:1):
+   *   These pairings are PROHIBITED for body text at any size.
+   *   shade-100 (#fdeef4) → 600
+   *   shade-300 (#f6b8d0) → 700
+   *   shade-600 (#ea4e8d) → 100, 800, white
+   *   shade-700 (#d21a62) → 300, 900
+   *   shade-800 (#770e39) → 600
+   *   shade-900 (#43081f) → 700
+   *
+   * ACCENT (red, NOT part of the foundation scale — verified separately with check_contrast):
+   *   --accent-red (#b3261e) → white text 6.54:1, on white text 6.54:1, on pink-100 text 5.82:1
+   */
+  :root {
+    --pink-100: #fdeef4; /* ✅ text→900·800·700  ⚠️ lg→600 */
+    --pink-300: #f6b8d0; /* ✅ text→900·800  ⚠️ lg→700 */
+    --pink-600: #ea4e8d; /* ✅ text→900  ⚠️ lg→100·800·white */
+    --pink-700: #d21a62; /* ✅ text→white·100  ⚠️ lg→300·900 */
+    --pink-800: #770e39; /* ✅ text→white·100·300  ⚠️ lg→600 */
+    --pink-900: #43081f; /* ✅ text→white·100·300·600  ⚠️ lg→700 */
+    --accent-red: #b3261e; /* ✅ text→white·on-white·on-pink-100 — verified via check_contrast, not part of foundation matrix */
+    --cream: #fffaf6;
+    --focus-ring: #1a4fd2;
+    --max-width: 72rem;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  }
+
+  body {
+    margin: 0;
+    font-family: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+    color: var(--pink-900);
+    background: var(--cream);
+    line-height: 1.6;
+  }
+
+  img { max-width: 100%; display: block; }
+
+  a { color: var(--pink-800); }
+  a:hover { color: var(--pink-700); }
+
+  :focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    padding: 0.5rem 1rem;
+    background: var(--pink-900);
+    color: #fff;
+    z-index: 100;
+    text-decoration: none;
+  }
+  .skip-link:focus {
+    top: 0;
+  }
+
+  .container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  /* Header */
+  header.site-header {
+    background: #fff;
+    border-bottom: 1px solid var(--pink-300);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: var(--pink-900);
+    text-decoration: none;
+  }
+  .logo:hover { color: var(--pink-700); }
+  .logo-mark {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    background: conic-gradient(var(--pink-700), var(--accent-red), var(--pink-600), var(--pink-700));
+    flex-shrink: 0;
+  }
+
+  nav.main-nav ul {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
+  }
+  nav.main-nav a {
+    text-decoration: none;
+    font-weight: 600;
+    color: var(--pink-900);
+    padding: 0.5rem 0.25rem;
+    display: inline-block;
+  }
+  nav.main-nav a:hover { color: var(--pink-700); text-decoration: underline; }
+
+  .btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 999px;
+    font-weight: 700;
+    text-decoration: none;
+    border: 2px solid transparent;
+    min-height: 24px;
+    cursor: pointer;
+  }
+  .btn-primary {
+    background: var(--pink-700);
+    color: #fff;
+  }
+  .btn-primary:hover { background: var(--pink-800); }
+  .btn-outline {
+    background: transparent;
+    border-color: var(--pink-700);
+    color: var(--pink-800);
+  }
+  .btn-outline:hover { background: var(--pink-100); }
+
+  /* Hero */
+  .hero {
+    background: linear-gradient(160deg, var(--pink-100) 0%, var(--cream) 60%);
+    padding: 3.5rem 0 4rem;
+  }
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 2.5rem;
+    align-items: center;
+  }
+  @media (max-width: 760px) {
+    .hero-inner { grid-template-columns: 1fr; }
+  }
+  .eyebrow {
+    color: var(--pink-800);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+  }
+  h1 {
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    line-height: 1.15;
+    margin: 0.5rem 0 1rem;
+    color: var(--pink-900);
+  }
+  .hero p.lead {
+    font-size: 1.15rem;
+    max-width: 34rem;
+    color: var(--pink-800);
+  }
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.75rem;
+    flex-wrap: wrap;
+  }
+  .hero-art {
+    background: #fff;
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    box-shadow: 0 12px 30px -10px rgba(67, 8, 31, 0.25);
+  }
+  .hero-art img {
+    border-radius: 1rem;
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+  }
+
+  /* Sections */
+  section {
+    padding: 4rem 0;
+  }
+  .section-heading {
+    text-align: center;
+    max-width: 40rem;
+    margin: 0 auto 2.5rem;
+  }
+  .section-heading h2 {
+    font-size: 2rem;
+    color: var(--pink-900);
+    margin-bottom: 0.5rem;
+  }
+  .section-heading p {
+    color: var(--pink-800);
+  }
+
+  /* Menu grid */
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 1.75rem;
+  }
+  .donut-card {
+    background: #fff;
+    border-radius: 1rem;
+    border: 1px solid var(--pink-300);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .donut-card img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+  }
+  .donut-card .card-body {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+  }
+  .donut-card h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--pink-900);
+  }
+  .donut-card .price {
+    font-weight: 700;
+    color: var(--pink-800);
+  }
+  .donut-card p.desc {
+    color: var(--pink-800);
+    font-size: 0.95rem;
+    margin: 0;
+    flex: 1;
+  }
+  .badge {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    background: var(--accent-red);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 0.3rem 0.65rem;
+    border-radius: 999px;
+  }
+  .badge::before {
+    content: "★ ";
+  }
+
+  /* Stats / why us */
+  .why-us {
+    background: var(--pink-900);
+    color: #fff;
+  }
+  .why-us .section-heading h2,
+  .why-us .section-heading p { color: #fff; }
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 2rem;
+  }
+  .why-item h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.4rem;
+  }
+  .why-item p {
+    color: var(--pink-300);
+    margin: 0;
+  }
+
+  /* Testimonials */
+  .testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 1.75rem;
+  }
+  blockquote.testimonial {
+    background: var(--pink-100);
+    border-left: 4px solid var(--pink-700);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin: 0;
+  }
+  blockquote.testimonial p {
+    color: var(--pink-900);
+    font-style: italic;
+  }
+  blockquote.testimonial footer {
+    margin-top: 0.75rem;
+    font-style: normal;
+    font-weight: 700;
+    color: var(--pink-800);
+  }
+
+  /* Visit / hours */
+  .visit-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+  }
+  @media (max-width: 760px) {
+    .visit-grid { grid-template-columns: 1fr; }
+  }
+  table.hours {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  table.hours caption {
+    text-align: left;
+    font-weight: 700;
+    color: var(--pink-900);
+    margin-bottom: 0.75rem;
+    font-size: 1.1rem;
+  }
+  table.hours th,
+  table.hours td {
+    text-align: left;
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid var(--pink-300);
+  }
+  table.hours th[scope="row"] {
+    font-weight: 600;
+    color: var(--pink-900);
+  }
+
+  address {
+    font-style: normal;
+    color: var(--pink-800);
+  }
+
+  /* Newsletter form */
+  .newsletter {
+    background: var(--pink-100);
+    border-radius: 1rem;
+    padding: 2rem;
+  }
+  .form-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: flex-end;
+  }
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    flex: 1;
+    min-width: 14rem;
+  }
+  .field label {
+    font-weight: 600;
+    color: var(--pink-900);
+  }
+  .field input {
+    padding: 0.65rem 0.85rem;
+    border: 2px solid var(--pink-300);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+  }
+  .field input:focus-visible {
+    border-color: var(--focus-ring);
+  }
+  .field-note {
+    font-size: 0.85rem;
+    color: var(--pink-800);
+    margin-top: 0.75rem;
+  }
+  .form-status {
+    margin-top: 0.75rem;
+  }
+
+  /* Footer */
+  footer.site-footer {
+    background: var(--pink-900);
+    color: var(--pink-300);
+    padding: 3rem 0 2rem;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    gap: 2rem;
+  }
+  footer.site-footer h2 {
+    color: #fff;
+    font-size: 1.05rem;
+    margin-bottom: 0.75rem;
+  }
+  footer.site-footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  footer.site-footer a { color: var(--pink-300); }
+  footer.site-footer a:hover { color: #fff; }
+  .footer-bottom {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--pink-800);
+    font-size: 0.85rem;
+    text-align: center;
+    color: var(--pink-300);
+  }
+</style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="#main-content">
+        <span class="logo-mark" aria-hidden="true"></span>
+        Glazed &amp; Grateful
+      </a>
+      <nav class="main-nav" aria-label="Main">
+        <ul>
+          <li><a href="#menu">Menu</a></li>
+          <li><a href="#why-us">Why us</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+          <li><a href="#visit">Visit</a></li>
+        </ul>
+      </nav>
+      <a class="btn btn-primary" href="#order">Order online</a>
+    </div>
+  </header>
+
+  <main id="main-content" tabindex="-1">
+    <section class="hero">
+      <div class="container hero-inner">
+        <div>
+          <p class="eyebrow">Fresh from the fryer, every morning</p>
+          <h1>Handmade donuts that make Tuesdays feel like Saturdays</h1>
+          <p class="lead">Glazed &amp; Grateful bakes small batches of donuts daily using real butter, local milk, and way too much frosting. Stop by, or order ahead for pickup.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" id="order" href="#menu">View today's menu</a>
+            <a class="btn btn-outline" href="#visit">Find our shop</a>
+          </div>
+        </div>
+        <div class="hero-art">
+          <img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?w=800&auto=format&fit=crop&q=60" alt="A dozen assorted glazed and sprinkle-topped donuts arranged on a wooden tray" />
+        </div>
+      </div>
+    </section>
+
+    <section id="menu">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Today's donuts</h2>
+          <p>Baked fresh every morning. Once a flavor sells out, it's gone until tomorrow.</p>
+        </div>
+        <div class="menu-grid">
+          <article class="donut-card">
+            <span class="badge">Bestseller</span>
+            <img src="https://images.unsplash.com/photo-1551106652-a5bcf4b29ab6?w=500&auto=format&fit=crop&q=60" alt="A pink strawberry-glazed donut covered in rainbow sprinkles" />
+            <div class="card-body">
+              <h3>Strawberry Sprinkle</h3>
+              <p class="desc">Vanilla cake donut dipped in real strawberry glaze, topped with rainbow sprinkles.</p>
+              <span class="price">$3.75</span>
+            </div>
+          </article>
+
+          <article class="donut-card">
+            <span class="badge">New</span>
+            <img src="https://images.unsplash.com/photo-1527515545081-5db817172677?w=500&auto=format&fit=crop&q=60" alt="A red velvet donut with cream cheese drizzle" />
+            <div class="card-body">
+              <h3>Red Velvet Drizzle</h3>
+              <p class="desc">Cocoa cake donut with cream cheese drizzle and a dusting of cocoa crumb.</p>
+              <span class="price">$4.25</span>
+            </div>
+          </article>
+
+          <article class="donut-card">
+            <img src="https://images.unsplash.com/photo-1583529111036-3be7a8c1b811?w=500&auto=format&fit=crop&q=60" alt="A classic glazed yeast donut with a golden, glossy finish" />
+            <div class="card-body">
+              <h3>Classic Glazed</h3>
+              <p class="desc">Our original light, fluffy yeast donut dipped in sweet vanilla glaze.</p>
+              <span class="price">$2.95</span>
+            </div>
+          </article>
+
+          <article class="donut-card">
+            <img src="https://images.unsplash.com/photo-1551106652-a5bcf4b29ab6?w=500&auto=format&fit=crop&q=60" alt="A chocolate frosted donut topped with crushed pink wafer crumbs" />
+            <div class="card-body">
+              <h3>Raspberry Crumble</h3>
+              <p class="desc">Raspberry-filled donut finished with pink frosting and shortbread crumble.</p>
+              <span class="price">$4.00</span>
+            </div>
+          </article>
+
+          <article class="donut-card">
+            <img src="https://images.unsplash.com/photo-1546548970-71785318a17b?w=500&auto=format&fit=crop&q=60" alt="A maple bacon bar donut with a strip of crispy bacon on top" />
+            <div class="card-body">
+              <h3>Maple Bacon Bar</h3>
+              <p class="desc">Long bar donut, maple glaze, candied bacon. Sweet and salty, exactly as advertised.</p>
+              <span class="price">$4.50</span>
+            </div>
+          </article>
+
+          <article class="donut-card">
+            <span class="badge">Limited</span>
+            <img src="https://images.unsplash.com/photo-1604413191219-29a07e3ee0a3?w=500&auto=format&fit=crop&q=60" alt="A red velvet donut covered in cherry red glaze with white drizzle" />
+            <div class="card-body">
+              <h3>Cherry Bomb</h3>
+              <p class="desc">Cherry-glazed cake donut with a white chocolate drizzle. Limited weekend batch.</p>
+              <span class="price">$4.25</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="why-us" class="why-us">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Why people keep coming back</h2>
+          <p>It's not magic. It's butter, patience, and a fryer that's older than our lease.</p>
+        </div>
+        <div class="why-grid">
+          <div class="why-item">
+            <h3>Baked before sunrise</h3>
+            <p>Every batch is mixed, proofed, and fried starting at 4am so it's ready when you walk in.</p>
+          </div>
+          <div class="why-item">
+            <h3>Local ingredients</h3>
+            <p>Milk, eggs, and butter sourced from farms within 60 miles of the shop.</p>
+          </div>
+          <div class="why-item">
+            <h3>Never frozen, never reheated</h3>
+            <p>What's in the case is what was made that morning. Nothing sits in a freezer.</p>
+          </div>
+          <div class="why-item">
+            <h3>Allergy-aware kitchen</h3>
+            <p>Ask our staff about nut-free and dairy-free options — we label every batch clearly.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="reviews">
+      <div class="container">
+        <div class="section-heading">
+          <h2>What the neighborhood says</h2>
+          <p>Real feedback from real regulars.</p>
+        </div>
+        <div class="testimonial-grid">
+          <blockquote class="testimonial">
+            <p>"The strawberry sprinkle donut is the reason I get out of bed on Saturdays. No contest."</p>
+            <footer>— Marisol T.</footer>
+          </blockquote>
+          <blockquote class="testimonial">
+            <p>"Ordered ahead for a work event and they had two dozen ready right on time, still warm."</p>
+            <footer>— Daniel R.</footer>
+          </blockquote>
+          <blockquote class="testimonial">
+            <p>"Finally a donut shop that labels allergens clearly. My kid can actually enjoy a treat here."</p>
+            <footer>— Priya K.</footer>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <section id="visit">
+      <div class="container visit-grid">
+        <div>
+          <table class="hours">
+            <caption>Shop hours</caption>
+            <thead>
+              <tr>
+                <th scope="col">Day</th>
+                <th scope="col">Hours</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Monday – Friday</th>
+                <td>6:00 AM – 2:00 PM</td>
+              </tr>
+              <tr>
+                <th scope="row">Saturday</th>
+                <td>6:00 AM – 3:00 PM</td>
+              </tr>
+              <tr>
+                <th scope="row">Sunday</th>
+                <td>7:00 AM – 1:00 PM</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <h2>Find the shop</h2>
+          <address>
+            Glazed &amp; Grateful<br />
+            128 Maple Street<br />
+            Riverbend, OH 43215<br />
+            <a href="tel:+16145550142">(614) 555-0142</a>
+          </address>
+          <p>Street parking is available out front, and we're two blocks from the Maple Street bus stop.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="newsletter">
+      <div class="container">
+        <div class="newsletter">
+          <h2>Get next week's flavors first</h2>
+          <p>We email our flavor lineup every Sunday night, before it's posted in the shop.</p>
+          <form novalidate>
+            <div class="form-row">
+              <div class="field">
+                <label for="newsletter-name">First name</label>
+                <input id="newsletter-name" name="name" type="text" autocomplete="given-name" required aria-describedby="name-note" />
+              </div>
+              <div class="field">
+                <label for="newsletter-email">Email address</label>
+                <input id="newsletter-email" name="email" type="email" autocomplete="email" required aria-describedby="email-note" />
+              </div>
+              <button class="btn btn-primary" type="submit">Sign me up</button>
+            </div>
+            <p class="field-note" id="name-note">We only use your name to say hi in the email — promise.</p>
+            <p class="field-note" id="email-note">Fields marked required must be filled in before submitting. We never share your email.</p>
+            <div class="form-status" role="status" aria-live="polite"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <h2>Glazed &amp; Grateful</h2>
+        <p>Handmade donuts, baked daily, served with way too much frosting.</p>
+      </div>
+      <div>
+        <h2>Explore</h2>
+        <ul>
+          <li><a href="#menu">Today's menu</a></li>
+          <li><a href="#why-us">Why us</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+          <li><a href="#visit">Hours &amp; location</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Contact</h2>
+        <ul>
+          <li><a href="tel:+16145550142">(614) 555-0142</a></li>
+          <li><a href="mailto:hello@glazedandgrateful.example">hello@glazedandgrateful.example</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="footer-bottom">&copy; 2026 Glazed &amp; Grateful Donut Shop. All rights reserved.</p>
+  </footer>
+</body>
+</html>
