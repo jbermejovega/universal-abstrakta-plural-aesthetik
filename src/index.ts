@@ -21,6 +21,9 @@ export function toCSSTokens(result: PaletteResult, prefix?: string): string {
 export const validatePairings = _validatePairings
 export const checkContrast = _checkContrast
 
+export { cecicodeInspiredProfile } from './profile/cecicodeInspired.js'
+export { validateProfileColorPairs } from './output/policyValidation.js'
+
 export type {
   PaletteResult,
   Palette,
