@@ -40,6 +40,8 @@ console.log(report.primitives.map((primitive) => primitive.kind))
 
 `lintPluralSigil` applies the KQC order (`SIGIL -> QUANTIZED -> CANONICAL`), validates pairings through WCAG 2.2 AA, emits `PACAUAP` palette primitives, emits `PACAPDG` code primitives with SIGIL headers, and exposes a compact agent-facing manifest for Django, QQUAPP, W3C/WCAG, and agent workflows.
 
+The report also exposes a `qquapp` field whose `KokompiTyped` library metadata models an injective encoder, a projective decoder, and a self-dual roundtrip for PR review capsules. Its Error Correction Zoo binding is a taxonomy reference to the public `errorcorrectionzoo/eczoo_data` repository, not a claim that this package implements a physical quantum error-correcting code.
+
 ---
 
 ## Install

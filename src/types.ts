@@ -69,6 +69,39 @@ export type PluralSigilRuntime = 'django' | 'qquapp' | 'w3c-wcag' | 'agent'
 export type PluralSigilSeverity = 'error' | 'warning'
 export type PluralSigilIssueCode = 'KQC_ORDER' | 'WCAG_PAIRING'
 export type PluralSigilPairingLevel = 'aa-normal' | 'aa-large' | 'fail' | 'invalid'
+export type QquappTeleportationMethod = 'injective-encoder' | 'projective-decoder' | 'self-dual-roundtrip'
+
+export interface QquappEncoder {
+  kind: 'injective'
+  method: QquappTeleportationMethod
+  from: 'PluralSigilInput'
+  to: 'PACAPDG | PACAUAP'
+}
+
+export interface QquappDecoder {
+  kind: 'projective'
+  method: QquappTeleportationMethod
+  from: 'PluralSigilReport'
+  to: 'agent-review | pr-review | canonical-release'
+}
+
+export interface QecZooReference {
+  repository: 'errorcorrectionzoo/eczoo_data'
+  url: 'https://github.com/errorcorrectionzoo/eczoo_data'
+  site: 'https://errorcorrectionzoo.org/'
+  relation: 'taxonomy-reference'
+}
+
+export interface QquappKokompiLibrary {
+  name: 'KokompiTyped'
+  context: 'QQUAPP'
+  categoryContext: 'inf-kat-kont'
+  encoder: QquappEncoder
+  decoder: QquappDecoder
+  selfDual: boolean
+  teleportationMethods: QquappTeleportationMethod[]
+  qecZooReference: QecZooReference
+}
 
 export interface PluralSigilPairing {
   foreground: string
@@ -162,6 +195,7 @@ export interface PluralSigilReport {
   palette: PaletteResult
   validation: PluralSigilValidation
   primitives: PluralSigilPrimitive[]
+  qquapp: QquappKokompiLibrary
   issues: PluralSigilIssue[]
   agentExposition: PluralSigilAgentExposition
   release: PluralSigilRelease

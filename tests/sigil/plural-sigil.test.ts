@@ -29,6 +29,10 @@ describe('lintPluralSigil', () => {
     expect(report.primitives.map((primitive) => primitive.kind)).toEqual(['PACAUAP', 'PACAPDG'])
     expect(report.validation.pairings[0]?.background).toBe('white')
     expect(report.agentExposition.runtimes).toEqual(['django', 'qquapp', 'w3c-wcag', 'agent'])
+    expect(report.qquapp.name).toBe('KokompiTyped')
+    expect(report.qquapp.encoder.kind).toBe('injective')
+    expect(report.qquapp.decoder.kind).toBe('projective')
+    expect(report.qquapp.selfDual).toBe(true)
     expect(report.release).toEqual({
       fork: 'jbermejovega/universal-abstrakta-plural-aesthetik',
       canonical: true,
@@ -42,6 +46,24 @@ describe('lintPluralSigil', () => {
     expect(codePrimitive?.payload.language).toBe('css')
     expect(codePrimitive?.payload.code).toContain('KQC: SIGIL -> QUANTIZED -> CANONICAL')
     expect(codePrimitive?.payload.code).toContain(baseInput.injections[0]?.code)
+  })
+
+  it('binds QQUAPP teleportation methods to the public QEC Zoo taxonomy reference', () => {
+    const report = lintPluralSigil(baseInput)
+
+    expect(report.qquapp.context).toBe('QQUAPP')
+    expect(report.qquapp.categoryContext).toBe('inf-kat-kont')
+    expect(report.qquapp.teleportationMethods).toEqual([
+      'injective-encoder',
+      'projective-decoder',
+      'self-dual-roundtrip',
+    ])
+    expect(report.qquapp.qecZooReference).toEqual({
+      repository: 'errorcorrectionzoo/eczoo_data',
+      url: 'https://github.com/errorcorrectionzoo/eczoo_data',
+      site: 'https://errorcorrectionzoo.org/',
+      relation: 'taxonomy-reference',
+    })
   })
 
   it('blocks canonical release when KQC order is not first', () => {

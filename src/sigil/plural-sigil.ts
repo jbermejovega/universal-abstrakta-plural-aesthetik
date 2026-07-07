@@ -16,6 +16,7 @@ import type {
   PluralSigilRuntime,
   PluralSigilStage,
   PluralSigilValidation,
+  QquappKokompiLibrary,
   Theme,
 } from '../types.js'
 
@@ -191,6 +192,34 @@ function buildAgentExposition(namespace: string): PluralSigilAgentExposition {
   }
 }
 
+function buildQquappKokompiLibrary(): QquappKokompiLibrary {
+  return {
+    name: 'KokompiTyped',
+    context: 'QQUAPP',
+    categoryContext: 'inf-kat-kont',
+    encoder: {
+      kind: 'injective',
+      method: 'injective-encoder',
+      from: 'PluralSigilInput',
+      to: 'PACAPDG | PACAUAP',
+    },
+    decoder: {
+      kind: 'projective',
+      method: 'projective-decoder',
+      from: 'PluralSigilReport',
+      to: 'agent-review | pr-review | canonical-release',
+    },
+    selfDual: true,
+    teleportationMethods: ['injective-encoder', 'projective-decoder', 'self-dual-roundtrip'],
+    qecZooReference: {
+      repository: 'errorcorrectionzoo/eczoo_data',
+      url: 'https://github.com/errorcorrectionzoo/eczoo_data',
+      site: 'https://errorcorrectionzoo.org/',
+      relation: 'taxonomy-reference',
+    },
+  }
+}
+
 export function lintPluralSigil(input: PluralSigilInput): PluralSigilReport {
   const stages = [...(input.stages ?? KQC_STAGES)]
   const palette = generateAccessiblePalette(input.sourceHex, input.theme)
@@ -216,6 +245,7 @@ export function lintPluralSigil(input: PluralSigilInput): PluralSigilReport {
     palette,
     validation,
     primitives,
+    qquapp: buildQquappKokompiLibrary(),
     issues,
     agentExposition: buildAgentExposition(input.namespace),
     release: {
