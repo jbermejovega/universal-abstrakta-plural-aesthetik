@@ -1,7 +1,7 @@
 {
-  "name": "accessible-color-palette",
-  "version": "2.3.0",
-  "description": "Generate WCAG 2.2 AA monochromatic palettes from a single hex color. Ships as a TypeScript library and as an MCP server for AI assistants.",
+  "name": "universal-abstrakta-plural-aesthetik",
+  "version": "0.1.0",
+  "description": "Plural SIGIL strata for WCAG-safe palette linting and PACA primitive generation.",
   "type": "module",
   "main": "./dist/index.js",
   "exports": {
@@ -11,8 +11,8 @@
     }
   },
   "bin": {
-    "accessible-color-palette": "./dist/cli.js",
-    "accessible-color-palette-mcp": "./dist/mcp/server.js"
+    "uap-palette": "./dist/cli.js",
+    "uap-palette-mcp": "./dist/mcp/server.js"
   },
   "files": [
     "dist",
@@ -36,15 +36,18 @@
     "palette",
     "contrast",
     "monochrome",
-    "mcp"
+    "mcp",
+    "sigil",
+    "paca",
+    "wcag"
   ],
-  "author": "Cecilia Olivera",
+  "author": "jbermejovega",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ceciCoding/accessible-color-palette"
+    "url": "https://github.com/jbermejovega/universal-abstrakta-plural-aesthetik"
   },
-  "homepage": "https://github.com/ceciCoding/accessible-color-palette#readme",
+  "homepage": "https://github.com/jbermejovega/universal-abstrakta-plural-aesthetik#readme",
   "engines": {
     "node": ">=18"
   },
@@ -55,6 +58,7 @@
     "vitest": "^1.6.0"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.0.0"
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "accessible-color-palette": "^2.3.0"
   }
 }

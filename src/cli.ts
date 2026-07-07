@@ -3,7 +3,7 @@ import { generatePalette, toCSSTokens } from './index.js'
 import type { Theme } from './types.js'
 
 const HELP = `
-Usage: accessible-color-palette <hex> <theme> [options]
+Usage: uap-palette <hex> <theme> [options]
 
 Arguments:
   hex              Hex color (with or without #, 3 or 6 chars)
@@ -15,9 +15,9 @@ Options:
   -h, --help       Show this help message
 
 Examples:
-  accessible-color-palette 1F7A54 white
-  accessible-color-palette "#239062" black --prefix brand
-  accessible-color-palette 1F7A54 white --json
+  uap-palette 1F7A54 white
+  uap-palette "#239062" black --prefix brand
+  uap-palette 1F7A54 white --json
 `.trim()
 
 const args = process.argv.slice(2)

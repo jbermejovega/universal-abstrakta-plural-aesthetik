@@ -62,3 +62,107 @@ export interface PaletteResult {
 }
 
 export type CSSTokens = string
+
+export type PluralSigilStage = 'SIGIL' | 'QUANTIZED' | 'CANONICAL'
+export type PluralSigilPrimitiveKind = 'PACAPDG' | 'PACAUAP'
+export type PluralSigilRuntime = 'django' | 'qquapp' | 'w3c-wcag' | 'agent'
+export type PluralSigilSeverity = 'error' | 'warning'
+export type PluralSigilIssueCode = 'KQC_ORDER' | 'WCAG_PAIRING'
+export type PluralSigilPairingLevel = 'aa-normal' | 'aa-large' | 'fail' | 'invalid'
+
+export interface PluralSigilPairing {
+  foreground: string
+  background: string
+}
+
+export interface PluralSigilInjection {
+  id: string
+  language: string
+  code: string
+  method?: string
+  pairings?: PluralSigilPairing[]
+}
+
+export interface PluralSigilInput {
+  namespace: string
+  sourceHex: string
+  theme: Theme
+  pairings: PluralSigilPairing[]
+  injections: PluralSigilInjection[]
+  stages?: PluralSigilStage[]
+  cssPrefix?: string
+}
+
+export interface PluralSigilFlow {
+  stage: PluralSigilStage
+  ordinal: number
+  invariant: string
+  primitive: PluralSigilPrimitiveKind
+}
+
+export interface PluralSigilIssue {
+  code: PluralSigilIssueCode
+  severity: PluralSigilSeverity
+  message: string
+  path: string
+}
+
+export interface PluralSigilValidationPairing {
+  foreground: string
+  background: string
+  level: PluralSigilPairingLevel
+  message: string
+  hex?: string
+}
+
+export interface PluralSigilValidation {
+  summary: string
+  allPass: boolean
+  pairings: PluralSigilValidationPairing[]
+}
+
+export interface PluralSigilPayload {
+  code?: string
+  language?: string
+  palette?: PaletteResult
+  cssTokens?: CSSTokens
+}
+
+export interface PluralSigilPrimitive {
+  kind: PluralSigilPrimitiveKind
+  id: string
+  namespace: string
+  method: string
+  payload: PluralSigilPayload
+  bindings: PluralSigilPairing[]
+  flow: PluralSigilFlow[]
+  standards: string[]
+  exposition: string
+}
+
+export interface PluralSigilAgentExposition {
+  name: string
+  purpose: string
+  externalDependency: string
+  runtimes: PluralSigilRuntime[]
+  standards: string[]
+}
+
+export interface PluralSigilRelease {
+  fork: string
+  canonical: boolean
+}
+
+export interface PluralSigilReport {
+  ok: boolean
+  rule: 'KQC'
+  source: 'accessible-color-palette'
+  stages: PluralSigilStage[]
+  flow: PluralSigilFlow[]
+  palette: PaletteResult
+  validation: PluralSigilValidation
+  primitives: PluralSigilPrimitive[]
+  issues: PluralSigilIssue[]
+  agentExposition: PluralSigilAgentExposition
+  release: PluralSigilRelease
+}
