@@ -21,6 +21,8 @@ export function toCSSTokens(result: PaletteResult, prefix?: string): string {
 export const validatePairings = _validatePairings
 export const checkContrast = _checkContrast
 
+export { lintPluralSigil } from './sigil/plural-sigil.js'
+
 export type {
   PaletteResult,
   Palette,
@@ -37,6 +39,29 @@ export type {
   PaletteUsage,
   CompatibilityEntry,
   CompatibilityMatrix,
+  PluralSigilStage,
+  PluralSigilPrimitiveKind,
+  PluralSigilRuntime,
+  PluralSigilSeverity,
+  PluralSigilIssueCode,
+  PluralSigilPairingLevel,
+  QquappTeleportationMethod,
+  QquappEncoder,
+  QquappDecoder,
+  QecZooReference,
+  QquappKokompiLibrary,
+  PluralSigilPairing,
+  PluralSigilInjection,
+  PluralSigilInput,
+  PluralSigilFlow,
+  PluralSigilIssue,
+  PluralSigilValidationPairing,
+  PluralSigilValidation,
+  PluralSigilPayload,
+  PluralSigilPrimitive,
+  PluralSigilAgentExposition,
+  PluralSigilRelease,
+  PluralSigilReport,
 } from './types.js'
 
 export type { PairingLevel, PairingResult, ValidationReport, ContrastCheckResult } from './output/validation.js'

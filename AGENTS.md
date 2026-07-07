@@ -29,7 +29,8 @@ Read these before touching any file.
 src/math/          -- color conversions + WCAG contrast math (no domain logic)
 src/algorithm/     -- shade derivation (depends on math, nothing else)
 src/output/        -- formatting and usage computation (depends on types, nothing else)
-src/index.ts       -- public API boundary (the only place that accepts raw string for hex)
+src/sigil/         -- plural SIGIL lint/transpile layer over the external accessible-color-palette package
+src/index.ts       -- public API boundary (the only local palette API that accepts raw string for hex)
 src/mcp/server.ts  -- MCP server (depends on index.ts only)
 ```
 
@@ -41,7 +42,8 @@ Dependencies only flow downward. `algorithm` may import from `math`. Nothing imp
 
 `HexColor` is a branded string type defined in `src/types.ts`. It exists to prevent raw strings from bypassing validation.
 
-- The only place a raw `string` is accepted is `generatePalette(hex: string, ...)` in `src/index.ts`.
+- The local palette gate for raw strings is `generatePalette(hex: string, ...)` in `src/index.ts`.
+- The plural SIGIL layer may accept raw source hex strings only to pass them through to the external `accessible-color-palette` dependency.
 - `parseHex(input: string): HexColor` is the sole gate. It validates and brands.
 - All internal functions take `HexColor`, never `string`.
 - Do not cast `string` to `HexColor` anywhere except inside `parseHex`.
@@ -130,7 +132,7 @@ These mistakes are common when working with color code. Do not repeat them.
 
 - **Do not use HSL lightness as a proxy for WCAG contrast.** `l` and relative luminance are different things. Always use `contrastRatioHex`.
 - **Do not use `Number.toFixed`.** It returns a string. Use `Math.round(ratio * 100) / 100`.
-- **Do not expose internal functions from `src/index.ts`.** The public API is exactly `generatePalette` and `toCSSTokens`.
+- **Do not expose internal functions from `src/index.ts`.** Public exports are the palette API, validation helpers, and the single-purpose `lintPluralSigil` API.
 - **Do not add caching or memoization** unless profiling proves it is needed.
 - **Do not silently clamp invalid hex inputs.** Throw with `Error('Invalid hex color: <input>')`.
 - **Do not add `if` logic to `buildPalette`.** It is a pure sequencing function.
@@ -168,5 +170,6 @@ When adding a new shade derivation rule, test the `find*` function directly — 
 | `src/algorithm/compatibility.ts` | `buildCompatibilityMatrix` only (internal) | No palette building |
 | `src/output/tokens.ts` | `toCSSTokens` only | No palette building |
 | `src/output/usage.ts` | `buildPaletteUsage` only | No palette building |
-| `src/index.ts` | `generatePalette`, `toCSSTokens` re-export, type exports | No implementation logic |
+| `src/sigil/plural-sigil.ts` | `lintPluralSigil` KQC/WCAG linting and PACA primitive emission | No local palette math |
+| `src/index.ts` | `generatePalette`, `toCSSTokens`, `lintPluralSigil`, validation helpers, type exports | No implementation logic |
 | `src/mcp/server.ts` | MCP wiring | No algorithm reimplementation |

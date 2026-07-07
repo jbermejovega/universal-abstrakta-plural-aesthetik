@@ -1,9 +1,8 @@
-# accessible-color-palette
+# universal-abstrakta-plural-aesthetik
 
-[![npm](https://img.shields.io/npm/v/accessible-color-palette)](https://www.npmjs.com/package/accessible-color-palette)
-[![license](https://img.shields.io/npm/l/accessible-color-palette)](https://github.com/ceciCoding/accessible-color-palette/blob/main/LICENSE)
-[![node](https://img.shields.io/node/v/accessible-color-palette)](https://www.npmjs.com/package/accessible-color-palette)
-[![types](https://img.shields.io/npm/types/accessible-color-palette)](https://www.npmjs.com/package/accessible-color-palette)
+[![license](https://img.shields.io/badge/license-MIT-blue)](./LICENSE)
+[![node](https://img.shields.io/badge/node-%3E%3D18-green)](./package.json)
+[![types](https://img.shields.io/badge/types-TypeScript-blue)](./src/index.ts)
 
 A TypeScript library that generates **WCAG 2.2 AA compliant monochromatic palettes** from any hex color. The palette algorithm has no external dependencies — the WCAG math is implemented directly.
 
@@ -13,10 +12,42 @@ Ships as an ESM library, a **CLI**, and an **MCP server** for use with AI assist
 
 ---
 
+## Universal Abstrakta Plural Aesthetik
+
+This fork adds a plural SIGIL API module over the canonical `accessible-color-palette` dependency:
+
+```ts
+import { lintPluralSigil } from 'universal-abstrakta-plural-aesthetik'
+
+const report = lintPluralSigil({
+  namespace: 'uap.ceci.qquapp',
+  sourceHex: '#1f7a54',
+  theme: 'white',
+  pairings: [{ foreground: '700', background: 'theme' }],
+  injections: [
+    {
+      id: 'button',
+      language: 'css',
+      method: 'django-button-flow',
+      code: '.button { color: var(--uap-700); background: #fff; }',
+    },
+  ],
+})
+
+console.log(report.ok)
+console.log(report.primitives.map((primitive) => primitive.kind))
+```
+
+`lintPluralSigil` applies the KQC order (`SIGIL -> QUANTIZED -> CANONICAL`), validates pairings through WCAG 2.2 AA, emits `PACAUAP` palette primitives, emits `PACAPDG` code primitives with SIGIL headers, and exposes a compact agent-facing manifest for Django, QQUAPP, W3C/WCAG, and agent workflows.
+
+The report also exposes a `qquapp` field whose `KokompiTyped` library metadata models an injective encoder, a projective decoder, and a self-dual roundtrip for PR review capsules. Its Error Correction Zoo binding is a taxonomy reference to the public `errorcorrectionzoo/eczoo_data` repository, not a claim that this package implements a physical quantum error-correcting code.
+
+---
+
 ## Install
 
 ```bash
-npm install accessible-color-palette
+npm install universal-abstrakta-plural-aesthetik
 ```
 
 ---
@@ -26,7 +57,7 @@ npm install accessible-color-palette
 ### As a CLI
 
 ```bash
-npx accessible-color-palette <hex> <theme> [options]
+npx uap-palette <hex> <theme> [options]
 ```
 
 | Argument / Option | Description |
@@ -39,13 +70,13 @@ npx accessible-color-palette <hex> <theme> [options]
 
 ```bash
 # CSS tokens with WCAG manifest (default)
-npx accessible-color-palette 1F7A54 white
+npx uap-palette 1F7A54 white
 
 # Custom prefix
-npx accessible-color-palette 1F7A54 white --prefix brand
+npx uap-palette 1F7A54 white --prefix brand
 
 # Raw JSON
-npx accessible-color-palette 1F7A54 white --json
+npx uap-palette 1F7A54 white --json
 ```
 
 Output (default):
@@ -71,7 +102,7 @@ Output (default):
 ### As a library
 
 ```ts
-import { generatePalette, toCSSTokens } from 'accessible-color-palette'
+import { generatePalette, toCSSTokens } from 'universal-abstrakta-plural-aesthetik'
 
 const result = generatePalette('#1F7A54', 'white')
 
@@ -109,7 +140,7 @@ console.log(toCSSTokens(result, 'brand'))
 // ...
 
 // Validate a list of foreground/background shade pairs before you use them
-import { validatePairings } from 'accessible-color-palette'
+import { validatePairings } from 'universal-abstrakta-plural-aesthetik'
 
 const report = validatePairings(result, [
   { foreground: '700', background: 'white' },
@@ -120,7 +151,7 @@ console.log(report.pairings[0])    // { level: 'aa-normal', message: '✓ ...', 
 
 // Check contrast between any two arbitrary hex colors — e.g. a brand accent
 // that isn't part of the generated palette
-import { checkContrast } from 'accessible-color-palette'
+import { checkContrast } from 'universal-abstrakta-plural-aesthetik'
 
 console.log(checkContrast('#ffffff', '#c75d3a'))
 {
