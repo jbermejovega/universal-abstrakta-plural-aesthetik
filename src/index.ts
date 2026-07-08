@@ -23,7 +23,9 @@ export const checkContrast = _checkContrast
 
 export { lintPluralSigil } from './sigil/plural-sigil.js'
 export {
+  UAPA_INVARIANT_SIGIL_RENORMALIZATION_FLOW_ID,
   UAPA_SIGIL_ACCESSIBLE_PALETTE_LINTER_ID,
+  buildInvariantSigilRenormalizationFlow,
   buildSigilPaletteFlow,
   lintAccessiblePalette,
 } from './sigil/index.js'
@@ -79,6 +81,17 @@ export type {
   SigilPalettePdgWitness,
   SigilPaletteTheme,
   SigilPrimitive,
+  ContextTensorRole,
+  ContextTensorVariance,
+  ContextTypedTensor,
+  GeneralizedMeraLayer,
+  InvariantSigilRenormalizationFlow,
+  InvariantSigilRenormalizationInput,
+  PacaPdgRenormalizationWitness,
+  PluralTheorySource,
+  RenormalizationColimit,
+  RenormalizationGlueStage,
+  TwistedInjectionWitness,
 } from './sigil/index.js'
 export type {
   AccessibilityProfile,
