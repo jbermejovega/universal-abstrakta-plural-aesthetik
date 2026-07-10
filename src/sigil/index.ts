@@ -7,6 +7,10 @@ export {
   UAPA_INVARIANT_SIGIL_RENORMALIZATION_FLOW_ID,
   buildInvariantSigilRenormalizationFlow,
 } from './renormalization-flow.js'
+export {
+  UAPA_GRAPHICAL_CALCULUS_PRESHEAF_RELEASE_ID,
+  buildGraphicalCalculusPresheafRelease,
+} from './graphical-calculus-presheaf.js'
 
 export type {
   SigilPaletteFlow,
@@ -30,3 +34,20 @@ export type {
   RenormalizationGlueStage,
   TwistedInjectionWitness,
 } from './renormalization-flow.js'
+export type {
+  AdapterReadiness,
+  AdapterSurface,
+  ComputationalCategoryBasis,
+  GraphicalCalculusKind,
+  GraphicalCalculusPresheafRelease,
+  GraphicalCalculusPresheafReleaseInput,
+  GraphicalCalculusSection,
+  MilestoneStatus,
+  PresheafOfSheavesWitness,
+  PresheafReleaseDataType,
+  PresheafReleaseMilestone,
+  RagKnowledgeBaseWitness,
+  ReleaseAdapterWitness,
+  ReleaseBlockReason,
+  SafeReplayDataTypeRelease,
+} from './graphical-calculus-presheaf.js'
