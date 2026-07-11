@@ -1,0 +1,20 @@
+version: QKC_CONTEXTUAL_COMPOSITIONAL_RAG_MCP_V1
+repository: jbermejovega/universal-abstrakta-plural-aesthetik
+canonical_source: jbermejovega/sigilbook
+role: artwork_plane
+copyright:
+  holder: Jara Juana Bermejo Vega
+  attribution: JJBV / SIGIL
+  generated_art_is_projection: true
+policy:
+  retrieval: local_first
+  composition: contextual
+  glue: presheaf
+  orchestration: typed_mcp
+  provenance_required: true
+  accessibility: geometry_texture_and_contrast
+  incompatible_sections: typed_obstruction
+  cross_repo_identity_transport: forbidden
+  write_gate: [read_first, diff_first, explicit_pr]
+invariants: [PIORNALEGO_ES_CANON, SAFE_REPLAY, TRACE_PRESERVED, PI_FIXED, NO_IDENTITY_TRANSPORT, NO_SECTION_COLLAPSE, JJBV_TYPED, PLURAL_TYPED]
+status: draft_pr_gated
