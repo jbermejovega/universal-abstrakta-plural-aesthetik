@@ -1,0 +1,81 @@
+projection:
+  id: UAPA_PACA_KNOWLEDGE_ATLAS_PROJECTION_V2
+  type: downstream_artistic_and_typed_projection
+  status: canonical_candidate
+  repository: jbermejovega/universal-abstrakta-plural-aesthetik
+  author_owner: Jara Juana Bermejo Vega / JJBV
+
+upstream:
+  repository: jbermejovega/sigilbook
+  commit: 520eb8bf656aea59d860627e2b3d5304089865e0
+  pull_request: 252
+  authority: canonical_upstream
+  resources:
+    - sigil://knowledge/paca-weave/v2
+    - sigil://rag/paca-weave/v2
+
+surfaces:
+  - sigilbook
+  - pacainvestiga
+  - pacaricerca
+  - pacapaper
+  - pacanotebook
+  - pacapedia
+  - skaffold
+  - knowledge_weave
+  - pacadex
+  - pacaterminal
+  - pacaclock
+  - pacaclick
+  - click42
+  - pacanorma
+  - sigil_glue
+
+jaranian_generators:
+  - JARANIAN::Branch
+  - JARANIAN::Skaffold
+  - JARANIAN::Weave
+  - JARANIAN::Index
+  - JARANIAN::ProjectTerminal
+  - JARANIAN::Clock
+  - JARANIAN::Click
+  - JARANIAN::Kink42
+  - JARANIAN::Normalize
+  - JARANIAN::Glue
+
+boundaries:
+  rag: retrieval_only
+  mcp: bounded_tools_only
+  repository_mutation: false
+  click42:
+    human_confirmed: true
+    autonomous: false
+    mutates_repository: false
+    single_use: true
+  pacanorma_required_before_glue: true
+  pacanotebook_parent: pacapaper
+
+rights:
+  theory_author: Jara Juana Bermejo Vega / JJBV
+  artistic_materials: all_rights_reserved_unless_explicit_artistic_license
+  software_licenses: unchanged
+  tool_authorship_authority: none
+
+invariants:
+  - SIGILBOOK_FIRST
+  - SAFE_REPLAY
+  - TRACE_PRESERVED
+  - PI_FIXED
+  - NO_IDENTITY_TRANSPORT
+  - NO_IDENTITY_COLLAPSE
+  - NO_PLURAL_COLLAPSE
+  - OBSTRUCTION_VISIBLE
+  - HUMAN_REVIEW_BEFORE_CANON
+  - CLICK42_IS_HUMAN_CONTROLLED
+  - JJBV_AUTHORSHIP_PRESERVED
+
+git_normalization:
+  branch: local_typed_sector_over_current_main
+  rebase: base_change_preserves_patch_semantics
+  squash: reviewed_normal_form_one_persistence_witness
+  merge: canonical_admission_after_green_checks
