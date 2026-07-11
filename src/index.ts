@@ -23,11 +23,20 @@ export const checkContrast = _checkContrast
 
 export { lintPluralSigil } from './sigil/plural-sigil.js'
 export {
+  JARANIAN_KNOWLEDGE_GENERATORS,
+  PACA_KNOWLEDGE_SURFACES,
+  PACA_KNOWLEDGE_THEORY_AUTHOR,
+  PACA_KNOWLEDGE_UPSTREAM_COMMIT,
+  PACA_KNOWLEDGE_UPSTREAM_PULL_REQUEST,
+  PACA_KNOWLEDGE_UPSTREAM_REPOSITORY,
   UAPA_GRAPHICAL_CALCULUS_PRESHEAF_RELEASE_ID,
   UAPA_INVARIANT_SIGIL_RENORMALIZATION_FLOW_ID,
+  UAPA_PACA_KNOWLEDGE_ATLAS_PROJECTION_ID,
   UAPA_SIGIL_ACCESSIBLE_PALETTE_LINTER_ID,
+  buildCanonicalPacaKnowledgeAtlasProjection,
   buildGraphicalCalculusPresheafRelease,
   buildInvariantSigilRenormalizationFlow,
+  buildPacaKnowledgeAtlasProjection,
   buildSigilPaletteFlow,
   lintAccessiblePalette,
 } from './sigil/index.js'
@@ -101,7 +110,12 @@ export type {
   GraphicalCalculusPresheafRelease,
   GraphicalCalculusPresheafReleaseInput,
   GraphicalCalculusSection,
+  JaranianKnowledgeGenerator,
   MilestoneStatus,
+  PacaKnowledgeAtlasProjection,
+  PacaKnowledgeAtlasProjectionInput,
+  PacaKnowledgeProjectionBlockReason,
+  PacaKnowledgeSurface,
   PresheafOfSheavesWitness,
   PresheafReleaseDataType,
   PresheafReleaseMilestone,
