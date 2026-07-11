@@ -17,6 +17,7 @@
   "files": [
     "dist",
     "!dist/**/*.map",
+    "docs",
     "README.md",
     "MCP.md",
     "LICENSE"
@@ -39,7 +40,13 @@
     "mcp",
     "sigil",
     "paca",
-    "wcag"
+    "wcag",
+    "safe-replay",
+    "presheaf",
+    "sheaf",
+    "graphical-calculus",
+    "w3c",
+    "pypi"
   ],
   "author": "jbermejovega",
   "license": "MIT",

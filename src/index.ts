@@ -23,8 +23,10 @@ export const checkContrast = _checkContrast
 
 export { lintPluralSigil } from './sigil/plural-sigil.js'
 export {
+  UAPA_GRAPHICAL_CALCULUS_PRESHEAF_RELEASE_ID,
   UAPA_INVARIANT_SIGIL_RENORMALIZATION_FLOW_ID,
   UAPA_SIGIL_ACCESSIBLE_PALETTE_LINTER_ID,
+  buildGraphicalCalculusPresheafRelease,
   buildInvariantSigilRenormalizationFlow,
   buildSigilPaletteFlow,
   lintAccessiblePalette,
@@ -92,6 +94,21 @@ export type {
   RenormalizationColimit,
   RenormalizationGlueStage,
   TwistedInjectionWitness,
+  AdapterReadiness,
+  AdapterSurface,
+  ComputationalCategoryBasis,
+  GraphicalCalculusKind,
+  GraphicalCalculusPresheafRelease,
+  GraphicalCalculusPresheafReleaseInput,
+  GraphicalCalculusSection,
+  MilestoneStatus,
+  PresheafOfSheavesWitness,
+  PresheafReleaseDataType,
+  PresheafReleaseMilestone,
+  RagKnowledgeBaseWitness,
+  ReleaseAdapterWitness,
+  ReleaseBlockReason,
+  SafeReplayDataTypeRelease,
 } from './sigil/index.js'
 export type {
   AccessibilityProfile,
