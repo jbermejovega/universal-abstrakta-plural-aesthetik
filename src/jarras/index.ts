@@ -15,11 +15,11 @@ import type {
   JarrasFigureSpec,
   JarrasInvariant,
   JarrasKhoreoLibrary,
+  JarrasValidationIssue,
+  JarrasValidationReport,
   MovementAtom,
   MovementFormula,
   SocialMediaCard,
-  ValidationIssue,
-  ValidationReport,
 } from './types.js'
 
 export const JARRAS_KHOREO_LIBRARY_ID = 'JARRAS_KHOREO_LIBRARY_V1' as const
@@ -123,8 +123,8 @@ export function renderCourseManifest(library: JarrasKhoreoLibrary = buildJarrasK
   ].join('\n')
 }
 
-export function validateJarrasKhoreoLibrary(library: JarrasKhoreoLibrary): ValidationReport {
-  const issues: ValidationIssue[] = []
+export function validateJarrasKhoreoLibrary(library: JarrasKhoreoLibrary): JarrasValidationReport {
+  const issues: JarrasValidationIssue[] = []
   const atomIds = new Set(library.atoms.map((atom) => atom.id))
   const formulaIds = new Set(library.formulas.map((formula) => formula.id))
   const moduleIds = new Set(library.modules.map((module) => module.id))
@@ -199,7 +199,7 @@ export function validateJarrasKhoreoLibrary(library: JarrasKhoreoLibrary): Valid
 function assertRequiredInvariants(
   invariants: readonly JarrasInvariant[],
   path: string,
-  issues: ValidationIssue[],
+  issues: JarrasValidationIssue[],
 ): void {
   const required: readonly JarrasInvariant[] = Object.freeze([
     'no_transport',
@@ -232,11 +232,11 @@ export type {
   JarrasFigureSpec,
   JarrasInvariant,
   JarrasKhoreoLibrary,
+  JarrasValidationIssue,
+  JarrasValidationReport,
   MovementAtom,
   MovementFormula,
   SocialMediaCard,
-  ValidationIssue,
-  ValidationReport,
 }
 
 export {
