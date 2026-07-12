@@ -153,7 +153,7 @@ export interface JarrasKhoreoLibrary {
   readonly invariants: readonly JarrasInvariant[]
 }
 
-export interface ValidationIssue {
+export interface JarrasValidationIssue {
   readonly code:
     | 'MISSING_INVARIANT'
     | 'UNKNOWN_ATOM'
@@ -166,7 +166,7 @@ export interface ValidationIssue {
   readonly message: string
 }
 
-export interface ValidationReport {
+export interface JarrasValidationReport {
   readonly ok: boolean
-  readonly issues: readonly ValidationIssue[]
+  readonly issues: readonly JarrasValidationIssue[]
 }
