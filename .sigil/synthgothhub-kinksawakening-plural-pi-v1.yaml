@@ -1,0 +1,86 @@
+id: SYNTHGOTHHUB_KINKSAWAKENING_PLURAL_PI_ADAPTER_V1
+version: 1.0.0
+kind: repository_projection_policy
+status: draft_pr_gated
+repository: jbermejovega/universal-abstrakta-plural-aesthetik
+role: accessible_plural_aesthetik_and_mcp_projection
+branch: policy/rag-mcp-n8n-compliance-v1
+
+authority:
+  canonical_repository: jbermejovega/sigilbook
+  canonical_policy: docs/policy/SYNTHGOTHHUB_RAG_MCP_N8N_COMPLIANCE_V1.md
+  canonical_resource: resources/rag/synthgothhub_kinksawakening_plural_pi_resource_v1.yaml
+  local_code_truth: git_history
+  package_identity_preserved: true
+  mcp_is_not_authority: true
+
+rag:
+  mode: source_bound_projection
+  provenance_required: true
+  immutable_ref_path_and_hash_required: true
+  license_or_usage_descriptor_required: true
+  retrieval_is_not_truth: true
+  conflicts_remain_plural: true
+
+mcp:
+  mode: bounded_palette_and_validation_tools
+  mutation: false
+  repository_writes: false
+  external_execution: false
+  image_generation: false
+  tools:
+    - generate_palette
+    - validate_pairings
+    - generate_css_tokens
+    - check_contrast
+  css_emission_requires_validated_pairings: true
+
+uap:
+  wcag_target: 2.2_AA
+  QuasarPi_role: palette_selector_and_render_witness
+  palette_is_identity: false
+  palette_output_is_canonical_truth: false
+  pairings_and_contrast_witnesses_required: true
+  code_injections_require_visible_sigil_headers: true
+
+n8n:
+  role: orchestration_only
+  active_by_default: false
+  credentials_embedded: false
+  repository_mutation: false
+  external_runtime_execution: false
+
+typed_sections:
+  - QuasarPi
+  - PluralTyped
+  - QunoTypes
+  - MimbrePi
+  - LaurelPi
+  - StableDiffusion
+  - SonicPi
+  - Kuirkode
+
+aliases:
+  qunos: QunoTypes
+  stablediffussion: StableDiffusion
+  sonicpi: SonicPi
+  kuirkode: Kuirkode
+
+invariants:
+  - PIORNALEGO_ES_CANON
+  - SAFE_REPLAY
+  - TRACE_PRESERVED
+  - PI_FIXED
+  - NO_IDENTITY_TRANSPORT
+  - NO_IDENTITY_COLLAPSE
+  - NO_PLURAL_COLLAPSE
+  - WCAG_2_2_AA
+  - LICENSE_PRESERVED
+  - HUMAN_REVIEW_REQUIRED
+
+claim_boundary:
+  policy_declared: true
+  palette_validation_available: repository_local
+  image_generation_executed: false
+  workflow_executed: false
+  canonicalized: false
