@@ -42,6 +42,7 @@ export {
 } from './sigil/index.js'
 export { cecicodeInspiredProfile } from './profile/cecicodeInspired.js'
 export { validateProfileColorPairs } from './output/policyValidation.js'
+export * from './jarras/index.js'
 
 export type {
   PaletteResult,
