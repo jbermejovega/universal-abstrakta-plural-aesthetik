@@ -88,25 +88,29 @@ The safe-replay invariants are explicit: no transport, no coercion, trace preser
 
 ## SIGIL Rule Zero
 
-The publishing update following PR #14 adds the formal capsule [SIGIL Rule Zero — Resource-Relative Commutation](./docs/SIGIL_RULEZERO_RESOURCE_RELATIVE_COMMUTATION_V1.md).
+The formal capsule [SIGIL Rule Zero — Resource-Relative Commutation](./docs/SIGIL_RULEZERO_RESOURCE_RELATIVE_COMMUTATION_V1.md) is a **post-merge theoretical note following PR #14**. It does not modify the merged PR #14 patch and does not claim that Rule Zero was implemented or tested there.
 
-Its irreducible law is:
+Its algebraic criterion is:
 
 \[
-A\Join_RB
-\iff
-\operatorname{NF}_{I_R}\!\left(\rho_{\mathcal O}[A,B]\right)=0,
+\operatorname{NF}_{G_R}\!\left(
+\rho_{\mathcal O}(A\circ B)-\rho_{\mathcal O}(B\circ A)
+\right)=0,
 \]
 
-with monotone, submultiplicative cost:
+where the ambient algebra, reduction order, Jaranian ideal, and Gröbner basis or equivalent confluent reducer are explicitly declared.
+
+Its general ordered-monoidal cost law is:
 
 \[
 \mathsf C_R(A\circ B)
-\leq
-\mathsf C_R(A)\mathsf C_R(B).
+\preceq_R^{\mathcal K}
+\mathsf C_R(A)\otimes_R\mathsf C_R(B).
 \]
 
-The capsule distinguishes operator-algebraic approximation obstructions from orbifold quotient geometry: the Connes embedding problem does not define orbifolds. Both may enter the same typed SIGIL obstruction registry without ontological or mathematical collapse.
+Full Rule-Zero admission additionally requires type preservation, `Π` preservation, replay equivalence, and cost comparability. Resource processes form a typed preorder; quotienting by operational equivalence yields a partial order on equivalence classes.
+
+The capsule also distinguishes operator-algebraic approximation obstructions from orbifold quotient geometry: the Connes embedding problem does not define orbifolds. Both may enter a typed SIGIL obstruction registry without mathematical collapse.
 
 ---
 
