@@ -1,0 +1,37 @@
+id: TROPE_TYPED_SIGIL_QUIMBO_NORMALIZER_V1
+version: 1
+repository: jbermejovega/universal-abstrakta-plural-aesthetik
+role: accessible_plural_aesthetik_projection
+implementation: src/tropeTypedSigil.ts
+status:
+  active_candidate: true
+  deterministic: true
+  side_effect_free: true
+  replay_safe: true
+uap:
+  preserves_trope_identity: true
+  branch_order_preserved: true
+  weights_normalized_only_after_validation: true
+  palette_or_render_is_not_identity: true
+rag:
+  provenance_required: true
+  retrieval_before_composition: true
+mcp:
+  mode: validate_only
+  repository_writes: false
+n8n:
+  active_by_default: false
+  orchestration_only: true
+forbidden:
+  - identity_transport
+  - plural_collapse
+  - projection_as_origin
+  - image_generation_as_proof
+  - external_execution
+invariants:
+  - SAFE_REPLAY
+  - TRACE_PRESERVED
+  - PI_FIXED
+  - NO_IDENTITY_TRANSPORT
+  - NO_PLURAL_COLLAPSE
+  - WCAG_2_2_AA
