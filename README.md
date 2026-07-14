@@ -86,6 +86,30 @@ The safe-replay invariants are explicit: no transport, no coercion, trace preser
 
 ---
 
+## SIGIL Rule Zero
+
+The publishing update following PR #14 adds the formal capsule [SIGIL Rule Zero — Resource-Relative Commutation](./docs/SIGIL_RULEZERO_RESOURCE_RELATIVE_COMMUTATION_V1.md).
+
+Its irreducible law is:
+
+\[
+A\Join_RB
+\iff
+\operatorname{NF}_{I_R}\!\left(\rho_{\mathcal O}[A,B]\right)=0,
+\]
+
+with monotone, submultiplicative cost:
+
+\[
+\mathsf C_R(A\circ B)
+\leq
+\mathsf C_R(A)\mathsf C_R(B).
+\]
+
+The capsule distinguishes operator-algebraic approximation obstructions from orbifold quotient geometry: the Connes embedding problem does not define orbifolds. Both may enter the same typed SIGIL obstruction registry without ontological or mathematical collapse.
+
+---
+
 ## Install
 
 ```bash
