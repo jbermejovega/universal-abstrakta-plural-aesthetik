@@ -40,6 +40,18 @@ export {
   buildSigilPaletteFlow,
   lintAccessiblePalette,
 } from './sigil/index.js'
+export {
+  JARRAKNE_KQC_TWIST_GROOVE_V1,
+  buildJarrakneKqcNormalForm,
+  jarrakneMermaid,
+  validateJarrakneKqcNormalForm,
+} from './sigil/jarrakne-kqc-twist-groove.js'
+export type {
+  GlueSurface,
+  GrooveAtom,
+  JarrakneEntity,
+  JarrakneKqcNormalForm,
+} from './sigil/jarrakne-kqc-twist-groove.js'
 export { cecicodeInspiredProfile } from './profile/cecicodeInspired.js'
 export { validateProfileColorPairs } from './output/policyValidation.js'
 export * from './jarras/index.js'
