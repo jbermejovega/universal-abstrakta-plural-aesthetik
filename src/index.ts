@@ -65,6 +65,10 @@ export {
   validatePalaEstacaScene,
 } from './pala-estaca/index.js'
 export { PALA_ESTACA_MODELS, getPalaEstacaModel } from './pala-estaca/models.js'
+export {
+  PALA_ESTACA_GODOT_SCHEMA,
+  projectSceneToGodotManifest,
+} from './pala-estaca/godot.js'
 export type {
   AmbientLattice,
   AmbientTopology,
@@ -80,6 +84,14 @@ export type {
   UapState,
 } from './pala-estaca/index.js'
 export type { PalaEstacaModelDescriptor } from './pala-estaca/models.js'
+export type {
+  GodotCellKind,
+  GodotCellProjection,
+  GodotCohomologyOverlay,
+  GodotHyperkernelProjection,
+  GodotRelationProjection,
+  PalaEstacaGodotManifest,
+} from './pala-estaca/godot.js'
 
 export type {
   PaletteResult,
