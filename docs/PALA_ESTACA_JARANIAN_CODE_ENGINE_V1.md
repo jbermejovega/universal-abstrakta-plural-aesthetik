@@ -14,6 +14,8 @@ PACA_CURVA | PACA_PLANA | PACA_HIPERBOLICA | ARBITRARY_CELL_COMPLEX
   -> STRIKK validation
   -> PACAPDG glue
   -> UAP: ADMIT | HOLD_WITH_OBSTRUCTION | REJECT
+  -> deterministic Godot manifest
+  -> PACAIOGAME / QuasarPi renderer projection
 ```
 
 ## Design law
@@ -42,6 +44,32 @@ Each code layer carries:
 
 This is a typed contextual projection, not an equivalence proof.
 
+## Godot and QuasarPi projection
+
+`projectSceneToGodotManifest` emits a deterministic `uapa.pala-estaca.godot-manifest.v1` document. It classifies finite cells as vertex, edge, facet, or higher cells; preserves semantic, semiotic and context labels; records incidence and boundary relations; exports higher-cohomology overlays; and lists the enabled hyperkernels.
+
+The strict JSON schema lives at:
+
+```text
+schemas/pala-estaca-godot-manifest-v1.schema.json
+```
+
+The Godot 4 runtime node lives at:
+
+```text
+godot/pala_estaca/PalaEstacaGraphEngine.gd
+```
+
+It builds an interactive 3D projection using `MeshInstance3D`, relation cylinders and `Label3D` overlays. The node refuses manifests that allow identity transport, omit projection status, or claim canonical authority for the renderer.
+
+```text
+TypeScript scene = typed finite presentation
+Godot manifest  = deterministic renderer contract
+Godot scene     = interactive projection
+QuasarPi        = graphical/VFX adapter lane
+Git/SIGIL       = canonical identity boundary
+```
+
 ## Model registry
 
 - `PACA_LAUREL`: local branching and rooted sections;
@@ -64,8 +92,10 @@ NO_PLURAL_COLLAPSE
 PI_FIXED
 CONTEXT_PRESERVED
 OBSTRUCTIONS_NOT_ERASED
+RENDER_IS_PROJECTION
+RENDER_HAS_NO_CANONICAL_AUTHORITY
 ```
 
 ## Claim boundary
 
-The module is a rendering and validation substrate. Distances, logical qubits, cohomology classes and code labels are supplied metadata unless independently derived and certified by a separate code-analysis backend.
+The module is a rendering and validation substrate. Distances, logical qubits, cohomology classes and code labels are supplied metadata unless independently derived and certified by a separate code-analysis backend. Godot, QuasarPi and PACAIOGAME visualize admitted data; they do not prove code parameters, fault tolerance, holographic equivalence or quantum execution.
