@@ -55,6 +55,31 @@ export type {
 export { cecicodeInspiredProfile } from './profile/cecicodeInspired.js'
 export { validateProfileColorPairs } from './output/policyValidation.js'
 export * from './jarras/index.js'
+export {
+  PALA_ESTACA_ENGINE_ID,
+  buildPalaEstacaScene,
+  liftCodeLayer,
+  projectSceneToGraph,
+  validateAmbientLattice,
+  validateCodeLayer,
+  validatePalaEstacaScene,
+} from './pala-estaca/index.js'
+export { PALA_ESTACA_MODELS, getPalaEstacaModel } from './pala-estaca/models.js'
+export type {
+  AmbientLattice,
+  AmbientTopology,
+  Cell,
+  CodeFamily,
+  CodeLayer,
+  CohomologyClass,
+  EngineModel,
+  LiftOptions,
+  PalaEstacaScene,
+  PluralType,
+  SceneValidation,
+  UapState,
+} from './pala-estaca/index.js'
+export type { PalaEstacaModelDescriptor } from './pala-estaca/models.js'
 
 export type {
   PaletteResult,
