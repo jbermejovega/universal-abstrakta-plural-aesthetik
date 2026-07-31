@@ -52,6 +52,20 @@ export type {
   JarrakneEntity,
   JarrakneKqcNormalForm,
 } from './sigil/jarrakne-kqc-twist-groove.js'
+export {
+  VORTICE_TWERK_AUTHOR,
+  VORTICE_TWERK_PLURAL_AESTHETIK_V1,
+  buildVorticeTwerkPluralAesthetik,
+  validateVorticeTwerkPluralAesthetik,
+  vorticeTwerkMermaid,
+} from './sigil/vortice-twerk-plural-aesthetik.js'
+export type {
+  AesthetikCell,
+  CellularTwistedInjection,
+  SourcePin,
+  VorticeTwerkPluralAesthetik,
+  VorticeTwerkSurface,
+} from './sigil/vortice-twerk-plural-aesthetik.js'
 export { cecicodeInspiredProfile } from './profile/cecicodeInspired.js'
 export { validateProfileColorPairs } from './output/policyValidation.js'
 export * from './jarras/index.js'
