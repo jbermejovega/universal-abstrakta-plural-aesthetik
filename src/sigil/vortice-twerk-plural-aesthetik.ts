@@ -62,11 +62,11 @@ export interface VorticeTwerkPluralAesthetik {
   readonly canon: 'PIORNALEGO_ES_CANON'
   readonly sigilbookSource: {
     readonly branch: 'agent/sigilitas-vortice-taller-twerk-canonical-release-v1'
-    readonly commit: 'f376c1fbbd66cb0abe120aae9afbe51b5560d4dd'
+    readonly commit: 'e97224c0703279f9be053137808e0692c771f091'
   }
   readonly sigil4cpythonProjection: {
     readonly branch: 'agent/vortice-twerk-coherent-sheaf-projection-v1'
-    readonly commit: 'd9fd00d8a7522fc954deb8e8697ea4c86a4f9021'
+    readonly commit: '7bd7593fb3077d7169374c21939e4857329ab740'
   }
   readonly cells: readonly AesthetikCell[]
   readonly injections: readonly CellularTwistedInjection[]
@@ -112,11 +112,11 @@ export function buildVorticeTwerkPluralAesthetik(): VorticeTwerkPluralAesthetik 
     canon: 'PIORNALEGO_ES_CANON',
     sigilbookSource: {
       branch: 'agent/sigilitas-vortice-taller-twerk-canonical-release-v1',
-      commit: 'f376c1fbbd66cb0abe120aae9afbe51b5560d4dd',
+      commit: 'e97224c0703279f9be053137808e0692c771f091',
     },
     sigil4cpythonProjection: {
       branch: 'agent/vortice-twerk-coherent-sheaf-projection-v1',
-      commit: 'd9fd00d8a7522fc954deb8e8697ea4c86a4f9021',
+      commit: '7bd7593fb3077d7169374c21939e4857329ab740',
     },
     cells,
     injections: [
