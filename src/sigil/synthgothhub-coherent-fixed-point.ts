@@ -3,9 +3,9 @@ import { createHash } from 'node:crypto'
 export const SYNTHGOTHHUB_COHERENT_AESTHETIK_PROJECTION_V1 =
   'SYNTHGOTHHUB_COHERENT_AESTHETIK_PROJECTION_V1' as const
 export const SIGILBOOK_PR_695_PAYLOAD_HEAD =
-  '5f5d0f0b776d34077a22e897d8ec68cab6637d42' as const
+  '3eaa72173eba1f91627c80b5e8359adeb140994e' as const
 export const SIGIL4CPYTHON_PR_8_HEAD =
-  '99ddaa7d273f2f6c87affc985a1a721776344f50' as const
+  'e290a2221bbda62ded17ec3d0b9b298a45da8223' as const
 export const SEMANTIC_KERNEL_ID =
   'SIGIL_PLURAL_UNIVERSAL_ABSTRAKTA_AESTHETIK_KERNEL_V1' as const
 export const PI_REF =
