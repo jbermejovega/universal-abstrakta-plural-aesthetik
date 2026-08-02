@@ -8,7 +8,7 @@ import {
 
 const DOCUMENT = `projection SYNTHGOTHHUB_UNIVERSAL_AESTHETIK_PROJECTION_V1
 author Jara Juana Bermejo-Vega / JJBV
-source sigilbook#695@5f5d0f0b776d34077a22e897d8ec68cab6637d42
+source sigilbook#695@3eaa72173eba1f91627c80b5e8359adeb140994e
 target jbermejovega/universal-abstrakta-plural-aesthetik
 section SECTION_AESTHETIK_PUBLIC
 kernel SIGIL_PLURAL_UNIVERSAL_ABSTRAKTA_AESTHETIK_KERNEL_V1
@@ -43,7 +43,7 @@ describe('SynthGothHub coherent aesthetik projection', () => {
 
   it('rejects source-head drift', () => {
     const errors = validateProjectionDocument(
-      DOCUMENT.replace('5f5d0f0b', '00000000'),
+      DOCUMENT.replace('3eaa7217', '00000000'),
     )
     expect(errors.some((error) => error.startsWith('MISSING_LINE:source'))).toBe(
       true,
