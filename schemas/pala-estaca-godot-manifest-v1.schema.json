@@ -1,0 +1,186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://uapa.local/schemas/pala-estaca-godot-manifest-v1.schema.json",
+  "title": "Pala Estaca Godot Manifest V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schemaVersion",
+    "sceneId",
+    "sourceDigest",
+    "topology",
+    "cells",
+    "relations",
+    "overlays",
+    "hyperkernels",
+    "invariants",
+    "digest"
+  ],
+  "properties": {
+    "schema": { "const": "uapa.pala-estaca.godot-manifest.v1" },
+    "schemaVersion": { "const": 1 },
+    "sceneId": { "type": "string", "minLength": 1, "maxLength": 192 },
+    "sourceDigest": { "$ref": "#/$defs/digest" },
+    "topology": {
+      "enum": ["PACA_CURVA", "PACA_PLANA", "PACA_HIPERBOLICA", "ARBITRARY_CELL_COMPLEX"]
+    },
+    "cells": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/cell" },
+      "maxItems": 100000
+    },
+    "relations": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/relation" },
+      "maxItems": 500000
+    },
+    "overlays": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/overlay" },
+      "maxItems": 100000
+    },
+    "hyperkernels": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/hyperkernel" },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "invariants": { "$ref": "#/$defs/invariants" },
+    "digest": { "$ref": "#/$defs/digest" }
+  },
+  "$defs": {
+    "digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "token": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "cell": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "dimension",
+        "position",
+        "pluralType",
+        "semanticType",
+        "semioticType",
+        "contextId"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/token" },
+        "kind": {
+          "enum": ["VERTEX_CELL", "EDGE_CELL", "FACET_CELL", "HIGHER_CELL"]
+        },
+        "dimension": { "type": "integer", "minimum": 0, "maximum": 1024 },
+        "position": {
+          "type": "array",
+          "prefixItems": [
+            { "type": "number" },
+            { "type": "number" },
+            { "type": "number" }
+          ],
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "pluralType": { "$ref": "#/$defs/token" },
+        "semanticType": { "$ref": "#/$defs/token" },
+        "semioticType": { "$ref": "#/$defs/token" },
+        "contextId": { "$ref": "#/$defs/token" }
+      }
+    },
+    "relation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "target", "kind"],
+      "properties": {
+        "source": { "$ref": "#/$defs/token" },
+        "target": { "$ref": "#/$defs/token" },
+        "kind": { "enum": ["INCIDENCE", "BOUNDARY"] }
+      }
+    },
+    "overlay": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "degree", "support", "family"],
+      "properties": {
+        "id": { "$ref": "#/$defs/token" },
+        "degree": { "type": "integer", "minimum": 0, "maximum": 1024 },
+        "support": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/token" },
+          "uniqueItems": true
+        },
+        "family": {
+          "enum": [
+            "CSS_TOPOLOGICAL",
+            "HOLOGRAPHIC",
+            "QLDPC",
+            "HIGHER_COHOMOLOGICAL_JARANIAN"
+          ]
+        }
+      }
+    },
+    "hyperkernel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "role", "dimensions", "preserves"],
+      "properties": {
+        "id": {
+          "enum": [
+            "PACA_LAUREL",
+            "LAURELPI",
+            "TENSEGRITYPI",
+            "QUOQUANTUM_TENSEGRITY",
+            "UNIVERSAL_SAFIKA_ABSTRAKTA_PI",
+            "TALLERTWERKPI",
+            "JARRAPI",
+            "HYPERAUSALPI"
+          ]
+        },
+        "role": { "$ref": "#/$defs/token" },
+        "dimensions": {
+          "type": "array",
+          "items": { "type": "integer", "minimum": 0, "maximum": 1024 },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "preserves": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/token" },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      }
+    },
+    "invariants": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provenancePreserved",
+        "replayPreserved",
+        "noIdentityTransport",
+        "noPluralCollapse",
+        "piFixed",
+        "contextPreserved",
+        "renderIsProjection",
+        "canonicalAuthority"
+      ],
+      "properties": {
+        "provenancePreserved": { "const": true },
+        "replayPreserved": { "const": true },
+        "noIdentityTransport": { "const": true },
+        "noPluralCollapse": { "const": true },
+        "piFixed": { "const": true },
+        "contextPreserved": { "const": true },
+        "renderIsProjection": { "const": true },
+        "canonicalAuthority": { "const": false }
+      }
+    }
+  }
+}
