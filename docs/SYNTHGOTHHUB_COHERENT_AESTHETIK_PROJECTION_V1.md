@@ -2,7 +2,7 @@
 
 **Author/owner:** Jara Juana Bermejo-Vega / JJBV  
 **Canonical source:** `jbermejovega/sigilbook` PR #695 payload `3eaa72173eba1f91627c80b5e8359adeb140994e`  
-**CPython projection:** `jbermejovega/sigil4cpython` PR #8 head `68978af47a80fdde8a4882579dde28f5c3b5c92f`  
+**CPython projection:** `jbermejovega/sigil4cpython` PR #8 head `965c440211b9e2dcd94af492aca138fbcdba76fd`  
 **Canon:** `PIORNALEGO_ES_CANON`
 
 This projection extends the existing Pydantika coherent-sheaf overlay without
