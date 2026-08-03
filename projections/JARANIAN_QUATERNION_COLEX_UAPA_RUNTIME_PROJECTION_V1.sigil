@@ -1,0 +1,24 @@
+projection JARANIAN_QUATERNION_COLEX_UAPA_RUNTIME_PROJECTION_V1
+author Jara Juana Bermejo Vega / JJBV
+source sigilbook#746@28fd3f150fb1520ea322b35d4d6542a7738ae11d
+source sigil4cpython#9@c7191b7bf867e41e84e4daac3ac59b79f968d04d
+identity Identity_ONE_Gold
+stabilizer StabilizerOctahedron_Gold
+operation opposite-phase QUATERNION_ANTIPODE
+context GLOBAL identity-visible true
+context X held [Y,Z]
+context Y held [X,Z]
+context Z held [X,Y]
+equation i*i=-1
+equation j*j=-1
+equation k*k=-1
+equation i*j=k
+equation j*k=i
+equation k*i=j
+equation i*j*k=-1
+invariant NO_IDENTITY_TRANSPORT
+invariant NO_PLURAL_COLLAPSE
+invariant TRACE_PRESERVED
+invariant PI_FIXED
+invariant RENDER_IS_PROJECTION
+end JARANIAN_QUATERNION_COLEX_UAPA_RUNTIME_PROJECTION_V1
