@@ -22,6 +22,22 @@ export {
   buildCanonicalPacaKnowledgeAtlasProjection,
   buildPacaKnowledgeAtlasProjection,
 } from './paca-knowledge-atlas-projection.js'
+export {
+  EXPECTED_END_LINE as PR696_698_EXPECTED_END_LINE,
+  PI_REF as PR696_698_PI_REF,
+  PROJECTION_ID as PR696_698_PROJECTION_ID,
+  SEMANTIC_KERNEL_ID as PR696_698_SEMANTIC_KERNEL_ID,
+  SIGILBOOK_PR_696_HEAD,
+  SIGILBOOK_PR_697_HEAD,
+  SIGILBOOK_PR_698_HEAD,
+  SYNTHGOTHHUB_PR696_698_PLURAL_SHEAF_PROJECTION_V1,
+  UAPA_PR_20_HEAD,
+  buildPr696698PluralSheafProjection,
+  pr696698PluralSheafMermaid,
+  validatePr696698PluralSheaf,
+  validateProjectionDocument as validatePr696698ProjectionDocument,
+  verifyPr696698PluralSheafFixedPoint,
+} from './pr696-698-plural-sheaf-projection.js'
 
 export type {
   SigilPaletteFlow,
@@ -69,3 +85,11 @@ export type {
   PacaKnowledgeProjectionBlockReason,
   PacaKnowledgeSurface,
 } from './paca-knowledge-atlas-projection.js'
+export type {
+  PluralSheafOverlap,
+  PluralSheafSection,
+  Pr696698PluralSheafProjection,
+  SheafSourceEpoch,
+  SourceAuthority as Pr696698SourceAuthority,
+  SourceState as Pr696698SourceState,
+} from './pr696-698-plural-sheaf-projection.js'
