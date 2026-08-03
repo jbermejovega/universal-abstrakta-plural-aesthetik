@@ -1,0 +1,25 @@
+projection JARANIAN_TOTAL_COLEX_ATLAS_UAPA_PROJECTION_V1
+author Jara Juana Bermejo Vega / JJBV
+parent universal-abstrakta#21@e55d0f06e0b4d377c933a5b63cf2c572b24cf148
+source sigilbook#746@5ef828c5df04f77a64c66dd5a4b940588cef3bd2
+source sigil4cpython#9@349fcd8af06369a51b2d14245a12abd4e9a1375a
+identity cell.identity relation rel.identity
+panel panel.brane ordinal 1
+panel panel.totalization ordinal 2
+panel panel.hk_fm ordinal 3
+panel panel.dual_solids ordinal 4
+panel panel.scutoid ordinal 5
+panel panel.qubit ordinal 6
+context X incomplete true
+context Y incomplete true
+context Z incomplete true
+held rel.fm.reverse
+held rel.hk.preservation
+held rel.scutoid.intercalation
+invariant NO_IDENTITY_TRANSPORT
+invariant NO_PLURAL_COLLAPSE
+invariant TRACE_PRESERVED
+invariant PI_FIXED
+invariant COLOR_IS_NOT_IDENTITY
+invariant RENDER_IS_PROJECTION
+end JARANIAN_TOTAL_COLEX_ATLAS_UAPA_PROJECTION_V1
