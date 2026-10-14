@@ -1,0 +1,55 @@
+{
+  "schema_id": "PACA_CROSS_REPOSITORY_RELEASE_GATE_V1",
+  "policy_id": "PACA_CROSS_REPOSITORY_RELEASE_STANDARD_V1",
+  "repository": "jbermejovega/universal-abstrakta-plural-aesthetik",
+  "repository_role": "public_tool_showcase_with_inherited_mit_software",
+  "release_status": "HOLD_PUBLIC_RELEASE",
+  "copyright_claims": {
+    "existing_mit_root": {
+      "path": "LICENSE",
+      "stated_holder": "Ceci Olivera",
+      "preserve": true
+    },
+    "new_original_art": {
+      "cleared_assets": [],
+      "suggested_license": "CC-BY-NC-ND-4.0",
+      "license_granted_to_assets": false
+    }
+  },
+  "inbound": {
+    "external_dependency": "accessible-color-palette",
+    "license_inventory_complete": false,
+    "demo_asset_provenance_complete": false,
+    "third_party_notices_complete": false
+  },
+  "release_gates": {
+    "ownership_verified": false,
+    "license_matrix_complete": false,
+    "private_core_excluded": false,
+    "dependency_security_checked": false,
+    "privacy_content_checked": false,
+    "accessibility_checked": false,
+    "reproducible_build_observed": false,
+    "release_artifact_digest_recorded": false,
+    "all_repositories_conform": false,
+    "human_release_approval": false
+  },
+  "channel_authorization": {
+    "github_release": false,
+    "npm_publish": false,
+    "github_pages": false,
+    "game_web": false,
+    "book_pdf": false,
+    "book_web": false
+  },
+  "required_documents": [
+    "LICENSE",
+    "docs/governance/PACA_RELEASE_STANDARD_V1.md",
+    "docs/legal/LICENSE_SCOPE_AND_ATTRIBUTION_V1.md",
+    "docs/legal/ARTISTIC_PORTFOLIO_LICENSE_V1.md",
+    "docs/legal/RIGHTS_REGISTER_V1.md",
+    "docs/governance/MAIN_RULESET_PROPOSAL_V1.md",
+    "docs/governance/SIGIL_RPG_RELEASE_BOUNDARY_V1.md"
+  ],
+  "notes": "No new art assets assigned under proposed CC terms. Public repository visibility predates this policy; it cannot be undone by a HOLD flag. No claim of global enforcement."
+}

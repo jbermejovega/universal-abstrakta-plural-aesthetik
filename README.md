@@ -1,5 +1,8 @@
 # universal-abstrakta-plural-aesthetik
 
+> **PACA professional portfolio release status: HOLD_PUBLIC_RELEASE.** This repository is publicly readable, but no new PACA artistic portfolio, SIGIL RPG or CODICEX commercial/public distribution is authorized by that fact. Root [MIT license](./LICENSE), originally crediting Ceci Olivera, is preserved; artistic rights are scoped **per original asset**, not retrospectively. Consult [release standard](./docs/governance/PACA_RELEASE_STANDARD_V1.md), [license scope](./docs/legal/LICENSE_SCOPE_AND_ATTRIBUTION_V1.md), and [release manifest](./registry/paca_release_gate_v1.json). No private SIGILBOOK core should be bundled here.
+
+
 [![license](https://img.shields.io/badge/license-MIT-blue)](./LICENSE)
 [![node](https://img.shields.io/badge/node-%3E%3D18-green)](./package.json)
 [![types](https://img.shields.io/badge/types-TypeScript-blue)](./src/index.ts)

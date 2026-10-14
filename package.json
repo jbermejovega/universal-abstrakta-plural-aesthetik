@@ -24,10 +24,12 @@
   ],
   "scripts": {
     "build": "tsc",
-    "prepublishOnly": "npm run build && npm test",
+    "prepublishOnly": "npm run build && npm test && npm run policy:release",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "mcp": "node dist/mcp/server.js"
+    "mcp": "node dist/mcp/server.js",
+    "policy:audit": "node tools/paca-release-preflight.mjs audit",
+    "policy:release": "node tools/paca-release-preflight.mjs release"
   },
   "keywords": [
     "wcag",

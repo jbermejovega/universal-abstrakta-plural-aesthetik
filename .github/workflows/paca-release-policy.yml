@@ -1,0 +1,43 @@
+name: PACA release policy
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      operation:
+        description: "audit (read only) or release readiness check (never publishes)"
+        type: choice
+        required: true
+        default: audit
+        options: [audit, release]
+
+permissions:
+  contents: read
+
+jobs:
+  policy-audit:
+    name: policy-audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate release HOLD and legal scope
+        run: node tools/paca-release-preflight.mjs audit
+  release-readiness:
+    name: release-readiness
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.operation == 'release' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check explicit channel gates (no publishing)
+        run: node tools/paca-release-preflight.mjs release
+
+# This workflow does not publish or activate GitHub rulesets.
